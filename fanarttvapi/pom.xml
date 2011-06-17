@@ -20,7 +20,7 @@
 
 	<ciManagement>
 		<system>Jenkins CI</system>
-		<url>http://mediadeveloper.org:8080/job/API-FanartTV/</url>
+		<url>http://jenkins.omertron.com/job/API-FanartTV/</url>
 	</ciManagement>
 
 	<scm>
