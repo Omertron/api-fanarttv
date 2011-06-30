@@ -13,6 +13,9 @@
 
 package com.moviejukebox.fanarttv.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.moviejukebox.fanarttv.FanartTv;
 
 public class FanartTvArtwork {
@@ -20,12 +23,21 @@ public class FanartTvArtwork {
     private String type;
     private String url;
     
-    public static final String CLEARLOGO   = "clearlogo";
     public static final String CLEARART    = "clearart";
-    public static final String TVTHUMB     = "tvthumb";
+    public static final String CLEARLOGO   = "clearlogo";
     public static final String SEASONTHUMB = "seasonthumb";
+    public static final String TVTHUMB     = "tvthumb";
     
     public static final String UNKNOWN     = "UNKNOWN";
+    
+    private static List<String> artworkTypes = new ArrayList<String>();
+    
+    static {
+        artworkTypes.add(CLEARART);
+        artworkTypes.add(CLEARLOGO);
+        artworkTypes.add(SEASONTHUMB);
+        artworkTypes.add(TVTHUMB);
+    }
     
     public FanartTvArtwork(String type, String url) {
         this.type = type;
@@ -33,8 +45,8 @@ public class FanartTvArtwork {
     }
 
     public FanartTvArtwork() {
-        this.type = "UNKNOWN";
-        this.url = "UNKNOWN";
+        this.type = UNKNOWN;
+        this.url = UNKNOWN;
     }
 
     /**
@@ -67,12 +79,17 @@ public class FanartTvArtwork {
         this.url = url;
     }
     
-    public static boolean validateType(String type) {
-        if (!FanartTv.isValidString(type)) {
+    /**
+     * Validate that the artworkType is one of the know values
+     * @param artworkType
+     * @return
+     */
+    public static boolean validateType(String artworkType) {
+        if (!FanartTv.isValidString(artworkType)) {
             return false;
         }
-        
-        if ((CLEARLOGO + CLEARART + TVTHUMB + SEASONTHUMB).contains(type.toLowerCase())) {
+
+        if (artworkTypes.contains(artworkType.toLowerCase())) {
             return true;
         }
         
