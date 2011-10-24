@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -10,7 +9,7 @@
 	</parent>
 	<groupId>com.moviejukebox</groupId>
 	<artifactId>fanarttvapi</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 	<name>Fanart.TV API</name>
 
 	<issueManagement>
@@ -24,9 +23,9 @@
 	</ciManagement>
 
 	<scm>
-		<connection>scm:svn:http://fanarttvapi.googlecode.com/svn/trunk/fanarttvapi</connection>
-		<developerConnection>scm:svn:https://fanarttvapi.googlecode.com/svn/trunk/fanarttvapi</developerConnection>
-		<url>http://code.google.com/p/fanarttvapi/source/browse/trunk/fanarttvapi</url>
+		<connection>scm:svn:http://fanarttvapi.googlecode.com/svn/tags/fanarttvapi-1.1</connection>
+		<developerConnection>scm:svn:https://fanarttvapi.googlecode.com/svn/tags/fanarttvapi-1.1</developerConnection>
+		<url>http://code.google.com/p/fanarttvapi/source/browse/tags/fanarttvapi-1.1</url>
 	</scm>
 
 	<properties>
@@ -199,12 +198,9 @@
 							<target>
 								<property name="version_file" value="${project.build.directory}/version.txt" />
 								<property name="header_line" value="Fanart TV API${line.separator}" />
-								<property name="build_date_line"
-									value="Build Date: ${timestamp}${line.separator}" />
-								<property name="version_line"
-									value="Version: ${project.version}${line.separator}" />
-								<property name="revision_line"
-									value="Revision: r${buildNumber}${line.separator}" />
+								<property name="build_date_line" value="Build Date: ${timestamp}${line.separator}" />
+								<property name="version_line" value="Version: ${project.version}${line.separator}" />
+								<property name="revision_line" value="Revision: r${buildNumber}${line.separator}" />
 								<echo>Writing version file: ${version_file}</echo>
 								<echo file="${version_file}" append="false">${header_line}</echo>
 								<echo file="${version_file}" append="true">${build_date_line}</echo>
