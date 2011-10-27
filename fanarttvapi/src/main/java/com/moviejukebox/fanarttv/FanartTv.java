@@ -24,7 +24,7 @@ import com.moviejukebox.fanarttv.tools.WebBrowser;
 
 /**
  * This is the main class for the API to connect to Fanart.TV
- * http://fanarttv.org/api
+ * http://fanart.tv/api-info/
  * 
  * @author Stuart.Boston
  * @version 1.1
@@ -53,9 +53,30 @@ public class FanartTv {
      * @param artworkSortBy
      * @return
      */
-    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, String artworkSortBy) {
-        String searchUrl = buildUrl(tvdbid, artworkType, artworkSortBy);
+    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, String artworkSortBy, int version) {
+        String searchUrl = buildUrl(tvdbid, artworkType, artworkSortBy, version);
         return FanartTvParser.parseArtwork(searchUrl);
+    }
+    
+    /**
+     * Get all the artwork of a type for a TVDb ID, sorted.
+     * @param tvdbid
+     * @param artworkType
+     * @param artworkSortBy
+     * @return
+     */
+    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, String artworkSortBy) {
+        return getArtwork(tvdbid, artworkType, artworkSortBy, 0);
+    }
+    
+    /**
+     * Get all the artwork of a type for a TVDb ID
+     * @param tvdbid
+     * @param artworkType
+     * @return
+     */
+    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType) {
+        return getArtwork(tvdbid, artworkType, null, 0);
     }
     
     /**
@@ -64,7 +85,7 @@ public class FanartTv {
      * @return
      */
     public List<FanartTvArtwork> getArtwork(int tvdbid) {
-        return getArtwork(tvdbid, null, null);
+        return getArtwork(tvdbid, null, null, 0);
     }
 
     public static Logger getLogger() {
@@ -111,24 +132,39 @@ public class FanartTv {
     /**
      * Build the URL that is used to get the XML from TMDb.
      *
+     * Basic Usage: 
+     *      http://fanart.tv/api/fanart.php?id=<thetvdb_id>[&type=type][&sort=sortby][&v=version]
+     * The <id> is mandatory and must correspond to a shows id on the thetvdb website.
+     * Both [type] and [sortby] are optional, if neither is specified, by default a list of all will be returned, sorted by name ascending.
+     * The v argument can either be omitted, set at 3 or 4.
+     * If set at 3 the image id is added to the xml for scripts that integrate with the like feature.
+     * The script needs to be set to 4 in order to show CharacterART, this is to ensure backwards compatability.
+     *
      * @param tvdbid        The tvdbid to search with (mandatory)
      * @param artworkType   The type of the artwork to limit the search too. Blank/null gets all artwork
      * @param artworkSortBy Added for completeness, but not used
      * @return              The search URL
      */
-    private static String buildUrl(int tvdbid, String artworkType, String artworkSortBy) {
-        String searchUrl = API_SITE + "id=" + (tvdbid < 0 ? 0 : tvdbid);
-
+    private static String buildUrl(int tvdbid, String artworkType, String artworkSortBy, int version) {
+        StringBuilder searchUrl = new StringBuilder(API_SITE);
+        
+        searchUrl.append("id=");
+        searchUrl.append(tvdbid < 0 ? 0 : tvdbid);
+        
         if (FanartTvArtwork.validateType(artworkType)) {
-            searchUrl += "&type=" + artworkType;
+            searchUrl.append("&type=").append(artworkType);
         }
         
         if (isValidString(artworkSortBy)) {
-            searchUrl += "&sort=" + artworkSortBy;
+            searchUrl.append("&sort=").append(artworkSortBy);
+        }
+        
+        if (version > 0) {
+            searchUrl.append("&v=").append(version);
         }
 
         logger.finest("Search URL: " + searchUrl);
-        return searchUrl;
+        return searchUrl.toString();
     }
 
     /**

@@ -56,16 +56,16 @@ public class FanartTvParser {
         }
         
         // Parse the ClearLOGO
-        artwork.addAll(parseFanart(doc, FanartTvArtwork.CLEARLOGO));
+        artwork.addAll(parseFanart(doc, FanartTvArtwork.TYPE_CLEARLOGO));
 
         // Parse the ClearART
-        artwork.addAll(parseFanart(doc, FanartTvArtwork.CLEARART));
+        artwork.addAll(parseFanart(doc, FanartTvArtwork.TYPE_CLEARART));
 
         // Parse the TV Thumbs
-        artwork.addAll(parseFanart(doc, FanartTvArtwork.TVTHUMB));
+        artwork.addAll(parseFanart(doc, FanartTvArtwork.TYPE_TVTHUMB));
 
         // Parse the Season Thumbs
-        artwork.addAll(parseFanart(doc, FanartTvArtwork.SEASONTHUMB));
+        artwork.addAll(parseFanart(doc, FanartTvArtwork.TYPE_SEASONTHUMB));
         
         return artwork;
         

@@ -23,20 +23,34 @@ public class FanartTvArtwork {
     private String type;
     private String url;
     
-    public static final String CLEARART    = "clearart";
-    public static final String CLEARLOGO   = "clearlogo";
-    public static final String SEASONTHUMB = "seasonthumb";
-    public static final String TVTHUMB     = "tvthumb";
+    public static final String UNKNOWN = "UNKNOWN";
     
-    public static final String UNKNOWN     = "UNKNOWN";
+    public static final String TYPE_CLEARART    = "clearart";
+    public static final String TYPE_CLEARLOGO   = "clearlogo";
+    public static final String TYPE_SEASONTHUMB = "seasonthumb";
+    public static final String TYPE_TVTHUMB     = "tvthumb";
+    
+    public static final String SORT_NAME_ASC    = "nameasc";
+    public static final String SORT_NAME_DESC   = "namedesc";
+    public static final String SORT_FAV_ASC     = "favasc";
+    public static final String SORT_FAV_DESC    = "favdesc";
+    
+    public static final int VERSION_IMAGE       = 3;
+    public static final int VERSION_CHARACTER   = 4;
     
     private static List<String> artworkTypes = new ArrayList<String>();
+    private static List<String> artworkSorts = new ArrayList<String>();
     
     static {
-        artworkTypes.add(CLEARART);
-        artworkTypes.add(CLEARLOGO);
-        artworkTypes.add(SEASONTHUMB);
-        artworkTypes.add(TVTHUMB);
+        artworkTypes.add(TYPE_CLEARART);
+        artworkTypes.add(TYPE_CLEARLOGO);
+        artworkTypes.add(TYPE_SEASONTHUMB);
+        artworkTypes.add(TYPE_TVTHUMB);
+        
+        artworkSorts.add(SORT_FAV_ASC);
+        artworkSorts.add(SORT_FAV_DESC);
+        artworkSorts.add(SORT_NAME_ASC);
+        artworkSorts.add(SORT_NAME_DESC);
     }
     
     public FanartTvArtwork(String type, String url) {
@@ -80,7 +94,7 @@ public class FanartTvArtwork {
     }
     
     /**
-     * Validate that the artworkType is one of the know values
+     * Validate that the artworkType is one of the known values
      * @param artworkType
      * @return
      */
@@ -94,6 +108,34 @@ public class FanartTvArtwork {
         }
         
         return false;
+    }
+    
+    /**
+     * Validate that the artworkSort is one of the known values
+     * @param artworkSort
+     * @return
+     */
+    public static boolean validateSort(String artworkSort) {
+        if (!FanartTv.isValidString(artworkSort)) {
+            return false;
+        }
+        
+        if (artworkSorts.contains(artworkSort.toLowerCase())) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[FanartTvArtwork=[type=");
+        builder.append(type);
+        builder.append("][url=");
+        builder.append(url);
+        builder.append("]]");
+        return builder.toString();
     }
 
 }
