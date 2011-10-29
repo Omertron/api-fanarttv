@@ -28,8 +28,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.moviejukebox.fanarttv.tools.Base64;
-
 /**
  * Web browser with simple cookies support
  */
@@ -42,17 +40,18 @@ public final class WebBrowser {
     private static String proxyUsername = null;
     private static String proxyPassword = null;
     private static String proxyEncodedPassword = null;
-    private static int webTimeoutConnect;
-    private static int webTimeoutRead;
+    private static int webTimeoutConnect = 25000;   // 25 second timeout
+    private static int webTimeoutRead = 90000;      // 90 second timeout
 
     static {
         browserProperties.put("User-Agent", "Mozilla/5.25 Netscape/5.0 (Windows; I; Win95)");
         cookies = new HashMap<String, Map<String, String>>();
-        webTimeoutConnect = 25000;   // 25 second timeout
-        webTimeoutRead = 90000;      // 90 second timeout
     }
     
-    public WebBrowser() {
+    // Hide the constructor
+    protected WebBrowser() {
+        // prevents calls from subclass
+        throw new UnsupportedOperationException();
     }
     
     public static String request(String url) throws IOException {
@@ -98,8 +97,7 @@ public final class WebBrowser {
                 if (in != null) {
                     in.close();
                 }
-                
-                if (cnx instanceof HttpURLConnection) {
+                if (cnx != null && cnx instanceof HttpURLConnection) {
                     ((HttpURLConnection)cnx).disconnect();
                 }
             }
@@ -146,18 +144,14 @@ public final class WebBrowser {
     private static void readHeader(URLConnection cnx) {
         // read new cookies and update our cookies
         for (Map.Entry<String, List<String>> header : cnx.getHeaderFields().entrySet()) {
-            
             if ("Set-Cookie".equals(header.getKey())) {
-                
                 for (String cookieHeader : header.getValue()) {
                     String[] cookieElements = cookieHeader.split(" *; *");
-                    
                     if (cookieElements.length >= 1) {
                         String[] firstElem = cookieElements[0].split(" *= *");
                         String cookieName = firstElem[0];
                         String cookieValue = firstElem.length > 1 ? firstElem[1] : null;
                         String cookieDomain = null;
-                        
                         // find cookie domain
                         for (int i = 1; i < cookieElements.length; i++) {
                             String[] cookieElement = cookieElements[i].split(" *= *");
@@ -166,18 +160,15 @@ public final class WebBrowser {
                                 break;
                             }
                         }
-                        
                         if (cookieDomain == null) {
                             // if domain isn't set take current host
                             cookieDomain = cnx.getURL().getHost();
                         }
-                        
                         Map<String, String> domainCookies = cookies.get(cookieDomain);
                         if (domainCookies == null) {
                             domainCookies = new HashMap<String, String>();
                             cookies.put(cookieDomain, domainCookies);
                         }
-                        
                         // add or replace cookie
                         domainCookies.put(cookieName, cookieValue);
                     }
@@ -225,7 +216,7 @@ public final class WebBrowser {
         WebBrowser.proxyPort = tvdbProxyPort;
     }
 
-    public static String getTvdbProxyUsername() {
+    public static String getProxyUsername() {
         return proxyUsername;
     }
 
@@ -261,5 +252,4 @@ public final class WebBrowser {
     public static void setWebTimeoutRead(int webTimeoutRead) {
         WebBrowser.webTimeoutRead = webTimeoutRead;
     }
-
 }

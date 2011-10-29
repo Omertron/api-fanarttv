@@ -49,18 +49,10 @@ public class DOMHelper {
      * @return
      */
     public static String getValueFromElement(Element element, String tagName) {
-        String returnValue = "";
-
-        try {
-            NodeList elementNodeList = element.getElementsByTagName(tagName);
-            Element tagElement = (Element) elementNodeList.item(0);
-            NodeList tagNodeList = tagElement.getChildNodes();
-            returnValue = ((Node) tagNodeList.item(0)).getNodeValue();
-        } catch (Exception ignore) {
-            return returnValue;
-        }
-
-        return returnValue;
+        NodeList elementNodeList = element.getElementsByTagName(tagName);
+        Element tagElement = (Element) elementNodeList.item(0);
+        NodeList tagNodeList = tagElement.getChildNodes();
+        return ((Node) tagNodeList.item(0)).getNodeValue();
     }
 
     /**
