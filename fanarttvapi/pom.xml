@@ -10,7 +10,7 @@
 	<groupId>com.moviejukebox</groupId>
 	<artifactId>fanarttvapi</artifactId>
 	<version>1.2-SNAPSHOT</version>
-	<name>Fanart.TV API</name>
+	<name>API-Fanart.TV</name>
 
 	<issueManagement>
 		<system>Google Code</system>
