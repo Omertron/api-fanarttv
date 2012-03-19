@@ -83,25 +83,34 @@ public class FanartTv {
                 WrapperSeries ws = mapper.readValue(jn.get(ftNode.next()), WrapperSeries.class);
                 ArrayList<FanartTvArtwork> artwork = new ArrayList<FanartTvArtwork>();
 
-                for (FanartTvArtwork ftSingle : ws.getClearArt()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_CLEARART);
-                    artwork.add(ftSingle);
+                if (ws.getClearArt() != null) {
+                    for (FanartTvArtwork ftSingle : ws.getClearArt()) {
+                        ftSingle.setType(FanartTvArtwork.TYPE_CLEARART);
+                        artwork.add(ftSingle);
+                    }
                 }
 
-                for (FanartTvArtwork ftSingle : ws.getClearLogo()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_CLEARLOGO);
-                    artwork.add(ftSingle);
+                if (ws.getClearLogo() != null) {
+                    for (FanartTvArtwork ftSingle : ws.getClearLogo()) {
+                        ftSingle.setType(FanartTvArtwork.TYPE_CLEARLOGO);
+                        artwork.add(ftSingle);
+                    }
                 }
 
-                for (FanartTvArtwork ftSingle : ws.getSeasonThumb()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_SEASONTHUMB);
-                    artwork.add(ftSingle);
+                if (ws.getSeasonThumb() != null) {
+                    for (FanartTvArtwork ftSingle : ws.getSeasonThumb()) {
+                        ftSingle.setType(FanartTvArtwork.TYPE_SEASONTHUMB);
+                        artwork.add(ftSingle);
+                    }
                 }
 
-                for (FanartTvArtwork ftSingle : ws.getTvThumb()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_TVTHUMB);
-                    artwork.add(ftSingle);
+                if (ws.getTvThumb() != null) {
+                    for (FanartTvArtwork ftSingle : ws.getTvThumb()) {
+                        ftSingle.setType(FanartTvArtwork.TYPE_TVTHUMB);
+                        artwork.add(ftSingle);
+                    }
                 }
+
                 return artwork;
             }
         } catch (IOException ex) {
