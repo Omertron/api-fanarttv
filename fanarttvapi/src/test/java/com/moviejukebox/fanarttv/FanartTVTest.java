@@ -20,12 +20,12 @@ import org.junit.Test;
 
 public class FanartTVTest {
     private FanartTv ft;
-
-    private final static int TV_ID = 80348;
+    private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
+    private static final int TV_ID = 80348;
 
     @Before
     public void setUp() throws Exception {
-        ft = new FanartTv();
+        ft = new FanartTv(APIKEY);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class FanartTVTest {
 
     @Test
     public void testGetArtworkClearLogo() {
-        List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_CLEARART);
+        List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_CLEARLOGO);
         assertTrue(artworkList.size() > 0);
     }
 

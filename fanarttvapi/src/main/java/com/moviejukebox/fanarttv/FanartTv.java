@@ -13,10 +13,17 @@
 package com.moviejukebox.fanarttv;
 
 import com.moviejukebox.fanarttv.model.FanartTvArtwork;
-import com.moviejukebox.fanarttv.tools.FanartTvParser;
+import com.moviejukebox.fanarttv.model.WrapperSeries;
+import com.moviejukebox.fanarttv.tools.FilteringLayout;
 import com.moviejukebox.fanarttv.tools.WebBrowser;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * This is the main class for the API to connect to Fanart.TV
@@ -25,61 +32,120 @@ import org.apache.log4j.Logger;
  * @author Stuart.Boston
  * @version 1.1
  *
- * TODO Allow a selection of the artwork types to be selected rather than 1 or ALL
+ * TODO Allow a selection of the artwork types to be selected rather than 1 or
+ * ALL
  */
 public class FanartTv {
 
-    private static Logger logger = Logger.getLogger(FanartTv.class);
+    private static final Logger LOGGER = Logger.getLogger(FanartTv.class);
+    private String apiKey;
+    private static final String API_FORMAT = "json";
+    /*
+     * URL for the API
+     */
+    private static final String API_SITE = "http://fanart.tv/webservice/";
+    private static final String API_SERIES = "series/";
+    private static final String API_MOVIE = "movie/";
+    private static final String API_MUSIC = "music/";
+    /*
+     * Defaults for the API
+     */
+    private static final int DEFAULT_ARTWORK_LIMIT = 2;
+    private static final int DEFAULT_ARTWORK_SORT = 1;
+    private static final String DEFAULT_ARTWORK_TYPE = "all";
 
-    private static final String API_SITE = "http://fanart.tv/api/fanart.php?";
+    /*
+     * Jackson JSON configuration
+     */
+    private static ObjectMapper mapper = new ObjectMapper();
 
-    public FanartTv() {
+    public FanartTv(String apiKey) {
+        this.apiKey = apiKey;
+        FilteringLayout.addApiKey(apiKey);
     }
 
     /**
      * Get the artwork for a specific TVDb ID, limited by type and/or sorted
+     *
      * @param tvdbid
      * @param artworkType
      * @param artworkSortBy
      * @return
      */
-    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, String artworkSortBy, int version) {
-        String searchUrl = buildUrl(tvdbid, artworkType, artworkSortBy, version);
-        return FanartTvParser.parseArtwork(searchUrl);
+    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, int artworkSortBy, int artworkLimit) {
+        try {
+            String searchUrl = buildSeriesUrl(tvdbid, artworkType, artworkSortBy, artworkLimit);
+            String webPage = WebBrowser.request(searchUrl);
+
+            JsonNode jn = mapper.readTree(webPage);
+            Iterator<String> ftNode = jn.getFieldNames();
+            while (ftNode.hasNext()) {
+                WrapperSeries ws = mapper.readValue(jn.get(ftNode.next()), WrapperSeries.class);
+                ArrayList<FanartTvArtwork> artwork = new ArrayList<FanartTvArtwork>();
+
+                for (FanartTvArtwork ftSingle : ws.getClearArt()) {
+                    ftSingle.setType(FanartTvArtwork.TYPE_CLEARART);
+                    artwork.add(ftSingle);
+                }
+
+                for (FanartTvArtwork ftSingle : ws.getClearLogo()) {
+                    ftSingle.setType(FanartTvArtwork.TYPE_CLEARLOGO);
+                    artwork.add(ftSingle);
+                }
+
+                for (FanartTvArtwork ftSingle : ws.getSeasonThumb()) {
+                    ftSingle.setType(FanartTvArtwork.TYPE_SEASONTHUMB);
+                    artwork.add(ftSingle);
+                }
+
+                for (FanartTvArtwork ftSingle : ws.getTvThumb()) {
+                    ftSingle.setType(FanartTvArtwork.TYPE_TVTHUMB);
+                    artwork.add(ftSingle);
+                }
+                return artwork;
+            }
+        } catch (IOException ex) {
+            LOGGER.warn("Failed to get artwork information: " + ex.getMessage());
+        }
+        return new ArrayList<FanartTvArtwork>();
     }
 
     /**
      * Get all the artwork of a type for a TVDb ID, sorted.
+     *
      * @param tvdbid
      * @param artworkType
      * @param artworkSortBy
      * @return
      */
-    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, String artworkSortBy) {
-        return getArtwork(tvdbid, artworkType, artworkSortBy, 0);
+    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, int artworkSortBy) {
+        return getArtwork(tvdbid, artworkType, artworkSortBy, DEFAULT_ARTWORK_LIMIT);
     }
 
     /**
      * Get all the artwork of a type for a TVDb ID
+     *
      * @param tvdbid
      * @param artworkType
      * @return
      */
     public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType) {
-        return getArtwork(tvdbid, artworkType, null, 0);
+        return getArtwork(tvdbid, artworkType, DEFAULT_ARTWORK_SORT, DEFAULT_ARTWORK_LIMIT);
     }
 
     /**
      * Get all the artwork for a specific TVDb ID
+     *
      * @param tvdbid
      * @return
      */
     public List<FanartTvArtwork> getArtwork(int tvdbid) {
-        return getArtwork(tvdbid, null, null, 0);
+        return getArtwork(tvdbid, DEFAULT_ARTWORK_TYPE, DEFAULT_ARTWORK_SORT, DEFAULT_ARTWORK_LIMIT);
     }
 
     /**
      * Set proxy parameters.
+     *
      * @param host proxy host URL
      * @param port proxy port
      * @param username proxy username
@@ -94,6 +160,7 @@ public class FanartTv {
 
     /**
      * Set web browser timeout.
+     *
      * @param webTimeoutConnect
      * @param webTimeoutRead
      */
@@ -106,49 +173,60 @@ public class FanartTv {
      * Build the URL that is used to get the XML from TMDb.
      *
      * Basic Usage:
-     *      http://fanart.tv/api/fanart.php?id=<thetvdb_id>[&type=type][&sort=sortby][&v=version]
-     * The <id> is mandatory and must correspond to a shows id on the thetvdb website.
-     * Both [type] and [sortby] are optional, if neither is specified, by default a list of all will be returned, sorted by name ascending.
-     * The v argument can either be omitted, set at 3 or 4.
-     * If set at 3 the image id is added to the xml for scripts that integrate with the like feature.
-     * The script needs to be set to 4 in order to show CharacterART, this is to ensure backwards compatability.
+     * http://fanart.tv/api/fanart.php?id=<thetvdb_id>[&type=type][&sort=sortby][&v=version]
+     * The <id> is mandatory and must correspond to a shows id on the thetvdb
+     * website. Both [type] and [sortby] are optional, if neither is specified,
+     * by default a list of all will be returned, sorted by name ascending. The
+     * v argument can either be omitted, set at 3 or 4. If set at 3 the image id
+     * is added to the xml for scripts that integrate with the like feature. The
+     * script needs to be set to 4 in order to show CharacterART, this is to
+     * ensure backwards compatability.
      *
-     * @param tvdbid        The tvdbid to search with (mandatory)
-     * @param artworkType   The type of the artwork to limit the search too. Blank/null gets all artwork
+     * @param tvdbid The tvdbid to search with (mandatory)
+     * @param artworkType The type of the artwork to limit the search too.
+     * Blank/null gets all artwork
      * @param artworkSortBy Added for completeness, but not used
-     * @return              The search URL
+     * @return The search URL
      */
-    private static String buildUrl(int tvdbid, String artworkType, String artworkSortBy, int version) {
+    private String buildSeriesUrl(int tvdbid, String artworkType, int artworkSortBy, int artworkLimit) {
+        //http://fanart.tv/webservice/series/apikey/thetvdb_id/format/type/sort/limit/
         StringBuilder searchUrl = new StringBuilder(API_SITE);
 
-        searchUrl.append("id=");
-        searchUrl.append(tvdbid < 0 ? 0 : tvdbid);
+        searchUrl.append(API_SERIES);
+
+        searchUrl.append(apiKey).append("/");
+        searchUrl.append(tvdbid < 0 ? 0 : tvdbid).append("/");
+        searchUrl.append(API_FORMAT).append("/");
 
         if (FanartTvArtwork.validateType(artworkType)) {
-            searchUrl.append("&type=").append(artworkType);
+            searchUrl.append(artworkType).append("/");
         }
 
-        if (isValidString(artworkSortBy)) {
-            searchUrl.append("&sort=").append(artworkSortBy);
+        // SortBy can be 1,2 or 3
+        if (artworkSortBy > 0) {
+            if (artworkSortBy > 3) {
+                searchUrl.append(0);
+            } else {
+                searchUrl.append(artworkSortBy).append("/");
+            }
         }
 
-        if (version > 0) {
-            searchUrl.append("&v=").append(version);
+        if (artworkLimit > 0) {
+            searchUrl.append(Math.max(artworkLimit, 2)).append("/");
         }
 
-        logger.debug("Search URL: " + searchUrl);
+        LOGGER.debug("Search URL: " + searchUrl);
         return searchUrl.toString();
     }
 
     /**
      * Check the string passed to see if it contains a value.
+     *
      * @param testString The string to test
      * @return False if the string is empty, null or UNKNOWN, True otherwise
      */
     public static boolean isValidString(String testString) {
-        if ((testString == null)
-                || ("".equals(testString.trim()))
-                || (FanartTvArtwork.UNKNOWN.equalsIgnoreCase(testString))) {
+        if (StringUtils.isBlank(testString) || (FanartTvArtwork.UNKNOWN.equalsIgnoreCase(testString))) {
             return false;
         }
         return true;
