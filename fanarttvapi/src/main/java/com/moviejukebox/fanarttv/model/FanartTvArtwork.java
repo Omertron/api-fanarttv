@@ -15,6 +15,7 @@ package com.moviejukebox.fanarttv.model;
 import com.moviejukebox.fanarttv.FanartTv;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -53,7 +54,6 @@ public class FanartTvArtwork {
     private String language;
     @JsonProperty("likes")
     private int likes;
-    @JsonProperty("season")
     private int season;
 
     public FanartTvArtwork(String type, String url) {
@@ -124,8 +124,13 @@ public class FanartTvArtwork {
         return season;
     }
 
-    public void setSeason(int season) {
-        this.season = season;
+    @JsonProperty("season")
+    public void setSeason(String season) {
+        if (StringUtils.isNumeric(season)) {
+            this.season = Integer.parseInt(season);
+        } else {
+            this.season = -1;
+        }
     }
 
     /**

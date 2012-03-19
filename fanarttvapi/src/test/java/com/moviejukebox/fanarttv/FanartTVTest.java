@@ -21,7 +21,8 @@ import org.junit.Test;
 public class FanartTVTest {
     private FanartTv ft;
     private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
-    private static final int TV_ID = 80348;
+//    private static final int TV_ID = 80348;   // Chuck
+    private static final int TV_ID = 73255; // House
 
     @Before
     public void setUp() throws Exception {
