@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.moviejukebox</groupId>
     <artifactId>fanarttvapi</artifactId>
-    <version>1.2</version>
+    <version>1.3-SNAPSHOT</version>
     <name>API-Fanart.TV</name>
 
     <issueManagement>
@@ -23,9 +23,9 @@
     </ciManagement>
 
     <scm>
-        <connection>scm:svn:http://fanarttvapi.googlecode.com/svn/tags/fanarttvapi-1.2</connection>
-        <developerConnection>scm:svn:https://fanarttvapi.googlecode.com/svn/tags/fanarttvapi-1.2</developerConnection>
-        <url>http://code.google.com/p/fanarttvapi/source/browse/tags/fanarttvapi-1.2</url>
+        <connection>scm:svn:http://fanarttvapi.googlecode.com/svn/trunk/fanarttvapi</connection>
+        <developerConnection>scm:svn:https://fanarttvapi.googlecode.com/svn/trunk/fanarttvapi</developerConnection>
+        <url>http://code.google.com/p/fanarttvapi/source/browse/trunk/fanarttvapi</url>
     </scm>
 
     <properties>
