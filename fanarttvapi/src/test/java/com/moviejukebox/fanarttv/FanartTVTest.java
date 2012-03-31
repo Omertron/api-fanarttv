@@ -30,31 +30,31 @@ public class FanartTVTest {
     }
 
     @Test
-    public void testGetArtwork() {
+    public void testGetArtwork() throws FanartTvException {
         List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID);
         assertTrue(artworkList.size() > 0);
     }
 
     @Test
-    public void testGetArtworkClearArt() {
+    public void testGetArtworkClearArt() throws FanartTvException {
         List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_CLEARART);
         assertTrue(artworkList.size() > 0);
     }
 
     @Test
-    public void testGetArtworkClearLogo() {
+    public void testGetArtworkClearLogo() throws FanartTvException {
         List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_CLEARLOGO);
         assertTrue(artworkList.size() > 0);
     }
 
     @Test
-    public void testGetArtworkSeasonThumb() {
+    public void testGetArtworkSeasonThumb() throws FanartTvException {
         List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_SEASONTHUMB);
         assertTrue(artworkList.size() > 0);
     }
 
     @Test
-    public void testGetArtworkTvThumb() {
+    public void testGetArtworkTvThumb() throws FanartTvException {
         List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_TVTHUMB);
         assertTrue(artworkList.size() > 0);
     }
