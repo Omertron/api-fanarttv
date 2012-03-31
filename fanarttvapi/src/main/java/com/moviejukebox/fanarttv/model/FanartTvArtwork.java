@@ -31,6 +31,8 @@ public class FanartTvArtwork {
     public static final String TYPE_CLEARLOGO = "clearlogo";
     public static final String TYPE_SEASONTHUMB = "seasonthumb";
     public static final String TYPE_TVTHUMB = "tvthumb";
+    public static final String TYPE_CHARACTERART = "characterart";
+    public static final String TYPE_CDART = "cdart";
     public static final String SORT_NAME_ASC = "nameasc";
     public static final String SORT_NAME_DESC = "namedesc";
     public static final String SORT_FAV_ASC = "favasc";
@@ -182,6 +184,8 @@ public class FanartTvArtwork {
             artworkTypes.add(TYPE_CLEARLOGO);
             artworkTypes.add(TYPE_SEASONTHUMB);
             artworkTypes.add(TYPE_TVTHUMB);
+            artworkTypes.add(TYPE_CHARACTERART);
+            artworkTypes.add(TYPE_CDART);
         }
     }
 
