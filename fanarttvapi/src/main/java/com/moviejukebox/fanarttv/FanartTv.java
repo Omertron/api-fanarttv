@@ -12,6 +12,7 @@
  */
 package com.moviejukebox.fanarttv;
 
+import com.moviejukebox.fanarttv.FanartTvException.FanartTvExceptionType;
 import com.moviejukebox.fanarttv.model.FanartTvArtwork;
 import com.moviejukebox.fanarttv.model.WrapperSeries;
 import com.moviejukebox.fanarttv.tools.FilteringLayout;
@@ -20,9 +21,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -72,51 +77,69 @@ public class FanartTv {
      * @param artworkSortBy
      * @return
      */
-    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, int artworkSortBy, int artworkLimit) {
+    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, int artworkSortBy, int artworkLimit) throws FanartTvException {
+        String searchUrl = buildSeriesUrl(tvdbid, artworkType, artworkSortBy, artworkLimit);
+
+        String webPage;
         try {
-            String searchUrl = buildSeriesUrl(tvdbid, artworkType, artworkSortBy, artworkLimit);
-            String webPage = WebBrowser.request(searchUrl);
-
-            JsonNode jn = mapper.readTree(webPage);
-            Iterator<String> ftNode = jn.getFieldNames();
-            while (ftNode.hasNext()) {
-                WrapperSeries ws = mapper.readValue(jn.get(ftNode.next()), WrapperSeries.class);
-                ArrayList<FanartTvArtwork> artwork = new ArrayList<FanartTvArtwork>();
-
-                if (ws.getClearArt() != null) {
-                    for (FanartTvArtwork ftSingle : ws.getClearArt()) {
-                        ftSingle.setType(FanartTvArtwork.TYPE_CLEARART);
-                        artwork.add(ftSingle);
-                    }
-                }
-
-                if (ws.getClearLogo() != null) {
-                    for (FanartTvArtwork ftSingle : ws.getClearLogo()) {
-                        ftSingle.setType(FanartTvArtwork.TYPE_CLEARLOGO);
-                        artwork.add(ftSingle);
-                    }
-                }
-
-                if (ws.getSeasonThumb() != null) {
-                    for (FanartTvArtwork ftSingle : ws.getSeasonThumb()) {
-                        ftSingle.setType(FanartTvArtwork.TYPE_SEASONTHUMB);
-                        artwork.add(ftSingle);
-                    }
-                }
-
-                if (ws.getTvThumb() != null) {
-                    for (FanartTvArtwork ftSingle : ws.getTvThumb()) {
-                        ftSingle.setType(FanartTvArtwork.TYPE_TVTHUMB);
-                        artwork.add(ftSingle);
-                    }
-                }
-
-                return artwork;
-            }
+            webPage = WebBrowser.request(searchUrl);
         } catch (IOException ex) {
-            LOGGER.warn("Failed to get artwork information: " + ex.getMessage());
+            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl);
         }
-        return new ArrayList<FanartTvArtwork>();
+
+        JsonNode jn;
+        try {
+            jn = mapper.readTree(webPage);
+        } catch (JsonProcessingException ex) {
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node");
+        } catch (IOException ex) {
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node");
+        }
+
+        Iterator<String> ftNode = jn.getFieldNames();
+        while (ftNode.hasNext()) {
+            WrapperSeries ws;
+            try {
+                ws = mapper.readValue(jn.get(ftNode.next()), WrapperSeries.class);
+            } catch (JsonParseException ex) {
+                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ex.getMessage());
+            } catch (JsonMappingException ex) {
+                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ex.getMessage());
+            } catch (IOException ex) {
+                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ex.getMessage());
+            }
+            ArrayList<FanartTvArtwork> artwork = new ArrayList<FanartTvArtwork>();
+
+            if (ws.getClearArt() != null) {
+                for (FanartTvArtwork ftSingle : ws.getClearArt()) {
+                    ftSingle.setType(FanartTvArtwork.TYPE_CLEARART);
+                    artwork.add(ftSingle);
+                }
+            }
+
+            if (ws.getClearLogo() != null) {
+                for (FanartTvArtwork ftSingle : ws.getClearLogo()) {
+                    ftSingle.setType(FanartTvArtwork.TYPE_CLEARLOGO);
+                    artwork.add(ftSingle);
+                }
+            }
+
+            if (ws.getSeasonThumb() != null) {
+                for (FanartTvArtwork ftSingle : ws.getSeasonThumb()) {
+                    ftSingle.setType(FanartTvArtwork.TYPE_SEASONTHUMB);
+                    artwork.add(ftSingle);
+                }
+            }
+
+            if (ws.getTvThumb() != null) {
+                for (FanartTvArtwork ftSingle : ws.getTvThumb()) {
+                    ftSingle.setType(FanartTvArtwork.TYPE_TVTHUMB);
+                    artwork.add(ftSingle);
+                }
+            }
+            return artwork;
+        }
+        throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "No JSON data found");
     }
 
     /**
@@ -127,7 +150,7 @@ public class FanartTv {
      * @param artworkSortBy
      * @return
      */
-    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, int artworkSortBy) {
+    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType, int artworkSortBy) throws FanartTvException {
         return getArtwork(tvdbid, artworkType, artworkSortBy, DEFAULT_ARTWORK_LIMIT);
     }
 
@@ -138,7 +161,7 @@ public class FanartTv {
      * @param artworkType
      * @return
      */
-    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType) {
+    public List<FanartTvArtwork> getArtwork(int tvdbid, String artworkType) throws FanartTvException {
         return getArtwork(tvdbid, artworkType, DEFAULT_ARTWORK_SORT, DEFAULT_ARTWORK_LIMIT);
     }
 
@@ -148,7 +171,7 @@ public class FanartTv {
      * @param tvdbid
      * @return
      */
-    public List<FanartTvArtwork> getArtwork(int tvdbid) {
+    public List<FanartTvArtwork> getArtwork(int tvdbid) throws FanartTvException {
         return getArtwork(tvdbid, DEFAULT_ARTWORK_TYPE, DEFAULT_ARTWORK_SORT, DEFAULT_ARTWORK_LIMIT);
     }
 
