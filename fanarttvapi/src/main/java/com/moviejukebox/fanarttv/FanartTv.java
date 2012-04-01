@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
@@ -84,16 +83,16 @@ public class FanartTv {
         try {
             webPage = WebBrowser.request(searchUrl);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl);
+            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl, ex);
         }
 
         JsonNode jn;
         try {
             jn = mapper.readTree(webPage);
         } catch (JsonProcessingException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node");
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node", ex);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node");
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node", ex);
         }
 
         Iterator<String> ftNode = jn.getFieldNames();
@@ -102,11 +101,11 @@ public class FanartTv {
             try {
                 ws = mapper.readValue(jn.get(ftNode.next()), WrapperSeries.class);
             } catch (JsonParseException ex) {
-                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ex.getMessage());
+                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             } catch (JsonMappingException ex) {
-                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ex.getMessage());
+                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             } catch (IOException ex) {
-                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ex.getMessage());
+                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             }
             ArrayList<FanartTvArtwork> artwork = new ArrayList<FanartTvArtwork>();
 

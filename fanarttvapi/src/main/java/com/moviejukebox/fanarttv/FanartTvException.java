@@ -23,9 +23,13 @@ public class FanartTvException extends Exception {
     private final FanartTvExceptionType exceptionType;
     private final String response;
 
-    public FanartTvException(final FanartTvExceptionType exceptionType,
-            final String response) {
+    public FanartTvException(final FanartTvExceptionType exceptionType, final String response, final Throwable cause) {
+        super(cause);
+        this.exceptionType = exceptionType;
+        this.response = response;
+    }
 
+    public FanartTvException(final FanartTvExceptionType exceptionType, final String response) {
         super();
         this.exceptionType = exceptionType;
         this.response = response;
