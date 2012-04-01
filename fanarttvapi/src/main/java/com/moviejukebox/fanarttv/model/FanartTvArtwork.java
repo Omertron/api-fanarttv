@@ -206,11 +206,11 @@ public class FanartTvArtwork {
         StringBuilder builder = new StringBuilder();
         builder.append("[FanartTvArtwork=[");
         builder.append("[type=").append(type);
-        builder.append("[id=").append(id);
-        builder.append("][url=").append(url);
-        builder.append("][lang=").append(url);
-        builder.append("][likes=").append(url);
-        builder.append("][season=").append(url);
+        builder.append("],[id=").append(id);
+        builder.append("],[url=").append(url);
+        builder.append("],[lang=").append(language);
+        builder.append("],[likes=").append(likes);
+        builder.append("],[season=").append(season);
         builder.append("]]");
         return builder.toString();
     }

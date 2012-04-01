@@ -14,11 +14,16 @@ package com.moviejukebox.fanarttv;
 
 import com.moviejukebox.fanarttv.model.FanartTvArtwork;
 import java.util.List;
+import org.apache.log4j.Logger;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
 public class FanartTVTest {
+
+    // Logger
+    private static final Logger logger = Logger.getLogger(FanartTVTest.class);
+    
     private FanartTv ft;
     private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
 //    private static final int TV_ID = 80348;   // Chuck
@@ -58,5 +63,4 @@ public class FanartTVTest {
         List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_TVTHUMB);
         assertTrue(artworkList.size() > 0);
     }
-
 }
