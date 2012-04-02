@@ -30,6 +30,8 @@ public class WrapperSeries {
     private List<FanartTvArtwork> tvThumb;
     @JsonProperty("seasonthumb")
     private List<FanartTvArtwork> seasonThumb;
+    @JsonProperty("characterart")
+    private List<FanartTvArtwork> characterArt;
 
     public String getTvdbid() {
         return tvdbid;
@@ -71,6 +73,14 @@ public class WrapperSeries {
         this.tvThumb = tvThumb;
     }
 
+    public List<FanartTvArtwork> getCharacterArt() {
+        return characterArt;
+    }
+
+    public void setCharacterArt(List<FanartTvArtwork> characterArt) {
+        this.characterArt = characterArt;
+    }
+    
     /**
      * Handle unknown properties and print a message
      *

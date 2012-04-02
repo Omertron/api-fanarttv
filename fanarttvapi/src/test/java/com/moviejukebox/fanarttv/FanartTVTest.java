@@ -23,44 +23,44 @@ public class FanartTVTest {
 
     // Logger
     private static final Logger logger = Logger.getLogger(FanartTVTest.class);
-    
     private FanartTv ft;
     private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
-//    private static final int TV_ID = 80348;   // Chuck
-    private static final int TV_ID = 73255; // House
+    private static final int ID_TVDB = 79349; // Dexter
+    private static final int ID_TMDB = 78;    // Blade Runner
+    private static final String ID_IMDB = "tt0242653";  // Matrix Revolutions
 
     @Before
     public void setUp() throws Exception {
         ft = new FanartTv(APIKEY);
     }
 
+    /**
+     * Test of getTvArtwork method, of class FanartTv.
+     */
     @Test
-    public void testGetArtwork() throws FanartTvException {
-        List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID);
-        assertTrue(artworkList.size() > 0);
+    public void testGetTvArtwork_4args() throws Exception {
+        logger.info("getTvArtwork");
+        List<FanartTvArtwork> resultList = ft.getTvArtwork(ID_TVDB);
+        assertTrue("No TV Artwork found!", !resultList.isEmpty());
     }
 
+    /**
+     * Test of getMovieArtwork method, of class FanartTv.
+     */
     @Test
-    public void testGetArtworkClearArt() throws FanartTvException {
-        List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_CLEARART);
-        assertTrue(artworkList.size() > 0);
+    public void testGetMovieArtwork_TMDB() throws Exception {
+        logger.info("getMovieArtwork");
+        List<FanartTvArtwork> resultList = ft.getMovieArtwork(ID_TMDB);
+        assertTrue("No Movie Artwork found!", !resultList.isEmpty());
     }
 
+    /**
+     * Test of getMovieArtwork method, of class FanartTv.
+     */
     @Test
-    public void testGetArtworkClearLogo() throws FanartTvException {
-        List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_CLEARLOGO);
-        assertTrue(artworkList.size() > 0);
-    }
-
-    @Test
-    public void testGetArtworkSeasonThumb() throws FanartTvException {
-        List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_SEASONTHUMB);
-        assertTrue(artworkList.size() > 0);
-    }
-
-    @Test
-    public void testGetArtworkTvThumb() throws FanartTvException {
-        List<FanartTvArtwork> artworkList = ft.getArtwork(TV_ID, FanartTvArtwork.TYPE_TVTHUMB);
-        assertTrue(artworkList.size() > 0);
+    public void testGetMovieArtwork_IMDB() throws Exception {
+        logger.info("getMovieArtwork (IMDB)");
+        List<FanartTvArtwork> resultList = ft.getMovieArtwork(ID_IMDB);
+        assertTrue("No Movie Artwork found!", !resultList.isEmpty());
     }
 }

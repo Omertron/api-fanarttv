@@ -40,11 +40,11 @@ public class FanartTvParser {
         
         try {
             doc = DOMHelper.getEventDocFromUrl(searchUrl);
-        } catch (IOException e) {
+        } catch (IOException ex) {
             doc = null;
-        } catch (ParserConfigurationException e) {
+        } catch (ParserConfigurationException ex) {
             doc = null;
-        } catch (SAXException e) {
+        } catch (SAXException ex) {
             doc = null;
         }
         

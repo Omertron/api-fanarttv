@@ -27,17 +27,34 @@ public class FanartTvArtwork {
      * Static Types
      */
     public static final String UNKNOWN = "UNKNOWN";
+    /*
+     * Artwork Types
+     */
     public static final String TYPE_ALL = "all";
+    // TV Artwork
     public static final String TYPE_CLEARART = "clearart";
     public static final String TYPE_CLEARLOGO = "clearlogo";
     public static final String TYPE_SEASONTHUMB = "seasonthumb";
     public static final String TYPE_TVTHUMB = "tvthumb";
     public static final String TYPE_CHARACTERART = "characterart";
+    // Movie Artwork Types
+    public static final String TYPE_MOVIELOGO = "movielogo";
+    public static final String TYPE_MOVIEDISC = "moviedisc";
+    // Music Artwork Types
     public static final String TYPE_CDART = "cdart";
+    public static final String TYPE_ARTIST_BACKGROUNDS = "artistbackgrounds";
+    public static final String TYPE_ALBUM_COVER = "albumcover";
+    public static final String TYPE_MUSIC_LOGOS = "musiclogos";
+    /*
+     * Artwork Sorts
+     */
     public static final String SORT_NAME_ASC = "nameasc";
     public static final String SORT_NAME_DESC = "namedesc";
     public static final String SORT_FAV_ASC = "favasc";
     public static final String SORT_FAV_DESC = "favdesc";
+    /*
+     * Versions
+     */
     public static final int VERSION_IMAGE = 3;
     public static final int VERSION_CHARACTER = 4;
     /*
@@ -58,6 +75,10 @@ public class FanartTvArtwork {
     @JsonProperty("likes")
     private int likes;
     private int season;
+    @JsonProperty("disc")
+    private int disc;
+    @JsonProperty("disc_type")
+    private String discType;
 
     public FanartTvArtwork(String type, String url) {
         this.type = type;
@@ -135,7 +156,7 @@ public class FanartTvArtwork {
             this.season = -1;
         }
     }
-
+    
     /**
      * Validate that the artworkType is one of the known values
      *
@@ -188,6 +209,11 @@ public class FanartTvArtwork {
             artworkTypes.add(TYPE_TVTHUMB);
             artworkTypes.add(TYPE_CHARACTERART);
             artworkTypes.add(TYPE_CDART);
+            artworkTypes.add(TYPE_MOVIELOGO);
+            artworkTypes.add(TYPE_MOVIEDISC);
+            artworkTypes.add(TYPE_ARTIST_BACKGROUNDS);
+            artworkTypes.add(TYPE_ALBUM_COVER);
+            artworkTypes.add(TYPE_MUSIC_LOGOS);
         }
     }
 
@@ -212,7 +238,6 @@ public class FanartTvArtwork {
         builder.append("],[url=").append(url);
         builder.append("],[lang=").append(language);
         builder.append("],[likes=").append(likes);
-        builder.append("],[season=").append(season);
         builder.append("]]");
         return builder.toString();
     }
