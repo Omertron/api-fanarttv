@@ -27,6 +27,7 @@ public class FanartTvArtwork {
      * Static Types
      */
     public static final String UNKNOWN = "UNKNOWN";
+    public static final String TYPE_ALL = "all";
     public static final String TYPE_CLEARART = "clearart";
     public static final String TYPE_CLEARLOGO = "clearlogo";
     public static final String TYPE_SEASONTHUMB = "seasonthumb";
@@ -180,6 +181,7 @@ public class FanartTvArtwork {
      */
     private static void populateArtworkTypes() {
         if (artworkTypes.isEmpty()) {
+            artworkTypes.add(TYPE_ALL);
             artworkTypes.add(TYPE_CLEARART);
             artworkTypes.add(TYPE_CLEARLOGO);
             artworkTypes.add(TYPE_SEASONTHUMB);
@@ -190,7 +192,7 @@ public class FanartTvArtwork {
     }
 
     /**
-     * Populate the artwork srorts
+     * Populate the artwork sorts
      */
     private static void populateArtworkSorts() {
         if (artworkSorts.isEmpty()) {
