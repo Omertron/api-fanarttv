@@ -156,7 +156,23 @@ public class FanartTvArtwork {
             this.season = -1;
         }
     }
-    
+
+    public int getDisc() {
+        return disc;
+    }
+
+    public void setDisc(int disc) {
+        this.disc = disc;
+    }
+
+    public String getDiscType() {
+        return discType;
+    }
+
+    public void setDiscType(String discType) {
+        this.discType = discType;
+    }
+
     /**
      * Validate that the artworkType is one of the known values
      *
@@ -238,6 +254,9 @@ public class FanartTvArtwork {
         builder.append("],[url=").append(url);
         builder.append("],[lang=").append(language);
         builder.append("],[likes=").append(likes);
+        builder.append("],[season=").append(season);
+        builder.append("],[disc=").append(disc);
+        builder.append("],[discType=").append(discType);
         builder.append("]]");
         return builder.toString();
     }
