@@ -70,6 +70,25 @@ public class FanartTv {
     }
 
     /**
+     * Output the API version information to the debug log
+     */
+    public static void showVersion() {
+        String apiTitle = FanartTv.class.getPackage().getSpecificationTitle();
+
+        if (StringUtils.isNotBlank(apiTitle)) {
+            String apiVersion = FanartTv.class.getPackage().getSpecificationVersion();
+            String apiRevision = FanartTv.class.getPackage().getImplementationVersion();
+            StringBuilder sv = new StringBuilder();
+            sv.append(apiTitle).append(" ");
+            sv.append(apiVersion).append(" r");
+            sv.append(apiRevision);
+            LOGGER.debug(sv.toString());
+        } else {
+            LOGGER.debug("API-FanartTV version/revision information not available");
+        }
+    }
+
+    /**
      * Get the artwork for a specific video
      *
      * @param searchUrl
