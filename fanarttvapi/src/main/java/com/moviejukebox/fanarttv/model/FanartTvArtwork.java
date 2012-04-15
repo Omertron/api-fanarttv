@@ -40,6 +40,7 @@ public class FanartTvArtwork {
     // Movie Artwork Types
     public static final String TYPE_MOVIELOGO = "movielogo";
     public static final String TYPE_MOVIEDISC = "moviedisc";
+    public static final String TYPE_MOVIEART = "movieart";
     // Music Artwork Types
     public static final String TYPE_CDART = "cdart";
     public static final String TYPE_ARTIST_BACKGROUNDS = "artistbackgrounds";
@@ -227,6 +228,7 @@ public class FanartTvArtwork {
             artworkTypes.add(TYPE_CDART);
             artworkTypes.add(TYPE_MOVIELOGO);
             artworkTypes.add(TYPE_MOVIEDISC);
+            artworkTypes.add(TYPE_MOVIEART);
             artworkTypes.add(TYPE_ARTIST_BACKGROUNDS);
             artworkTypes.add(TYPE_ALBUM_COVER);
             artworkTypes.add(TYPE_MUSIC_LOGOS);

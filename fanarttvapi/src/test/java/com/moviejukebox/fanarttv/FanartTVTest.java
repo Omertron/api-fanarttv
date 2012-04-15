@@ -26,7 +26,8 @@ public class FanartTVTest {
     private FanartTv ft;
     private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
     private static final int ID_TVDB = 79349; // Dexter
-    private static final int ID_TMDB = 78;    // Blade Runner
+//    private static final int ID_TMDB = 78;    // Blade Runner
+    private static final int ID_TMDB = 19995;    // Avatar
     private static final String ID_IMDB = "tt0242653";  // Matrix Revolutions
 
     @Before

@@ -28,6 +28,8 @@ public class WrapperMovie {
     private List<FanartTvArtwork> movieLogo;
     @JsonProperty("moviedisc")
     private List<FanartTvArtwork> movieDisc;
+    @JsonProperty("movieart")
+    private List<FanartTvArtwork> movieArt;
 
     public String getImdbId() {
         return imdbId;
@@ -59,6 +61,14 @@ public class WrapperMovie {
 
     public void setMovieLogo(List<FanartTvArtwork> movieLogo) {
         this.movieLogo = movieLogo;
+    }
+
+    public List<FanartTvArtwork> getMovieArt() {
+        return movieArt;
+    }
+
+    public void setMovieArt(List<FanartTvArtwork> movieArt) {
+        this.movieArt = movieArt;
     }
 
     /**
