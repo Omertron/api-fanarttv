@@ -13,6 +13,7 @@
 package com.moviejukebox.fanarttv;
 
 import com.moviejukebox.fanarttv.model.FanartTvArtwork;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import static org.junit.Assert.assertTrue;
@@ -25,14 +26,20 @@ public class FanartTVTest {
     private static final Logger logger = Logger.getLogger(FanartTVTest.class);
     private FanartTv ft;
     private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
-    private static final int ID_TVDB = 79349; // Dexter
-//    private static final int ID_TMDB = 78;    // Blade Runner
-    private static final int ID_TMDB = 19995;    // Avatar
-    private static final String ID_IMDB = "tt0242653";  // Matrix Revolutions
+    private static final ArrayList<Integer> ID_TVDB = new ArrayList<Integer>();
+    private static final ArrayList<Integer> ID_TMDB = new ArrayList<Integer>();
+    private static final ArrayList<String> ID_IMDB = new ArrayList<String>();
 
     @Before
     public void setUp() throws Exception {
         ft = new FanartTv(APIKEY);
+
+        ID_TVDB.add(79349); // Dexter);
+
+        ID_TMDB.add(78);    // Blade Runner
+        ID_TMDB.add(19995); // Avatar
+
+        ID_IMDB.add("tt0242653"); // Matrix Revolutions
     }
 
     /**
@@ -41,8 +48,10 @@ public class FanartTVTest {
     @Test
     public void testGetTvArtwork_4args() throws Exception {
         logger.info("getTvArtwork");
-        List<FanartTvArtwork> resultList = ft.getTvArtwork(ID_TVDB);
-        assertTrue("No TV Artwork found!", !resultList.isEmpty());
+        for (int tvdbid : ID_TVDB) {
+            List<FanartTvArtwork> resultList = ft.getTvArtwork(tvdbid);
+            assertTrue("No TV Artwork found!", !resultList.isEmpty());
+        }
     }
 
     /**
@@ -51,8 +60,10 @@ public class FanartTVTest {
     @Test
     public void testGetMovieArtwork_TMDB() throws Exception {
         logger.info("getMovieArtwork");
-        List<FanartTvArtwork> resultList = ft.getMovieArtwork(ID_TMDB);
-        assertTrue("No Movie Artwork found!", !resultList.isEmpty());
+        for (int tmdbid : ID_TMDB) {
+            List<FanartTvArtwork> resultList = ft.getMovieArtwork(tmdbid);
+            assertTrue("No Movie Artwork found!", !resultList.isEmpty());
+        }
     }
 
     /**
@@ -61,7 +72,9 @@ public class FanartTVTest {
     @Test
     public void testGetMovieArtwork_IMDB() throws Exception {
         logger.info("getMovieArtwork (IMDB)");
-        List<FanartTvArtwork> resultList = ft.getMovieArtwork(ID_IMDB);
-        assertTrue("No Movie Artwork found!", !resultList.isEmpty());
+        for (String imdbid : ID_IMDB) {
+            List<FanartTvArtwork> resultList = ft.getMovieArtwork(imdbid);
+            assertTrue("No Movie Artwork found!", !resultList.isEmpty());
+        }
     }
 }
