@@ -12,7 +12,9 @@
  */
 package com.moviejukebox.fanarttv.model;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -41,46 +43,38 @@ public class WrapperSeries {
         this.tvdbid = tvdbid;
     }
 
-    public List<FanartTvArtwork> getClearArt() {
-        return clearArt;
-    }
-
     public void setClearArt(List<FanartTvArtwork> clearArt) {
         this.clearArt = clearArt;
-    }
-
-    public List<FanartTvArtwork> getClearLogo() {
-        return clearLogo;
     }
 
     public void setClearLogo(List<FanartTvArtwork> clearLogo) {
         this.clearLogo = clearLogo;
     }
 
-    public List<FanartTvArtwork> getSeasonThumb() {
-        return seasonThumb;
-    }
-
     public void setSeasonThumb(List<FanartTvArtwork> seasonThumb) {
         this.seasonThumb = seasonThumb;
-    }
-
-    public List<FanartTvArtwork> getTvThumb() {
-        return tvThumb;
     }
 
     public void setTvThumb(List<FanartTvArtwork> tvThumb) {
         this.tvThumb = tvThumb;
     }
 
-    public List<FanartTvArtwork> getCharacterArt() {
-        return characterArt;
-    }
-
     public void setCharacterArt(List<FanartTvArtwork> characterArt) {
         this.characterArt = characterArt;
     }
-    
+
+    public Map<FTArtworkType, List<FanartTvArtwork>> getArtwork() {
+        Map<FTArtworkType, List<FanartTvArtwork>> artwork = new EnumMap<FTArtworkType, List<FanartTvArtwork>>(FTArtworkType.class);
+
+        artwork.put(FTArtworkType.CHARACTERART, characterArt);
+        artwork.put(FTArtworkType.CLEARART, clearArt);
+        artwork.put(FTArtworkType.CLEARLOGO, clearLogo);
+        artwork.put(FTArtworkType.SEASONTHUMB, seasonThumb);
+        artwork.put(FTArtworkType.TVTHUMB, tvThumb);
+
+        return artwork;
+    }
+
     /**
      * Handle unknown properties and print a message
      *

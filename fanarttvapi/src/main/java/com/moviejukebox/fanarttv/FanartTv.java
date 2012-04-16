@@ -13,15 +13,14 @@
 package com.moviejukebox.fanarttv;
 
 import com.moviejukebox.fanarttv.FanartTvException.FanartTvExceptionType;
-import com.moviejukebox.fanarttv.model.FanartTvArtwork;
-import com.moviejukebox.fanarttv.model.WrapperMovie;
-import com.moviejukebox.fanarttv.model.WrapperSeries;
+import com.moviejukebox.fanarttv.model.*;
 import com.moviejukebox.fanarttv.tools.FilteringLayout;
 import com.moviejukebox.fanarttv.tools.WebBrowser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
@@ -56,8 +55,7 @@ public class FanartTv {
      * Defaults for the API
      */
     private static final int DEFAULT_ARTWORK_LIMIT = 2;
-    private static final int DEFAULT_ARTWORK_SORT = 1;
-    private static final String DEFAULT_ARTWORK_TYPE = "all";
+    private static final FTArtworkType DEFAULT_ARTWORK_TYPE = FTArtworkType.ALL;
 
     /*
      * Jackson JSON configuration
@@ -124,36 +122,20 @@ public class FanartTv {
             } catch (IOException ex) {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             }
-            ArrayList<FanartTvArtwork> artwork = new ArrayList<FanartTvArtwork>();
 
-            if (ws.getClearArt() != null) {
-                for (FanartTvArtwork ftSingle : ws.getClearArt()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_CLEARART);
-                    artwork.add(ftSingle);
+            ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
+
+            // Get the artwork and apply the correct FTArtworkType to it
+            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : ws.getArtwork().entrySet()) {
+                if (!entry.getValue().isEmpty()) {
+                    for (FanartTvArtwork ftSingle : entry.getValue()) {
+                        ftSingle.setType(entry.getKey());
+                        artworkList.add(ftSingle);
+                    }
                 }
             }
 
-            if (ws.getClearLogo() != null) {
-                for (FanartTvArtwork ftSingle : ws.getClearLogo()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_CLEARLOGO);
-                    artwork.add(ftSingle);
-                }
-            }
-
-            if (ws.getSeasonThumb() != null) {
-                for (FanartTvArtwork ftSingle : ws.getSeasonThumb()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_SEASONTHUMB);
-                    artwork.add(ftSingle);
-                }
-            }
-
-            if (ws.getTvThumb() != null) {
-                for (FanartTvArtwork ftSingle : ws.getTvThumb()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_TVTHUMB);
-                    artwork.add(ftSingle);
-                }
-            }
-            return artwork;
+            return artworkList;
         }
         throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "No JSON data found");
     }
@@ -194,28 +176,26 @@ public class FanartTv {
             } catch (IOException ex) {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             }
-            ArrayList<FanartTvArtwork> artwork = new ArrayList<FanartTvArtwork>();
 
-            if (ws.getMovieLogo() != null) {
-                for (FanartTvArtwork ftSingle : ws.getMovieLogo()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_MOVIELOGO);
-                    artwork.add(ftSingle);
+            ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
+
+            // Get the artwork and apply the correct FTArtworkType to it
+            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : ws.getArtwork().entrySet()) {
+                if (!entry.getValue().isEmpty()) {
+                    for (FanartTvArtwork ftSingle : entry.getValue()) {
+                        ftSingle.setType(entry.getKey());
+                        artworkList.add(ftSingle);
+                    }
                 }
             }
 
-            if (ws.getMovieDisc() != null) {
-                for (FanartTvArtwork ftSingle : ws.getMovieDisc()) {
-                    ftSingle.setType(FanartTvArtwork.TYPE_MOVIEDISC);
-                    artwork.add(ftSingle);
-                }
-            }
-            return artwork;
+            return artworkList;
         }
         throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "No JSON data found");
     }
 
     /**
-     * Get all the artwork of a type for a TVDb ID
+     * Get all the artwork of a type for a TVDB ID
      *
      * @param tvdbId
      * @param artworkType
@@ -223,35 +203,35 @@ public class FanartTv {
      * @param artworkLimit
      * @return
      */
-    public List<FanartTvArtwork> getTvArtwork(int tvdbId, String artworkType, int artworkSortBy, int artworkLimit) throws FanartTvException {
+    public List<FanartTvArtwork> getTvArtwork(int tvdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
         return readTvArtwork(buildSeriesUrl(tvdbId, artworkType, artworkSortBy, artworkLimit));
     }
 
     /**
-     * Get all the artwork of a type for a TVDb ID
+     * Get all the artwork of a type for a TVDB ID
      *
      * @param tvdbId
      * @param artworkType
      * @param artworkSortBy
      * @return
      */
-    public List<FanartTvArtwork> getTvArtwork(int tvdbId, String artworkType, int artworkSortBy) throws FanartTvException {
+    public List<FanartTvArtwork> getTvArtwork(int tvdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy) throws FanartTvException {
         return getTvArtwork(tvdbId, artworkType, artworkSortBy, DEFAULT_ARTWORK_LIMIT);
     }
 
     /**
-     * Get all the artwork of a type for a TVDb ID
+     * Get all the artwork of a type for a TVDB ID
      *
      * @param tvdbId
      * @param artworkType
      * @return
      */
-    public List<FanartTvArtwork> getTvArtwork(int tvdbId, String artworkType) throws FanartTvException {
-        return getTvArtwork(tvdbId, artworkType, DEFAULT_ARTWORK_SORT);
+    public List<FanartTvArtwork> getTvArtwork(int tvdbId, FTArtworkType artworkType) throws FanartTvException {
+        return getTvArtwork(tvdbId, artworkType, FTArtworkSort.DEFAULT);
     }
 
     /**
-     * Get all the artwork for a specific TVDb ID
+     * Get all the artwork for a specific TVDB ID
      *
      * @param tvdbId
      * @return
@@ -279,8 +259,8 @@ public class FanartTv {
      * @return
      * @throws FanartTvException
      */
-    public List<FanartTvArtwork> getMovieArtwork(int tmdbId, String artworkType) throws FanartTvException {
-        return getMovieArtwork(tmdbId, artworkType, DEFAULT_ARTWORK_SORT);
+    public List<FanartTvArtwork> getMovieArtwork(int tmdbId, FTArtworkType artworkType) throws FanartTvException {
+        return getMovieArtwork(tmdbId, artworkType, FTArtworkSort.DEFAULT);
     }
 
     /**
@@ -292,7 +272,7 @@ public class FanartTv {
      * @return
      * @throws FanartTvException
      */
-    public List<FanartTvArtwork> getMovieArtwork(int tmdbId, String artworkType, int artworkSortBy) throws FanartTvException {
+    public List<FanartTvArtwork> getMovieArtwork(int tmdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy) throws FanartTvException {
         return getMovieArtwork(tmdbId, artworkType, artworkSortBy, DEFAULT_ARTWORK_LIMIT);
     }
 
@@ -306,7 +286,7 @@ public class FanartTv {
      * @return
      * @throws FanartTvException
      */
-    public List<FanartTvArtwork> getMovieArtwork(int tmdbId, String artworkType, int artworkSortBy, int artworkLimit) throws FanartTvException {
+    public List<FanartTvArtwork> getMovieArtwork(int tmdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
         return readMovieArtwork(buildMovieUrl(tmdbId, artworkType, artworkSortBy, artworkLimit));
     }
 
@@ -329,8 +309,8 @@ public class FanartTv {
      * @return
      * @throws FanartTvException
      */
-    public List<FanartTvArtwork> getMovieArtwork(String imdbId, String artworkType) throws FanartTvException {
-        return getMovieArtwork(imdbId, artworkType, DEFAULT_ARTWORK_SORT);
+    public List<FanartTvArtwork> getMovieArtwork(String imdbId, FTArtworkType artworkType) throws FanartTvException {
+        return getMovieArtwork(imdbId, artworkType, FTArtworkSort.DEFAULT);
     }
 
     /**
@@ -342,7 +322,7 @@ public class FanartTv {
      * @return
      * @throws FanartTvException
      */
-    public List<FanartTvArtwork> getMovieArtwork(String imdbId, String artworkType, int artworkSortBy) throws FanartTvException {
+    public List<FanartTvArtwork> getMovieArtwork(String imdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy) throws FanartTvException {
         return getMovieArtwork(imdbId, artworkType, artworkSortBy, DEFAULT_ARTWORK_LIMIT);
     }
 
@@ -356,7 +336,7 @@ public class FanartTv {
      * @return
      * @throws FanartTvException
      */
-    public List<FanartTvArtwork> getMovieArtwork(String imdbId, String artworkType, int artworkSortBy, int artworkLimit) throws FanartTvException {
+    public List<FanartTvArtwork> getMovieArtwork(String imdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
         return readMovieArtwork(buildMovieUrl(imdbId, artworkType, artworkSortBy, artworkLimit));
     }
 
@@ -390,14 +370,14 @@ public class FanartTv {
      * Build the URL that is used to get the XML from Fanart.tv
      *
      * @param baseUrl
-     * @param videoId The id for the video, one of TheMovieDB, IMDB or TheTVDb
+     * @param videoId The id for the video, one of TheMovieDB, IMDB or TheTVDB
      * @param artworkType The type of the artwork to limit the search too.
      * "all"/Blank/null gets all artwork
      * @param artworkSortBy Added for completeness, but not used
      * @return The search URL
      *
      */
-    private String buildUrl(String baseUrl, String videoId, String artworkType, int artworkSortBy, int artworkLimit) {
+    private String buildUrl(String baseUrl, String videoId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
         //http://fanart.tv/webservice/series/apikey/thetvdb_id/format/type/sort/limit/
         StringBuilder searchUrl = new StringBuilder(API_SITE);
 
@@ -407,12 +387,9 @@ public class FanartTv {
         searchUrl.append(videoId).append("/");
         searchUrl.append(API_FORMAT).append("/");
 
-        if (FanartTvArtwork.validateType(artworkType)) {
-            searchUrl.append(artworkType).append("/");
-        }
+        searchUrl.append(artworkType.toString().toLowerCase()).append("/");
 
-        // SortBy can be 1, 2 or 3
-        searchUrl.append(artworkSortBy > 0 && artworkSortBy < 4 ? artworkSortBy : DEFAULT_ARTWORK_SORT).append("/");
+        searchUrl.append(artworkSortBy.getValue()).append("/");
 
         if (artworkLimit > 0) {
             searchUrl.append(Math.max(artworkLimit, 2)).append("/");
@@ -422,30 +399,17 @@ public class FanartTv {
         return searchUrl.toString();
     }
 
-    private String buildSeriesUrl(int tvdbId, String artworkType, int artworkSortBy, int artworkLimit) {
+    private String buildSeriesUrl(int tvdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
         String idString = String.valueOf(tvdbId < 0 ? 0 : tvdbId);
         return buildUrl(API_SERIES, idString, artworkType, artworkSortBy, artworkLimit);
     }
 
-    private String buildMovieUrl(int tmdbId, String artworkType, int artworkSortBy, int artworkLimit) {
+    private String buildMovieUrl(int tmdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
         String idString = String.valueOf(tmdbId < 0 ? 0 : tmdbId);
         return buildMovieUrl(idString, artworkType, artworkSortBy, artworkLimit);
     }
 
-    private String buildMovieUrl(String imdbId, String artworkType, int artworkSortBy, int artworkLimit) {
+    private String buildMovieUrl(String imdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
         return buildUrl(API_MOVIE, imdbId, artworkType, artworkSortBy, artworkLimit);
-    }
-
-    /**
-     * Check the string passed to see if it contains a value.
-     *
-     * @param testString The string to test
-     * @return False if the string is empty, null or UNKNOWN, True otherwise
-     */
-    public static boolean isValidString(String testString) {
-        if (StringUtils.isBlank(testString) || (FanartTvArtwork.UNKNOWN.equalsIgnoreCase(testString))) {
-            return false;
-        }
-        return true;
     }
 }

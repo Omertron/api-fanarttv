@@ -12,9 +12,6 @@
  */
 package com.moviejukebox.fanarttv.model;
 
-import com.moviejukebox.fanarttv.FanartTv;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAnySetter;
@@ -28,45 +25,14 @@ public class FanartTvArtwork {
      */
     public static final String UNKNOWN = "UNKNOWN";
     /*
-     * Artwork Types
-     */
-    public static final String TYPE_ALL = "all";
-    // TV Artwork
-    public static final String TYPE_CLEARART = "clearart";
-    public static final String TYPE_CLEARLOGO = "clearlogo";
-    public static final String TYPE_SEASONTHUMB = "seasonthumb";
-    public static final String TYPE_TVTHUMB = "tvthumb";
-    public static final String TYPE_CHARACTERART = "characterart";
-    // Movie Artwork Types
-    public static final String TYPE_MOVIELOGO = "movielogo";
-    public static final String TYPE_MOVIEDISC = "moviedisc";
-    public static final String TYPE_MOVIEART = "movieart";
-    // Music Artwork Types
-    public static final String TYPE_CDART = "cdart";
-    public static final String TYPE_ARTIST_BACKGROUNDS = "artistbackgrounds";
-    public static final String TYPE_ALBUM_COVER = "albumcover";
-    public static final String TYPE_MUSIC_LOGOS = "musiclogos";
-    /*
-     * Artwork Sorts
-     */
-    public static final String SORT_NAME_ASC = "nameasc";
-    public static final String SORT_NAME_DESC = "namedesc";
-    public static final String SORT_FAV_ASC = "favasc";
-    public static final String SORT_FAV_DESC = "favdesc";
-    /*
      * Versions
      */
     public static final int VERSION_IMAGE = 3;
     public static final int VERSION_CHARACTER = 4;
     /*
-     * Validation data
-     */
-    private static List<String> artworkTypes = new ArrayList<String>();
-    private static List<String> artworkSorts = new ArrayList<String>();
-    /*
      * Data model
      */
-    private String type;
+    private FTArtworkType type;
     @JsonProperty("id")
     private int id;
     @JsonProperty("url")
@@ -82,12 +48,12 @@ public class FanartTvArtwork {
     private String discType;
 
     public FanartTvArtwork(String type, String url) {
-        this.type = type;
+        this.type = FTArtworkType.fromString(type);
         this.url = url;
     }
 
     public FanartTvArtwork() {
-        this.type = UNKNOWN;
+        this.type = FTArtworkType.ALL;
         this.url = UNKNOWN;
     }
 
@@ -95,16 +61,24 @@ public class FanartTvArtwork {
      * @return the type
      */
     public String getType() {
-        return type;
+        return type.toString();
     }
 
     /**
      * @param type the type to set
      */
+    @JsonProperty("type")
     public void setType(String type) {
         if (validateType(type)) {
-            this.type = type.toLowerCase();
+            this.type = FTArtworkType.fromString(type);
         }
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(FTArtworkType type) {
+        this.type = type;
     }
 
     /**
@@ -181,17 +155,13 @@ public class FanartTvArtwork {
      * @return
      */
     public static boolean validateType(String artworkType) {
-        if (!FanartTv.isValidString(artworkType)) {
+        try {
+            // Try and convert the type to a type.
+            FTArtworkType.fromString(artworkType);
+            return true;
+        } catch (IllegalArgumentException ex) {
             return false;
         }
-
-        populateArtworkTypes();
-
-        if (artworkTypes.contains(artworkType.toLowerCase())) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -201,49 +171,12 @@ public class FanartTvArtwork {
      * @return
      */
     public static boolean validateSort(String artworkSort) {
-        if (!FanartTv.isValidString(artworkSort)) {
-            return false;
-        }
-
-        populateArtworkSorts();
-
-        if (artworkSorts.contains(artworkSort.toLowerCase())) {
+        try {
+            // Try and convert the sort to a type.
+            FTArtworkSort.fromString(artworkSort);
             return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Populate the artwork types
-     */
-    private static void populateArtworkTypes() {
-        if (artworkTypes.isEmpty()) {
-            artworkTypes.add(TYPE_ALL);
-            artworkTypes.add(TYPE_CLEARART);
-            artworkTypes.add(TYPE_CLEARLOGO);
-            artworkTypes.add(TYPE_SEASONTHUMB);
-            artworkTypes.add(TYPE_TVTHUMB);
-            artworkTypes.add(TYPE_CHARACTERART);
-            artworkTypes.add(TYPE_CDART);
-            artworkTypes.add(TYPE_MOVIELOGO);
-            artworkTypes.add(TYPE_MOVIEDISC);
-            artworkTypes.add(TYPE_MOVIEART);
-            artworkTypes.add(TYPE_ARTIST_BACKGROUNDS);
-            artworkTypes.add(TYPE_ALBUM_COVER);
-            artworkTypes.add(TYPE_MUSIC_LOGOS);
-        }
-    }
-
-    /**
-     * Populate the artwork sorts
-     */
-    private static void populateArtworkSorts() {
-        if (artworkSorts.isEmpty()) {
-            artworkSorts.add(SORT_FAV_ASC);
-            artworkSorts.add(SORT_FAV_DESC);
-            artworkSorts.add(SORT_NAME_ASC);
-            artworkSorts.add(SORT_NAME_DESC);
+        } catch (IllegalArgumentException ex) {
+            return false;
         }
     }
 

@@ -12,7 +12,9 @@
  */
 package com.moviejukebox.fanarttv.model;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -24,12 +26,12 @@ public class WrapperMovie {
     private int tmdbId;
     @JsonProperty("imdb_id")
     private String imdbId;
-    @JsonProperty("movielogo")
-    private List<FanartTvArtwork> movieLogo;
-    @JsonProperty("moviedisc")
-    private List<FanartTvArtwork> movieDisc;
     @JsonProperty("movieart")
     private List<FanartTvArtwork> movieArt;
+    @JsonProperty("moviedisc")
+    private List<FanartTvArtwork> movieDisc;
+    @JsonProperty("movielogo")
+    private List<FanartTvArtwork> movieLogo;
 
     public String getImdbId() {
         return imdbId;
@@ -47,28 +49,26 @@ public class WrapperMovie {
         this.tmdbId = tmdbId;
     }
 
-    public List<FanartTvArtwork> getMovieDisc() {
-        return movieDisc;
-    }
-
     public void setMovieDisc(List<FanartTvArtwork> movieDisc) {
         this.movieDisc = movieDisc;
-    }
-
-    public List<FanartTvArtwork> getMovieLogo() {
-        return movieLogo;
     }
 
     public void setMovieLogo(List<FanartTvArtwork> movieLogo) {
         this.movieLogo = movieLogo;
     }
 
-    public List<FanartTvArtwork> getMovieArt() {
-        return movieArt;
-    }
-
     public void setMovieArt(List<FanartTvArtwork> movieArt) {
         this.movieArt = movieArt;
+    }
+
+    public Map<FTArtworkType, List<FanartTvArtwork>> getArtwork() {
+        Map<FTArtworkType, List<FanartTvArtwork>> artwork = new EnumMap<FTArtworkType, List<FanartTvArtwork>>(FTArtworkType.class);
+
+        artwork.put(FTArtworkType.MOVIEART, movieArt);
+        artwork.put(FTArtworkType.MOVIEDISC, movieDisc);
+        artwork.put(FTArtworkType.MOVIELOGO, movieLogo);
+
+        return artwork;
     }
 
     /**
