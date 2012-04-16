@@ -44,13 +44,14 @@ public class FanartTv {
     private static final Logger LOGGER = Logger.getLogger(FanartTv.class);
     private String apiKey;
     private static final String API_FORMAT = "json";
+    private static final String ERROR_JSON_TEXT = "Failed processing JSON Node";
     /*
      * URL for the API
      */
     private static final String API_SITE = "http://fanart.tv/webservice/";
     private static final String API_SERIES = "series/";
     private static final String API_MOVIE = "movie/";
-    private static final String API_MUSIC = "music/";
+    private static final String API_MUSIC = "artist/";
     /*
      * Defaults for the API
      */
@@ -87,7 +88,7 @@ public class FanartTv {
     }
 
     /**
-     * Get the artwork for a specific video
+     * Get the artwork for a specific TV Series
      *
      * @param searchUrl
      * @return
@@ -105,9 +106,9 @@ public class FanartTv {
         try {
             jn = mapper.readTree(webPage);
         } catch (JsonProcessingException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node", ex);
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node", ex);
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
         }
 
         Iterator<String> ftNode = jn.getFieldNames();
@@ -141,7 +142,7 @@ public class FanartTv {
     }
 
     /**
-     * Get the artwork for a specific video
+     * Get the artwork for a specific movie
      *
      * @param searchUrl
      * @return
@@ -159,16 +160,16 @@ public class FanartTv {
         try {
             jn = mapper.readTree(webPage);
         } catch (JsonProcessingException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node", ex);
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "Failed processing JSON Node", ex);
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
         }
 
         Iterator<String> ftNode = jn.getFieldNames();
         while (ftNode.hasNext()) {
-            WrapperMovie ws;
+            WrapperMovie wm;
             try {
-                ws = mapper.readValue(jn.get(ftNode.next()), WrapperMovie.class);
+                wm = mapper.readValue(jn.get(ftNode.next()), WrapperMovie.class);
             } catch (JsonParseException ex) {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             } catch (JsonMappingException ex) {
@@ -180,7 +181,64 @@ public class FanartTv {
             ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
 
             // Get the artwork and apply the correct FTArtworkType to it
-            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : ws.getArtwork().entrySet()) {
+            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wm.getArtwork().entrySet()) {
+                if (!entry.getValue().isEmpty()) {
+                    for (FanartTvArtwork ftSingle : entry.getValue()) {
+                        ftSingle.setType(entry.getKey());
+                        artworkList.add(ftSingle);
+                    }
+                }
+            }
+
+            return artworkList;
+        }
+        throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "No JSON data found");
+    }
+
+    /**
+     * Get the artwork for a specific music ID
+     *
+     * @param searchUrl
+     * @return
+     * @throws FanartTvException
+     */
+    public List<FanartTvArtwork> readMusicArtwork(String searchUrl) throws FanartTvException {
+        String webPage;
+        try {
+            webPage = WebBrowser.request(searchUrl);
+        } catch (IOException ex) {
+            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl, ex);
+        }
+
+        LOGGER.info("Search URL: " + searchUrl);
+        
+        // Strip the wrapper from the json returned
+        JsonNode jn;
+        try {
+            jn = mapper.readTree(webPage);
+        } catch (JsonProcessingException ex) {
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
+        } catch (IOException ex) {
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
+        }
+
+        Iterator<String> ftNode = jn.getFieldNames();
+        while (ftNode.hasNext()) {
+            WrapperMusic wm;
+            try {
+                wm = mapper.readValue(jn.get(ftNode.next()), WrapperMusic.class);
+            } catch (JsonParseException ex) {
+                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            } catch (JsonMappingException ex) {
+                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            } catch (IOException ex) {
+                throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            }
+
+            ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
+
+            // Get the artwork and apply the correct FTArtworkType to it
+            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wm.getArtwork().entrySet()) {
                 if (!entry.getValue().isEmpty()) {
                     for (FanartTvArtwork ftSingle : entry.getValue()) {
                         ftSingle.setType(entry.getKey());
@@ -341,6 +399,56 @@ public class FanartTv {
     }
 
     /**
+     * get all the artwork for a specific Music Brainz ID
+     *
+     * @param musicId
+     * @param artworkType
+     * @param artworkSort
+     * @param artworkLimit
+     * @return
+     * @throws FanartTvException
+     */
+    public List<FanartTvArtwork> getMusicArtwork(String musicId, FTArtworkType artworkType, FTArtworkSort artworkSort, int artworkLimit) throws FanartTvException {
+        return readMusicArtwork(buildMusicUrl(musicId, artworkType, artworkSort, artworkLimit));
+    }
+
+    /**
+     * get all the artwork for a specific Music Brainz ID
+     *
+     * @param musicId
+     * @param artworkType
+     * @param artworkSort
+     * @return
+     * @throws FanartTvException
+     */
+    public List<FanartTvArtwork> getMusicArtwork(String musicId, FTArtworkType artworkType, FTArtworkSort artworkSort) throws FanartTvException {
+        return getMusicArtwork(musicId, artworkType, artworkSort, DEFAULT_ARTWORK_LIMIT);
+    }
+
+    /**
+     * get all the artwork for a specific Music Brainz ID
+     *
+     * @param musicId
+     * @param artworkType
+     * @return
+     * @throws FanartTvException
+     */
+    public List<FanartTvArtwork> getMusicArtwork(String musicId, FTArtworkType artworkType) throws FanartTvException {
+        return getMusicArtwork(musicId, artworkType, FTArtworkSort.DEFAULT);
+    }
+
+    /**
+     * get all the artwork for a specific Music Brainz ID
+     *
+     * @param musicId
+     * @return
+     * @throws FanartTvException
+     */
+    public List<FanartTvArtwork> getMusicArtwork(String musicId) throws FanartTvException {
+        return getMusicArtwork(musicId, DEFAULT_ARTWORK_TYPE);
+    }
+
+    /**
      * Set proxy parameters.
      *
      * @param host proxy host URL
@@ -370,21 +478,22 @@ public class FanartTv {
      * Build the URL that is used to get the XML from Fanart.tv
      *
      * @param baseUrl
-     * @param videoId The id for the video, one of TheMovieDB, IMDB or TheTVDB
+     * @param artworkId The id for the video/tv/music, one of TheMovieDB, IMDB,
+     * TheTVDB or MusicBrainz
      * @param artworkType The type of the artwork to limit the search too.
      * "all"/Blank/null gets all artwork
      * @param artworkSortBy Added for completeness, but not used
      * @return The search URL
      *
      */
-    private String buildUrl(String baseUrl, String videoId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
+    private String buildUrl(String baseUrl, String artworkId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
         //http://fanart.tv/webservice/series/apikey/thetvdb_id/format/type/sort/limit/
         StringBuilder searchUrl = new StringBuilder(API_SITE);
 
         searchUrl.append(baseUrl);
 
         searchUrl.append(apiKey).append("/");
-        searchUrl.append(videoId).append("/");
+        searchUrl.append(artworkId).append("/");
         searchUrl.append(API_FORMAT).append("/");
 
         searchUrl.append(artworkType.toString().toLowerCase()).append("/");
@@ -411,5 +520,9 @@ public class FanartTv {
 
     private String buildMovieUrl(String imdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
         return buildUrl(API_MOVIE, imdbId, artworkType, artworkSortBy, artworkLimit);
+    }
+
+    private String buildMusicUrl(String musicId, FTArtworkType artworkType, FTArtworkSort artworkSort, int artworkLimit) {
+        return buildUrl(API_MUSIC, musicId, artworkType, artworkSort, artworkLimit);
     }
 }

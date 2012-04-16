@@ -12,6 +12,8 @@
  */
 package com.moviejukebox.fanarttv.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * List if the artwork types for Fanart.TV Artwork
  *
@@ -32,19 +34,18 @@ public enum FTArtworkType {
     MOVIEART,
     // Music Artwork Types
     CDART,
-    ARTISTBACKGROUNDS,
+    ARTISTBACKGROUND,
     ALBUMCOVER,
-    MUSICLOGOS;
+    MUSICLOGO;
 
     public static FTArtworkType fromString(String artworkType) {
-        if (artworkType != null) {
+        if (StringUtils.isNotBlank(artworkType)) {
             try {
                 return FTArtworkType.valueOf(artworkType.trim().toUpperCase());
             } catch (IllegalArgumentException ex) {
-                throw new IllegalArgumentException("No FTArtworkType " + artworkType + " exists");
+                throw new IllegalArgumentException("FTArtworkType " + artworkType + " does not exist.", ex);
             }
         }
-        throw new IllegalArgumentException("No FTArtworkType " + artworkType + " exists");
+        throw new IllegalArgumentException("FTArtworkType must not be null");
     }
-
 }

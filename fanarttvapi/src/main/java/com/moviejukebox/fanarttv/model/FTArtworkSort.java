@@ -12,6 +12,8 @@
  */
 package com.moviejukebox.fanarttv.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * List if the artwork sorts for Fanart.TV Artwork
  *
@@ -20,7 +22,6 @@ package com.moviejukebox.fanarttv.model;
 public enum FTArtworkSort {
 
     DEFAULT(1), POPULAR(1), NEWEST(2), OLDEST(3);
-
     private int sortType;
 
     private FTArtworkSort(int sortType) {
@@ -32,13 +33,13 @@ public enum FTArtworkSort {
     }
 
     public static FTArtworkSort fromString(String artworkSort) {
-        if (artworkSort != null) {
+        if (StringUtils.isNotBlank(artworkSort)) {
             try {
                 return FTArtworkSort.valueOf(artworkSort.trim().toUpperCase());
             } catch (IllegalArgumentException ex) {
-                throw new IllegalArgumentException("No FTArtworkSort " + artworkSort + " exists");
+                throw new IllegalArgumentException("FTArtworkSort " + artworkSort + " does not exist.", ex);
             }
         }
-        throw new IllegalArgumentException("No FTArtworkSort " + artworkSort + " exists");
+        throw new IllegalArgumentException("FTArtworkSort must not be null");
     }
 }
