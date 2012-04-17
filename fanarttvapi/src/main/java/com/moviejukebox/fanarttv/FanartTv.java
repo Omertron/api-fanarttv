@@ -65,6 +65,7 @@ public class FanartTv {
 
     /**
      * Create a new API instance with the given API Key
+     *
      * @param apiKey
      */
     public FanartTv(String apiKey) {
@@ -132,7 +133,7 @@ public class FanartTv {
 
             // Get the artwork and apply the correct FTArtworkType to it
             for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : ws.getArtwork().entrySet()) {
-                if (!entry.getValue().isEmpty()) {
+                if (entry != null && !entry.getValue().isEmpty()) {
                     for (FanartTvArtwork ftSingle : entry.getValue()) {
                         ftSingle.setType(entry.getKey());
                         artworkList.add(ftSingle);
