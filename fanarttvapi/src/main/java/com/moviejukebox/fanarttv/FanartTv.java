@@ -186,7 +186,7 @@ public class FanartTv {
 
             // Get the artwork and apply the correct FTArtworkType to it
             for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wm.getArtwork().entrySet()) {
-                if (!entry.getValue().isEmpty()) {
+                if (entry != null && !entry.getValue().isEmpty()) {
                     for (FanartTvArtwork ftSingle : entry.getValue()) {
                         ftSingle.setType(entry.getKey());
                         artworkList.add(ftSingle);
