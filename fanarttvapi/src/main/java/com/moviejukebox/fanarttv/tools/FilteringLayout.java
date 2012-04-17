@@ -24,10 +24,14 @@ import org.apache.log4j.spi.LoggingEvent;
  *
  */
 public class FilteringLayout extends PatternLayout {
-    private static Pattern apiKeys = Pattern.compile("DO_NOT_MATCH");
+    private static Pattern apiKeyPattern = Pattern.compile("DO_NOT_MATCH");
 
+    /**
+     * Add an API Key to filter
+     * @param apiKey
+     */
     public static void addApiKey(String apiKey) {
-        apiKeys = Pattern.compile(apiKey);
+        apiKeyPattern = Pattern.compile(apiKey);
     }
 
     /**
@@ -40,7 +44,7 @@ public class FilteringLayout extends PatternLayout {
         if (event.getMessage() instanceof String) {
             String message = event.getRenderedMessage();
 
-            Matcher matcher = apiKeys.matcher(message);
+            Matcher matcher = apiKeyPattern.matcher(message);
             if (matcher.find()) {
                 String maskedMessage = matcher.replaceAll("[APIKEY]");
 

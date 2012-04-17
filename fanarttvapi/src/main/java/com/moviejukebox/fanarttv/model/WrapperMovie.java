@@ -33,34 +33,74 @@ public class WrapperMovie {
     @JsonProperty("movielogo")
     private List<FanartTvArtwork> movieLogo;
 
+    /**
+     * Get the ID for IMDB
+     *
+     * @return
+     */
     public String getImdbId() {
         return imdbId;
     }
 
+    /**
+     * Set the ID for IMDB
+     *
+     * @param imdbId
+     */
     public void setImdbId(String imdbId) {
         this.imdbId = imdbId;
     }
 
+    /**
+     * Get the ID for TheMovieDB
+     *
+     * @return
+     */
     public int getTmdbId() {
         return tmdbId;
     }
 
+    /**
+     * Set the ID for TheMovieDB
+     *
+     * @param tmdbId
+     */
     public void setTmdbId(int tmdbId) {
         this.tmdbId = tmdbId;
     }
 
+    /**
+     * Set the MovieDisc artwork list
+     *
+     * @param movieDisc
+     */
     public void setMovieDisc(List<FanartTvArtwork> movieDisc) {
         this.movieDisc = movieDisc;
     }
 
+    /**
+     * Set the MovieLogo artwork list
+     *
+     * @param movieLogo
+     */
     public void setMovieLogo(List<FanartTvArtwork> movieLogo) {
         this.movieLogo = movieLogo;
     }
 
+    /**
+     * Set the MovieArt artwork list
+     *
+     * @param movieArt
+     */
     public void setMovieArt(List<FanartTvArtwork> movieArt) {
         this.movieArt = movieArt;
     }
 
+    /**
+     * Get a map of the artwork types keyed by the artwork type
+     *
+     * @return
+     */
     public Map<FTArtworkType, List<FanartTvArtwork>> getArtwork() {
         Map<FTArtworkType, List<FanartTvArtwork>> artwork = new EnumMap<FTArtworkType, List<FanartTvArtwork>>(FTArtworkType.class);
 

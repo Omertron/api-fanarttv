@@ -63,6 +63,10 @@ public class FanartTv {
      */
     private static ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     * Create a new API instance with the given API Key
+     * @param apiKey
+     */
     public FanartTv(String apiKey) {
         this.apiKey = apiKey;
         FilteringLayout.addApiKey(apiKey);
@@ -211,7 +215,7 @@ public class FanartTv {
         }
 
         LOGGER.info("Search URL: " + searchUrl);
-        
+
         // Strip the wrapper from the json returned
         JsonNode jn;
         try {

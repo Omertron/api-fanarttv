@@ -23,23 +23,42 @@ public class FanartTvException extends Exception {
     private final FanartTvExceptionType exceptionType;
     private final String response;
 
+    /**
+     * Raise an exception with a response and a pre-existing stack
+     * @param exceptionType
+     * @param response
+     * @param cause
+     */
     public FanartTvException(final FanartTvExceptionType exceptionType, final String response, final Throwable cause) {
         super(cause);
         this.exceptionType = exceptionType;
         this.response = response;
     }
 
+    /**
+     * Raise a new exception
+     * @param exceptionType
+     * @param response
+     */
     public FanartTvException(final FanartTvExceptionType exceptionType, final String response) {
         super();
         this.exceptionType = exceptionType;
         this.response = response;
     }
 
+    /**
+     * Get the type for the exception
+     * @return
+     */
     public FanartTvExceptionType getExceptionType() {
 
         return exceptionType;
     }
 
+    /**
+     * Get the response for the exception
+     * @return
+     */
     public String getResponse() {
 
         return response;

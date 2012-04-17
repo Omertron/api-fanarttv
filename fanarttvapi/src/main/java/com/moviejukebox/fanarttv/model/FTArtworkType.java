@@ -38,7 +38,14 @@ public enum FTArtworkType {
     ALBUMCOVER,
     MUSICLOGO;
 
-    public static FTArtworkType fromString(String artworkType) {
+    /**
+     * Convert a string into an Enum type.
+     *
+     * @param artworkType
+     * @return
+     * @throws IllegalArgumentException If type is not recognised
+     */
+    public static FTArtworkType fromString(String artworkType) throws IllegalArgumentException {
         if (StringUtils.isNotBlank(artworkType)) {
             try {
                 return FTArtworkType.valueOf(artworkType.trim().toUpperCase());

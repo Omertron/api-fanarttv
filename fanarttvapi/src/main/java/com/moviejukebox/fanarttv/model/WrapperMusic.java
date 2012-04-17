@@ -33,30 +33,58 @@ public class WrapperMusic {
     @JsonProperty("musiclogo")
     private List<FanartTvArtwork> musicLogo;
 
-    public String getImdbId() {
+    /**
+     * Get the Music Brainz ID
+     * @return
+     */
+    public String getMbidId() {
         return mbidId;
     }
 
-    public void setImdbId(String imdbId) {
-        this.mbidId = imdbId;
+    /**
+     * Set the Music Brainz ID
+     * @param mbidId
+     */
+    public void setMbidId(String mbidId) {
+        this.mbidId = mbidId;
     }
 
+    /**
+     * Set the AlbumCover artwork list
+     * @param albumCover
+     */
     public void setAlbumCover(List<FanartTvArtwork> albumCover) {
         this.albumCover = albumCover;
     }
 
+    /**
+     * Set the ArtistBackground artwork list
+     * @param artistBackground
+     */
     public void setArtistBackground(List<FanartTvArtwork> artistBackground) {
         this.artistBackground = artistBackground;
     }
 
+    /**
+     * Set the CdArt artwork list
+     * @param cdArt
+     */
     public void setCdArt(List<FanartTvArtwork> cdArt) {
         this.cdArt = cdArt;
     }
 
+    /**
+     * Set the MusicLogo artwork list
+     * @param musicLogo
+     */
     public void setMusicLogo(List<FanartTvArtwork> musicLogo) {
         this.musicLogo = musicLogo;
     }
 
+    /**
+     * Get a map of the artwork types keyed by the artwork type
+     * @return
+     */
     public Map<FTArtworkType, List<FanartTvArtwork>> getArtwork() {
         Map<FTArtworkType, List<FanartTvArtwork>> artwork = new EnumMap<FTArtworkType, List<FanartTvArtwork>>(FTArtworkType.class);
 

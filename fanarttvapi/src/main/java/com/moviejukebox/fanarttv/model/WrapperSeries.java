@@ -35,34 +35,66 @@ public class WrapperSeries {
     @JsonProperty("characterart")
     private List<FanartTvArtwork> characterArt;
 
+    /**
+     * Get the TheTVDB ID
+     * @return
+     */
     public String getTvdbid() {
         return tvdbid;
     }
 
+    /**
+     * Set the TheTVDB ID
+     * @param tvdbid
+     */
     public void setTvdbid(String tvdbid) {
         this.tvdbid = tvdbid;
     }
 
+    /**
+     * Set the ClearArt artwork list
+     * @param clearArt
+     */
     public void setClearArt(List<FanartTvArtwork> clearArt) {
         this.clearArt = clearArt;
     }
 
+    /**
+     * Set the ClearLogo artwork list
+     * @param clearLogo
+     */
     public void setClearLogo(List<FanartTvArtwork> clearLogo) {
         this.clearLogo = clearLogo;
     }
 
+    /**
+     * Set the SeasonThumb artwork list
+     * @param seasonThumb
+     */
     public void setSeasonThumb(List<FanartTvArtwork> seasonThumb) {
         this.seasonThumb = seasonThumb;
     }
 
+    /**
+     * Set the TvThumb artwork list
+     * @param tvThumb
+     */
     public void setTvThumb(List<FanartTvArtwork> tvThumb) {
         this.tvThumb = tvThumb;
     }
 
+    /**
+     * Set the CharacterArt artwork list
+     * @param characterArt
+     */
     public void setCharacterArt(List<FanartTvArtwork> characterArt) {
         this.characterArt = characterArt;
     }
 
+    /**
+     * Get a map of the artwork types keyed by the artwork type
+     * @return
+     */
     public Map<FTArtworkType, List<FanartTvArtwork>> getArtwork() {
         Map<FTArtworkType, List<FanartTvArtwork>> artwork = new EnumMap<FTArtworkType, List<FanartTvArtwork>>(FTArtworkType.class);
 

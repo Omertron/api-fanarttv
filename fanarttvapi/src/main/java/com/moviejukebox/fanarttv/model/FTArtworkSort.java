@@ -28,11 +28,24 @@ public enum FTArtworkSort {
         this.sortType = sortType;
     }
 
+    /**
+     * Get the numerical sort value for the sort
+     *
+     * @return
+     */
     public int getValue() {
         return sortType;
     }
 
-    public static FTArtworkSort fromString(String artworkSort) {
+    /**
+     * Convert a string into an Enum type
+     *
+     * @param artworkSort
+     * @return
+     * @throws IllegalArgumentException If type is not recognised
+     *
+     */
+    public static FTArtworkSort fromString(String artworkSort) throws IllegalArgumentException {
         if (StringUtils.isNotBlank(artworkSort)) {
             try {
                 return FTArtworkSort.valueOf(artworkSort.trim().toUpperCase());
