@@ -45,7 +45,7 @@ public enum FTArtworkSort {
      * @throws IllegalArgumentException If type is not recognised
      *
      */
-    public static FTArtworkSort fromString(String artworkSort) throws IllegalArgumentException {
+    public static FTArtworkSort fromString(String artworkSort) {
         if (StringUtils.isNotBlank(artworkSort)) {
             try {
                 return FTArtworkSort.valueOf(artworkSort.trim().toUpperCase());

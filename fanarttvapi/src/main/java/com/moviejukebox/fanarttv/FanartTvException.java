@@ -12,6 +12,11 @@
  */
 package com.moviejukebox.fanarttv;
 
+/**
+ * Exception type for Fanart.TV API
+ *
+ * @author stuart.boston
+ */
 public class FanartTvException extends Exception {
 
     private static final long serialVersionUID = -8952129102483143278L;
@@ -25,6 +30,7 @@ public class FanartTvException extends Exception {
 
     /**
      * Raise an exception with a response and a pre-existing stack
+     *
      * @param exceptionType
      * @param response
      * @param cause
@@ -37,6 +43,7 @@ public class FanartTvException extends Exception {
 
     /**
      * Raise a new exception
+     *
      * @param exceptionType
      * @param response
      */
@@ -48,6 +55,7 @@ public class FanartTvException extends Exception {
 
     /**
      * Get the type for the exception
+     *
      * @return
      */
     public FanartTvExceptionType getExceptionType() {
@@ -57,6 +65,7 @@ public class FanartTvException extends Exception {
 
     /**
      * Get the response for the exception
+     *
      * @return
      */
     public String getResponse() {

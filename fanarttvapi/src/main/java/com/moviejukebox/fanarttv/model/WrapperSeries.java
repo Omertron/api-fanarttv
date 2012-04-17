@@ -19,6 +19,12 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * JSON Wrapper class for Movie artwork from Fanart.TV Not intended for use
+ * outside of the API
+ *
+ * @author stuart.boston
+ */
 public class WrapperSeries {
 
     private static final Logger LOGGER = Logger.getLogger(WrapperSeries.class);
@@ -37,6 +43,7 @@ public class WrapperSeries {
 
     /**
      * Get the TheTVDB ID
+     *
      * @return
      */
     public String getTvdbid() {
@@ -45,6 +52,7 @@ public class WrapperSeries {
 
     /**
      * Set the TheTVDB ID
+     *
      * @param tvdbid
      */
     public void setTvdbid(String tvdbid) {
@@ -53,6 +61,7 @@ public class WrapperSeries {
 
     /**
      * Set the ClearArt artwork list
+     *
      * @param clearArt
      */
     public void setClearArt(List<FanartTvArtwork> clearArt) {
@@ -61,6 +70,7 @@ public class WrapperSeries {
 
     /**
      * Set the ClearLogo artwork list
+     *
      * @param clearLogo
      */
     public void setClearLogo(List<FanartTvArtwork> clearLogo) {
@@ -69,6 +79,7 @@ public class WrapperSeries {
 
     /**
      * Set the SeasonThumb artwork list
+     *
      * @param seasonThumb
      */
     public void setSeasonThumb(List<FanartTvArtwork> seasonThumb) {
@@ -77,6 +88,7 @@ public class WrapperSeries {
 
     /**
      * Set the TvThumb artwork list
+     *
      * @param tvThumb
      */
     public void setTvThumb(List<FanartTvArtwork> tvThumb) {
@@ -85,6 +97,7 @@ public class WrapperSeries {
 
     /**
      * Set the CharacterArt artwork list
+     *
      * @param characterArt
      */
     public void setCharacterArt(List<FanartTvArtwork> characterArt) {
@@ -93,6 +106,7 @@ public class WrapperSeries {
 
     /**
      * Get a map of the artwork types keyed by the artwork type
+     *
      * @return
      */
     public Map<FTArtworkType, List<FanartTvArtwork>> getArtwork() {

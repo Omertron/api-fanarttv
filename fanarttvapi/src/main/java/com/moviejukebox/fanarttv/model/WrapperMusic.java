@@ -19,6 +19,12 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * JSON Wrapper class for Movie artwork from Fanart.TV Not intended for use
+ * outside of the API
+ *
+ * @author stuart.boston
+ */
 public class WrapperMusic {
 
     private static final Logger LOGGER = Logger.getLogger(WrapperMusic.class);
@@ -35,6 +41,7 @@ public class WrapperMusic {
 
     /**
      * Get the Music Brainz ID
+     *
      * @return
      */
     public String getMbidId() {
@@ -43,6 +50,7 @@ public class WrapperMusic {
 
     /**
      * Set the Music Brainz ID
+     *
      * @param mbidId
      */
     public void setMbidId(String mbidId) {
@@ -51,6 +59,7 @@ public class WrapperMusic {
 
     /**
      * Set the AlbumCover artwork list
+     *
      * @param albumCover
      */
     public void setAlbumCover(List<FanartTvArtwork> albumCover) {
@@ -59,6 +68,7 @@ public class WrapperMusic {
 
     /**
      * Set the ArtistBackground artwork list
+     *
      * @param artistBackground
      */
     public void setArtistBackground(List<FanartTvArtwork> artistBackground) {
@@ -67,6 +77,7 @@ public class WrapperMusic {
 
     /**
      * Set the CdArt artwork list
+     *
      * @param cdArt
      */
     public void setCdArt(List<FanartTvArtwork> cdArt) {
@@ -75,6 +86,7 @@ public class WrapperMusic {
 
     /**
      * Set the MusicLogo artwork list
+     *
      * @param musicLogo
      */
     public void setMusicLogo(List<FanartTvArtwork> musicLogo) {
@@ -83,6 +95,7 @@ public class WrapperMusic {
 
     /**
      * Get a map of the artwork types keyed by the artwork type
+     *
      * @return
      */
     public Map<FTArtworkType, List<FanartTvArtwork>> getArtwork() {

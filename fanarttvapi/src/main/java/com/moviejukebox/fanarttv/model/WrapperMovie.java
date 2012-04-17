@@ -19,6 +19,12 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * JSON Wrapper class for Movie artwork from Fanart.TV Not intended for use
+ * outside of the API
+ *
+  * @author stuart.boston
+ */
 public class WrapperMovie {
 
     private static final Logger LOGGER = Logger.getLogger(WrapperMovie.class);

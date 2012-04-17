@@ -45,7 +45,7 @@ public enum FTArtworkType {
      * @return
      * @throws IllegalArgumentException If type is not recognised
      */
-    public static FTArtworkType fromString(String artworkType) throws IllegalArgumentException {
+    public static FTArtworkType fromString(String artworkType) {
         if (StringUtils.isNotBlank(artworkType)) {
             try {
                 return FTArtworkType.valueOf(artworkType.trim().toUpperCase());

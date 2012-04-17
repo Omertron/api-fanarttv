@@ -17,6 +17,11 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * Artwork from Fanart.TV
+ *
+ * @author stuart.boston
+ */
 public class FanartTvArtwork {
 
     private static final Logger LOGGER = Logger.getLogger(FanartTvArtwork.class);
