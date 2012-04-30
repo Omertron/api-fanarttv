@@ -21,22 +21,45 @@ import org.apache.commons.lang3.StringUtils;
  */
 public enum FTArtworkType {
 
-    ALL,
+    ALL(FTSourceType.ALL),
     // TV Artwork
-    CLEARART,
-    CLEARLOGO,
-    SEASONTHUMB,
-    TVTHUMB,
-    CHARACTERART,
+    CLEARART(FTSourceType.TV),
+    CLEARLOGO(FTSourceType.TV),
+    SEASONTHUMB(FTSourceType.TV),
+    TVTHUMB(FTSourceType.TV),
+    CHARACTERART(FTSourceType.TV),
     // Movie Artwork Types
-    MOVIELOGO,
-    MOVIEDISC,
-    MOVIEART,
+    MOVIELOGO(FTSourceType.MOVIE),
+    MOVIEDISC(FTSourceType.MOVIE),
+    MOVIEART(FTSourceType.MOVIE),
     // Music Artwork Types
-    CDART,
-    ARTISTBACKGROUND,
-    ALBUMCOVER,
-    MUSICLOGO;
+    CDART(FTSourceType.MUSIC),
+    ARTISTBACKGROUND(FTSourceType.MUSIC),
+    ALBUMCOVER(FTSourceType.MUSIC),
+    MUSICLOGO(FTSourceType.MUSIC);
+    private FTSourceType sourceType;
+
+    private FTArtworkType(FTSourceType sourceType) {
+        this.sourceType = sourceType;
+    }
+
+    /**
+     * Get the source type for the artwork type
+     *
+     * @return
+     */
+    public FTSourceType getSourceType() {
+        return sourceType;
+    }
+
+    /**
+     * Get the source type for the artwork type
+     *
+     * @return
+     */
+    public FTSourceType source() {
+        return getSourceType();
+    }
 
     /**
      * Convert a string into an Enum type.
