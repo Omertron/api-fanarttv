@@ -17,10 +17,7 @@ import com.moviejukebox.fanarttv.model.*;
 import com.moviejukebox.fanarttv.tools.FilteringLayout;
 import com.moviejukebox.fanarttv.tools.WebBrowser;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
@@ -143,7 +140,7 @@ public class FanartTv {
 
             return artworkList;
         }
-        throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "No JSON data found");
+        return Collections.EMPTY_LIST;
     }
 
     /**
@@ -197,7 +194,7 @@ public class FanartTv {
 
             return artworkList;
         }
-        throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "No JSON data found");
+        return Collections.EMPTY_LIST;
     }
 
     /**
@@ -215,7 +212,7 @@ public class FanartTv {
             throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl, ex);
         }
 
-        LOGGER.info("Search URL: " + searchUrl);
+        LOGGER.info("Search URL: " + searchUrl);    // XXX DEBUG
 
         // Strip the wrapper from the json returned
         JsonNode jn;
@@ -254,7 +251,7 @@ public class FanartTv {
 
             return artworkList;
         }
-        throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, "No JSON data found");
+        return Collections.EMPTY_LIST;
     }
 
     /**
