@@ -27,14 +27,12 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- * This is the main class for the API to connect to Fanart.TV
- * http://fanart.tv/api-info/
+ * This is the main class for the API to connect to Fanart.TV http://fanart.tv/api-info/
  *
  * @author Stuart.Boston
  * @version 1.1
  *
- * TODO Allow a selection of the artwork types to be selected rather than 1 or
- * ALL
+ * TODO Allow a selection of the artwork types to be selected rather than 1 or ALL
  */
 public class FanartTv {
 
@@ -96,28 +94,13 @@ public class FanartTv {
      * @return
      */
     private List<FanartTvArtwork> readTvArtwork(String searchUrl) throws FanartTvException {
-        String webPage;
-        try {
-            webPage = WebBrowser.request(searchUrl);
-        } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl, ex);
-        }
-
-        // Strip the wrapper from the json returned
-        JsonNode jn;
-        try {
-            jn = mapper.readTree(webPage);
-        } catch (JsonProcessingException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
-        } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
-        }
-
+        JsonNode jn = getJsonNode(searchUrl);
         Iterator<String> ftNode = jn.getFieldNames();
+
         while (ftNode.hasNext()) {
-            WrapperSeries ws;
+            WrapperSeries wrapper;
             try {
-                ws = mapper.readValue(jn.get(ftNode.next()), WrapperSeries.class);
+                wrapper = mapper.readValue(jn.get(ftNode.next()), WrapperSeries.class);
             } catch (JsonParseException ex) {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             } catch (JsonMappingException ex) {
@@ -129,7 +112,7 @@ public class FanartTv {
             ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
 
             // Get the artwork and apply the correct FTArtworkType to it
-            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : ws.getArtwork().entrySet()) {
+            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
                 if (entry.getValue() != null && !entry.getValue().isEmpty()) {
                     for (FanartTvArtwork ftSingle : entry.getValue()) {
                         ftSingle.setType(entry.getKey());
@@ -150,28 +133,13 @@ public class FanartTv {
      * @return
      */
     private List<FanartTvArtwork> readMovieArtwork(String searchUrl) throws FanartTvException {
-        String webPage;
-        try {
-            webPage = WebBrowser.request(searchUrl);
-        } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl, ex);
-        }
-
-        // Strip the wrapper from the json returned
-        JsonNode jn;
-        try {
-            jn = mapper.readTree(webPage);
-        } catch (JsonProcessingException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
-        } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
-        }
-
+        JsonNode jn = getJsonNode(searchUrl);
         Iterator<String> ftNode = jn.getFieldNames();
+
         while (ftNode.hasNext()) {
-            WrapperMovie wm;
+            WrapperMovie wrapper;
             try {
-                wm = mapper.readValue(jn.get(ftNode.next()), WrapperMovie.class);
+                wrapper = mapper.readValue(jn.get(ftNode.next()), WrapperMovie.class);
             } catch (JsonParseException ex) {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             } catch (JsonMappingException ex) {
@@ -183,7 +151,7 @@ public class FanartTv {
             ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
 
             // Get the artwork and apply the correct FTArtworkType to it
-            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wm.getArtwork().entrySet()) {
+            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
                 if (entry.getValue() != null && !entry.getValue().isEmpty()) {
                     for (FanartTvArtwork ftSingle : entry.getValue()) {
                         ftSingle.setType(entry.getKey());
@@ -205,30 +173,15 @@ public class FanartTv {
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> readMusicArtwork(String searchUrl) throws FanartTvException {
-        String webPage;
-        try {
-            webPage = WebBrowser.request(searchUrl);
-        } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl, ex);
-        }
-
         LOGGER.info("Search URL: " + searchUrl);    // XXX DEBUG
 
-        // Strip the wrapper from the json returned
-        JsonNode jn;
-        try {
-            jn = mapper.readTree(webPage);
-        } catch (JsonProcessingException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
-        } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
-        }
-
+        JsonNode jn = getJsonNode(searchUrl);
         Iterator<String> ftNode = jn.getFieldNames();
+
         while (ftNode.hasNext()) {
-            WrapperMusic wm;
+            WrapperMusic wrapper;
             try {
-                wm = mapper.readValue(jn.get(ftNode.next()), WrapperMusic.class);
+                wrapper = mapper.readValue(jn.get(ftNode.next()), WrapperMusic.class);
             } catch (JsonParseException ex) {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             } catch (JsonMappingException ex) {
@@ -240,7 +193,7 @@ public class FanartTv {
             ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
 
             // Get the artwork and apply the correct FTArtworkType to it
-            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wm.getArtwork().entrySet()) {
+            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
                 if (!entry.getValue().isEmpty()) {
                     for (FanartTvArtwork ftSingle : entry.getValue()) {
                         ftSingle.setType(entry.getKey());
@@ -480,10 +433,8 @@ public class FanartTv {
      * Build the URL that is used to get the XML from Fanart.tv
      *
      * @param baseUrl
-     * @param artworkId The id for the video/tv/music, one of TheMovieDB, IMDB,
-     * TheTVDB or MusicBrainz
-     * @param artworkType The type of the artwork to limit the search too.
-     * "all"/Blank/null gets all artwork
+     * @param artworkId The id for the video/tv/music, one of TheMovieDB, IMDB, TheTVDB or MusicBrainz
+     * @param artworkType The type of the artwork to limit the search too. "all"/Blank/null gets all artwork
      * @param artworkSortBy Added for completeness, but not used
      * @return The search URL
      *
@@ -527,4 +478,29 @@ public class FanartTv {
     private String buildMusicUrl(String musicId, FTArtworkType artworkType, FTArtworkSort artworkSort, int artworkLimit) {
         return buildUrl(API_MUSIC, musicId, artworkType, artworkSort, artworkLimit);
     }
+
+    /**
+     * Method to get JSON Node from the search URL
+     * @param searchUrl
+     * @return
+     * @throws FanartTvException
+     */
+    private JsonNode getJsonNode(String searchUrl) throws FanartTvException {
+        String webPage;
+        try {
+            webPage = WebBrowser.request(searchUrl);
+        } catch (IOException ex) {
+            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl, ex);
+        }
+
+        // Strip the wrapper from the json returned
+        try {
+            return mapper.readTree(webPage);
+        } catch (JsonProcessingException ex) {
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
+        } catch (IOException ex) {
+            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
+        }
+    }
+
 }
