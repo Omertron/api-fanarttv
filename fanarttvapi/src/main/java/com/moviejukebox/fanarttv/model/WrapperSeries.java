@@ -40,6 +40,8 @@ public class WrapperSeries {
     private List<FanartTvArtwork> seasonThumb;
     @JsonProperty("characterart")
     private List<FanartTvArtwork> characterArt;
+    @JsonProperty("showbackground")
+    private List<FanartTvArtwork> showBackground;
 
     /**
      * Get the TheTVDB ID
@@ -105,6 +107,15 @@ public class WrapperSeries {
     }
 
     /**
+     * Set the ShowBackground artwork list
+     *
+     * @param showBackground
+     */
+    public void setShowBackground(List<FanartTvArtwork> showBackground) {
+        this.showBackground = showBackground;
+    }
+
+    /**
      * Get a map of the artwork types keyed by the artwork type
      *
      * @return
@@ -117,6 +128,7 @@ public class WrapperSeries {
         artwork.put(FTArtworkType.CLEARLOGO, clearLogo);
         artwork.put(FTArtworkType.SEASONTHUMB, seasonThumb);
         artwork.put(FTArtworkType.TVTHUMB, tvThumb);
+        artwork.put(FTArtworkType.SHOWBACKGROUND, showBackground);
 
         return artwork;
     }

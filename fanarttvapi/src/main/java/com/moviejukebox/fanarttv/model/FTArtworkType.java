@@ -28,10 +28,13 @@ public enum FTArtworkType {
     SEASONTHUMB(FTSourceType.TV),
     TVTHUMB(FTSourceType.TV),
     CHARACTERART(FTSourceType.TV),
+    SHOWBACKGROUND(FTSourceType.TV),
     // Movie Artwork Types
     MOVIELOGO(FTSourceType.MOVIE),
     MOVIEDISC(FTSourceType.MOVIE),
     MOVIEART(FTSourceType.MOVIE),
+    MOVIEBACKGROUND(FTSourceType.MOVIE),
+    MOVIETHUMB(FTSourceType.MOVIE),
     // Music Artwork Types
     CDART(FTSourceType.MUSIC),
     ARTISTBACKGROUND(FTSourceType.MUSIC),

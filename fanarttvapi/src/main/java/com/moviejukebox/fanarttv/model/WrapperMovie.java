@@ -38,6 +38,10 @@ public class WrapperMovie {
     private List<FanartTvArtwork> movieDisc;
     @JsonProperty("movielogo")
     private List<FanartTvArtwork> movieLogo;
+    @JsonProperty("moviebackground")
+    private List<FanartTvArtwork> movieBackground;
+    @JsonProperty("moviethumb")
+    private List<FanartTvArtwork> movieThumb;
 
     /**
      * Get the ID for IMDB
@@ -103,6 +107,24 @@ public class WrapperMovie {
     }
 
     /**
+     * Set the MovieBackground artwork list
+     *
+     * @param movieBackground
+     */
+    public void setMovieBackground(List<FanartTvArtwork> movieBackground) {
+        this.movieBackground = movieBackground;
+    }
+
+    /**
+     * Set the MovieThumb artwork list
+     *
+     * @param movieThumb
+     */
+    public void setMovieThumb(List<FanartTvArtwork> movieThumb) {
+        this.movieThumb = movieThumb;
+    }
+
+    /**
      * Get a map of the artwork types keyed by the artwork type
      *
      * @return
@@ -113,6 +135,8 @@ public class WrapperMovie {
         artwork.put(FTArtworkType.MOVIEART, movieArt);
         artwork.put(FTArtworkType.MOVIEDISC, movieDisc);
         artwork.put(FTArtworkType.MOVIELOGO, movieLogo);
+        artwork.put(FTArtworkType.MOVIEBACKGROUND, movieBackground);
+        artwork.put(FTArtworkType.MOVIETHUMB, movieThumb);
 
         return artwork;
     }

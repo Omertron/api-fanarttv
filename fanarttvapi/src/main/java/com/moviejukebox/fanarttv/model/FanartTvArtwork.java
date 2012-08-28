@@ -12,6 +12,7 @@
  */
 package com.moviejukebox.fanarttv.model;
 
+import java.io.Serializable;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAnySetter;
@@ -22,9 +23,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
  *
  * @author stuart.boston
  */
-public class FanartTvArtwork {
+public class FanartTvArtwork implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(FanartTvArtwork.class);
+    private static final long serialVersionUID = 1L;
+
     /*
      * Static Types
      */
