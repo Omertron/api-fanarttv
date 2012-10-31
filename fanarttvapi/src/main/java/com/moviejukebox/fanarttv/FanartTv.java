@@ -12,6 +12,11 @@
  */
 package com.moviejukebox.fanarttv;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moviejukebox.fanarttv.FanartTvException.FanartTvExceptionType;
 import com.moviejukebox.fanarttv.model.*;
 import com.moviejukebox.fanarttv.tools.FilteringLayout;
@@ -20,19 +25,16 @@ import java.io.IOException;
 import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- * This is the main class for the API to connect to Fanart.TV http://fanart.tv/api-info/
+ * This is the main class for the API to connect to Fanart.TV
+ * http://fanart.tv/api-info/
  *
  * @author Stuart.Boston
  * @version 1.1
  *
- * TODO Allow a selection of the artwork types to be selected rather than 1 or ALL
+ * TODO Allow a selection of the artwork types to be selected rather than 1 or
+ * ALL
  */
 public class FanartTv {
 
@@ -95,12 +97,12 @@ public class FanartTv {
      */
     private List<FanartTvArtwork> readTvArtwork(String searchUrl) throws FanartTvException {
         JsonNode jn = getJsonNode(searchUrl);
-        Iterator<String> ftNode = jn.getFieldNames();
+        Iterator<String> ftNode = jn.fieldNames();
 
         while (ftNode.hasNext()) {
             WrapperSeries wrapper;
             try {
-                wrapper = mapper.readValue(jn.get(ftNode.next()), WrapperSeries.class);
+                wrapper = mapper.treeToValue(jn.get(ftNode.next()), WrapperSeries.class);
             } catch (JsonParseException ex) {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             } catch (JsonMappingException ex) {
@@ -134,12 +136,12 @@ public class FanartTv {
      */
     private List<FanartTvArtwork> readMovieArtwork(String searchUrl) throws FanartTvException {
         JsonNode jn = getJsonNode(searchUrl);
-        Iterator<String> ftNode = jn.getFieldNames();
+        Iterator<String> ftNode = jn.fieldNames();
 
         while (ftNode.hasNext()) {
             WrapperMovie wrapper;
             try {
-                wrapper = mapper.readValue(jn.get(ftNode.next()), WrapperMovie.class);
+                wrapper = mapper.treeToValue(jn.get(ftNode.next()), WrapperMovie.class);
             } catch (JsonParseException ex) {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             } catch (JsonMappingException ex) {
@@ -173,15 +175,13 @@ public class FanartTv {
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> readMusicArtwork(String searchUrl) throws FanartTvException {
-        LOGGER.info("Search URL: " + searchUrl);    // XXX DEBUG
-
         JsonNode jn = getJsonNode(searchUrl);
-        Iterator<String> ftNode = jn.getFieldNames();
+        Iterator<String> ftNode = jn.fieldNames();
 
         while (ftNode.hasNext()) {
             WrapperMusic wrapper;
             try {
-                wrapper = mapper.readValue(jn.get(ftNode.next()), WrapperMusic.class);
+                wrapper = mapper.treeToValue(jn.get(ftNode.next()), WrapperMusic.class);
             } catch (JsonParseException ex) {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             } catch (JsonMappingException ex) {
@@ -433,8 +433,10 @@ public class FanartTv {
      * Build the URL that is used to get the XML from Fanart.tv
      *
      * @param baseUrl
-     * @param artworkId The id for the video/tv/music, one of TheMovieDB, IMDB, TheTVDB or MusicBrainz
-     * @param artworkType The type of the artwork to limit the search too. "all"/Blank/null gets all artwork
+     * @param artworkId The id for the video/tv/music, one of TheMovieDB, IMDB,
+     * TheTVDB or MusicBrainz
+     * @param artworkType The type of the artwork to limit the search too.
+     * "all"/Blank/null gets all artwork
      * @param artworkSortBy Added for completeness, but not used
      * @return The search URL
      *
@@ -457,7 +459,7 @@ public class FanartTv {
             searchUrl.append(Math.max(artworkLimit, 2)).append("/");
         }
 
-        LOGGER.debug("Search URL: " + searchUrl);
+        LOGGER.trace("Search URL: " + searchUrl);
         return searchUrl.toString();
     }
 
@@ -481,6 +483,7 @@ public class FanartTv {
 
     /**
      * Method to get JSON Node from the search URL
+     *
      * @param searchUrl
      * @return
      * @throws FanartTvException
@@ -502,5 +505,4 @@ public class FanartTv {
             throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
         }
     }
-
 }

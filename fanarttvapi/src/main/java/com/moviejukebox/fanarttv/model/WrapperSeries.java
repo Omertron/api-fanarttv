@@ -12,12 +12,12 @@
  */
 package com.moviejukebox.fanarttv.model;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.annotate.JsonAnySetter;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * JSON Wrapper class for Movie artwork from Fanart.TV Not intended for use

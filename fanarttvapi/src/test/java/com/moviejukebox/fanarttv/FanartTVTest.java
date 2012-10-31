@@ -13,8 +13,10 @@
 package com.moviejukebox.fanarttv;
 
 import com.moviejukebox.fanarttv.model.FanartTvArtwork;
+import com.moviejukebox.fanarttv.tools.FilteringLayout;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -35,6 +37,8 @@ public class FanartTVTest {
     @Before
     public void setUp() throws Exception {
         ft = new FanartTv(APIKEY);
+        Logger.getRootLogger().setLevel(Level.TRACE);
+        FilteringLayout.addApiKey("DO_NOT_MATCH");
 
         ID_TVDB.add(79349); // Dexter);
         ID_TVDB.add(ID_TVDB_NO_ARTWORK);
@@ -87,15 +91,5 @@ public class FanartTVTest {
             assertTrue("No Movie Artwork found!", !resultList.isEmpty());
         }
     }
-    /**
-     * Test of getMusicArtwork method, of class FanartTv.
-     */
-//    @Test
-//    public void testGetMusicArtwork() throws Exception {
-//        LOGGER.info("getMusicArtwork");
-//        for (String musicId : ID_MUSIC) {
-//            List<FanartTvArtwork> resultList = ft.getMusicArtwork(musicId);
-//            assertTrue("No Music Artwork found!", !resultList.isEmpty());
-//        }
-//    }
+    
 }
