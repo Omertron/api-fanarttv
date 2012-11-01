@@ -7,17 +7,22 @@
  *      For any reuse or distribution, you must make clear to others the
  *      license terms of this work.
  */
-package com.moviejukebox.fanarttv;
+package com.omertron.fanarttvapi;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moviejukebox.fanarttv.FanartTvException.FanartTvExceptionType;
-import com.moviejukebox.fanarttv.model.*;
-import com.moviejukebox.fanarttv.tools.FilteringLayout;
-import com.moviejukebox.fanarttv.tools.WebBrowser;
+import com.omertron.fanarttvapi.FanartTvException.FanartTvExceptionType;
+import com.omertron.fanarttvapi.model.FTArtworkSort;
+import com.omertron.fanarttvapi.model.FTArtworkType;
+import com.omertron.fanarttvapi.model.FanartTvArtwork;
+import com.omertron.fanarttvapi.model.WrapperMovie;
+import com.omertron.fanarttvapi.model.WrapperMusic;
+import com.omertron.fanarttvapi.model.WrapperSeries;
+import com.omertron.fanarttvapi.tools.FilteringLayout;
+import com.omertron.fanarttvapi.tools.WebBrowser;
 import java.io.IOException;
 import java.util.*;
 import org.apache.commons.lang3.StringUtils;
@@ -33,9 +38,9 @@ import org.apache.log4j.Logger;
  * TODO Allow a selection of the artwork types to be selected rather than 1 or
  * ALL
  */
-public class FanartTv {
+public class FanartTvApi {
 
-    private static final Logger LOGGER = Logger.getLogger(FanartTv.class);
+    private static final Logger LOGGER = Logger.getLogger(FanartTvApi.class);
     private String apiKey;
     private static final String API_FORMAT = "json";
     private static final String ERROR_JSON_TEXT = "Failed processing JSON Node";
@@ -62,7 +67,7 @@ public class FanartTv {
      *
      * @param apiKey
      */
-    public FanartTv(String apiKey) {
+    public FanartTvApi(String apiKey) {
         this.apiKey = apiKey;
         FilteringLayout.addApiKey(apiKey);
     }
@@ -71,11 +76,11 @@ public class FanartTv {
      * Output the API version information to the debug log
      */
     public static void showVersion() {
-        String apiTitle = FanartTv.class.getPackage().getSpecificationTitle();
+        String apiTitle = FanartTvApi.class.getPackage().getSpecificationTitle();
 
         if (StringUtils.isNotBlank(apiTitle)) {
-            String apiVersion = FanartTv.class.getPackage().getSpecificationVersion();
-            String apiRevision = FanartTv.class.getPackage().getImplementationVersion();
+            String apiVersion = FanartTvApi.class.getPackage().getSpecificationVersion();
+            String apiRevision = FanartTvApi.class.getPackage().getImplementationVersion();
             StringBuilder sv = new StringBuilder();
             sv.append(apiTitle).append(" ");
             sv.append(apiVersion).append(" r");

@@ -7,7 +7,7 @@
  *      For any reuse or distribution, you must make clear to others the
  *      license terms of this work.
  */
-package com.moviejukebox.fanarttv.model;
+package com.omertron.fanarttvapi.model;
 
 import org.apache.commons.lang3.StringUtils;
 

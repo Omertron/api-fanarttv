@@ -7,7 +7,7 @@
  *      For any reuse or distribution, you must make clear to others the
  *      license terms of this work.
  */
-package com.moviejukebox.fanarttv.tools;
+package com.omertron.fanarttvapi.tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
