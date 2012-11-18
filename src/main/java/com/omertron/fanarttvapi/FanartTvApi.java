@@ -47,7 +47,7 @@ public class FanartTvApi {
     /*
      * URL for the API
      */
-    private static final String API_SITE = "http://fanart.tv/webservice/";
+    private static final String API_SITE = "http://api.fanart.tv/webservice/";
     private static final String API_SERIES = "series/";
     private static final String API_MOVIE = "movie/";
     private static final String API_MUSIC = "artist/";
