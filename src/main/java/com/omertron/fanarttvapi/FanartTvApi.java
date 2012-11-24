@@ -40,7 +40,7 @@ import org.apache.log4j.Logger;
  */
 public class FanartTvApi {
 
-    private static final Logger LOGGER = Logger.getLogger(FanartTvApi.class);
+    private static final Logger logger = Logger.getLogger(FanartTvApi.class);
     private String apiKey;
     private static final String API_FORMAT = "json";
     private static final String ERROR_JSON_TEXT = "Failed processing JSON Node";
@@ -70,25 +70,6 @@ public class FanartTvApi {
     public FanartTvApi(String apiKey) {
         this.apiKey = apiKey;
         FilteringLayout.addApiKey(apiKey);
-    }
-
-    /**
-     * Output the API version information to the debug log
-     */
-    public static void showVersion() {
-        String apiTitle = FanartTvApi.class.getPackage().getSpecificationTitle();
-
-        if (StringUtils.isNotBlank(apiTitle)) {
-            String apiVersion = FanartTvApi.class.getPackage().getSpecificationVersion();
-            String apiRevision = FanartTvApi.class.getPackage().getImplementationVersion();
-            StringBuilder sv = new StringBuilder();
-            sv.append(apiTitle).append(" ");
-            sv.append(apiVersion).append(" r");
-            sv.append(apiRevision);
-            LOGGER.debug(sv.toString());
-        } else {
-            LOGGER.debug("API-FanartTV version/revision information not available");
-        }
     }
 
     /**
@@ -461,7 +442,7 @@ public class FanartTvApi {
             searchUrl.append(Math.max(artworkLimit, 2)).append("/");
         }
 
-        LOGGER.trace("Search URL: " + searchUrl);
+        logger.trace("Search URL: " + searchUrl);
         return searchUrl.toString();
     }
 

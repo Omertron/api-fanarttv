@@ -23,7 +23,7 @@ import org.junit.Test;
 public class FanartTvApiTest {
 
     // Logger
-    private static final Logger LOGGER = Logger.getLogger(FanartTvApiTest.class);
+    private static final Logger logger = Logger.getLogger(FanartTvApiTest.class);
     private FanartTvApi ft;
     private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
     private static final ArrayList<Integer> ID_TVDB = new ArrayList<Integer>();
@@ -54,7 +54,7 @@ public class FanartTvApiTest {
      */
     @Test
     public void testGetTvArtwork() throws Exception {
-        LOGGER.info("getTvArtwork");
+        logger.info("getTvArtwork");
         List<FanartTvArtwork> resultList;
         for (int tvdbId : ID_TVDB) {
             resultList = ft.getTvArtwork(tvdbId);
@@ -71,7 +71,7 @@ public class FanartTvApiTest {
      */
     @Test
     public void testGetMovieArtwork_TMDB() throws Exception {
-        LOGGER.info("getMovieArtwork (TMDB)");
+        logger.info("getMovieArtwork (TMDB)");
         for (int tmdbId : ID_TMDB) {
             List<FanartTvArtwork> resultList = ft.getMovieArtwork(tmdbId);
             assertTrue("No Movie Artwork found!", !resultList.isEmpty());
@@ -83,7 +83,7 @@ public class FanartTvApiTest {
      */
     @Test
     public void testGetMovieArtwork_IMDB() throws Exception {
-        LOGGER.info("getMovieArtwork (IMDB)");
+        logger.info("getMovieArtwork (IMDB)");
         for (String imdbId : ID_IMDB) {
             List<FanartTvArtwork> resultList = ft.getMovieArtwork(imdbId);
             assertTrue("No Movie Artwork found!", !resultList.isEmpty());

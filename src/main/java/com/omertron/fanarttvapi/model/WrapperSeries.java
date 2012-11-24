@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
  */
 public class WrapperSeries {
 
-    private static final Logger LOGGER = Logger.getLogger(WrapperSeries.class);
+    private static final Logger logger = Logger.getLogger(WrapperSeries.class);
     @JsonProperty("thetvdb_id")
     private String tvdbid;
     @JsonProperty("clearlogo")
@@ -163,6 +163,6 @@ public class WrapperSeries {
         StringBuilder sb = new StringBuilder();
         sb.append("Unknown property: '").append(key);
         sb.append("' value: '").append(value).append("'");
-        LOGGER.warn(sb.toString());
+        logger.warn(sb.toString());
     }
 }

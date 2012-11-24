@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
  */
 public class WrapperMovie {
 
-    private static final Logger LOGGER = Logger.getLogger(WrapperMovie.class);
+    private static final Logger logger = Logger.getLogger(WrapperMovie.class);
     @JsonProperty("tmdb_id")
     private int tmdbId;
     @JsonProperty("imdb_id")
@@ -171,6 +171,6 @@ public class WrapperMovie {
         StringBuilder sb = new StringBuilder();
         sb.append("Unknown property: '").append(key);
         sb.append("' value: '").append(value).append("'");
-        LOGGER.warn(sb.toString());
+        logger.warn(sb.toString());
     }
 }

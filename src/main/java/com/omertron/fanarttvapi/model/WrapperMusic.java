@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
  */
 public class WrapperMusic {
 
-    private static final Logger LOGGER = Logger.getLogger(WrapperMusic.class);
+    private static final Logger logger = Logger.getLogger(WrapperMusic.class);
     @JsonProperty("mbid_id")
     private String mbidId;
     @JsonProperty("albumcover")
@@ -117,6 +117,6 @@ public class WrapperMusic {
         StringBuilder sb = new StringBuilder();
         sb.append("Unknown property: '").append(key);
         sb.append("' value: '").append(value).append("'");
-        LOGGER.warn(sb.toString());
+        logger.warn(sb.toString());
     }
 }
