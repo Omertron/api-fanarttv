@@ -35,18 +35,15 @@ import com.omertron.fanarttvapi.tools.FilteringLayout;
 import com.omertron.fanarttvapi.tools.WebBrowser;
 import java.io.IOException;
 import java.util.*;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
- * This is the main class for the API to connect to Fanart.TV
- * http://fanart.tv/api-info/
+ * This is the main class for the API to connect to Fanart.TV http://fanart.tv/api-info/
  *
  * @author Stuart.Boston
  * @version 1.1
  *
- * TODO Allow a selection of the artwork types to be selected rather than 1 or
- * ALL
+ * TODO Allow a selection of the artwork types to be selected rather than 1 or ALL
  */
 public class FanartTvApi {
 
@@ -86,7 +83,6 @@ public class FanartTvApi {
      * Get the artwork for a specific TV Series
      *
      * @param searchUrl
-     * @return
      */
     private List<FanartTvArtwork> readTvArtwork(String searchUrl) throws FanartTvException {
         JsonNode jn = getJsonNode(searchUrl);
@@ -125,7 +121,6 @@ public class FanartTvApi {
      * Get the artwork for a specific movie
      *
      * @param searchUrl
-     * @return
      */
     private List<FanartTvArtwork> readMovieArtwork(String searchUrl) throws FanartTvException {
         JsonNode jn = getJsonNode(searchUrl);
@@ -164,7 +159,6 @@ public class FanartTvApi {
      * Get the artwork for a specific music ID
      *
      * @param searchUrl
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> readMusicArtwork(String searchUrl) throws FanartTvException {
@@ -207,7 +201,6 @@ public class FanartTvApi {
      * @param artworkType
      * @param artworkSortBy
      * @param artworkLimit
-     * @return
      */
     public List<FanartTvArtwork> getTvArtwork(int tvdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
         return readTvArtwork(buildSeriesUrl(tvdbId, artworkType, artworkSortBy, artworkLimit));
@@ -219,7 +212,6 @@ public class FanartTvApi {
      * @param tvdbId
      * @param artworkType
      * @param artworkSortBy
-     * @return
      */
     public List<FanartTvArtwork> getTvArtwork(int tvdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy) throws FanartTvException {
         return getTvArtwork(tvdbId, artworkType, artworkSortBy, DEFAULT_ARTWORK_LIMIT);
@@ -230,7 +222,6 @@ public class FanartTvApi {
      *
      * @param tvdbId
      * @param artworkType
-     * @return
      */
     public List<FanartTvArtwork> getTvArtwork(int tvdbId, FTArtworkType artworkType) throws FanartTvException {
         return getTvArtwork(tvdbId, artworkType, FTArtworkSort.DEFAULT);
@@ -240,7 +231,6 @@ public class FanartTvApi {
      * Get all the artwork for a specific TVDB ID
      *
      * @param tvdbId
-     * @return
      */
     public List<FanartTvArtwork> getTvArtwork(int tvdbId) throws FanartTvException {
         return getTvArtwork(tvdbId, DEFAULT_ARTWORK_TYPE);
@@ -250,7 +240,6 @@ public class FanartTvApi {
      * Get all the artwork for a specific TheMovieDb ID
      *
      * @param tmdbId
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMovieArtwork(int tmdbId) throws FanartTvException {
@@ -262,7 +251,6 @@ public class FanartTvApi {
      *
      * @param tmdbId
      * @param artworkType
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMovieArtwork(int tmdbId, FTArtworkType artworkType) throws FanartTvException {
@@ -275,7 +263,6 @@ public class FanartTvApi {
      * @param tmdbId
      * @param artworkType
      * @param artworkSortBy
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMovieArtwork(int tmdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy) throws FanartTvException {
@@ -289,7 +276,6 @@ public class FanartTvApi {
      * @param artworkType
      * @param artworkSortBy
      * @param artworkLimit
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMovieArtwork(int tmdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
@@ -300,7 +286,6 @@ public class FanartTvApi {
      * Get all the artwork for a specific IMDB ID
      *
      * @param imdbId
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMovieArtwork(String imdbId) throws FanartTvException {
@@ -312,7 +297,6 @@ public class FanartTvApi {
      *
      * @param imdbId
      * @param artworkType
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMovieArtwork(String imdbId, FTArtworkType artworkType) throws FanartTvException {
@@ -325,7 +309,6 @@ public class FanartTvApi {
      * @param imdbId
      * @param artworkType
      * @param artworkSortBy
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMovieArtwork(String imdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy) throws FanartTvException {
@@ -339,7 +322,6 @@ public class FanartTvApi {
      * @param artworkType
      * @param artworkSortBy
      * @param artworkLimit
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMovieArtwork(String imdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
@@ -353,7 +335,6 @@ public class FanartTvApi {
      * @param artworkType
      * @param artworkSort
      * @param artworkLimit
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMusicArtwork(String musicId, FTArtworkType artworkType, FTArtworkSort artworkSort, int artworkLimit) throws FanartTvException {
@@ -366,7 +347,6 @@ public class FanartTvApi {
      * @param musicId
      * @param artworkType
      * @param artworkSort
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMusicArtwork(String musicId, FTArtworkType artworkType, FTArtworkSort artworkSort) throws FanartTvException {
@@ -378,7 +358,6 @@ public class FanartTvApi {
      *
      * @param musicId
      * @param artworkType
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMusicArtwork(String musicId, FTArtworkType artworkType) throws FanartTvException {
@@ -389,7 +368,6 @@ public class FanartTvApi {
      * get all the artwork for a specific Music Brainz ID
      *
      * @param musicId
-     * @return
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMusicArtwork(String musicId) throws FanartTvException {
@@ -426,10 +404,8 @@ public class FanartTvApi {
      * Build the URL that is used to get the XML from Fanart.tv
      *
      * @param baseUrl
-     * @param artworkId The id for the video/tv/music, one of TheMovieDB, IMDB,
-     * TheTVDB or MusicBrainz
-     * @param artworkType The type of the artwork to limit the search too.
-     * "all"/Blank/null gets all artwork
+     * @param artworkId The id for the video/tv/music, one of TheMovieDB, IMDB, TheTVDB or MusicBrainz
+     * @param artworkType The type of the artwork to limit the search too. "all"/Blank/null gets all artwork
      * @param artworkSortBy Added for completeness, but not used
      * @return The search URL
      *
@@ -478,7 +454,6 @@ public class FanartTvApi {
      * Method to get JSON Node from the search URL
      *
      * @param searchUrl
-     * @return
      * @throws FanartTvException
      */
     private JsonNode getJsonNode(String searchUrl) throws FanartTvException {
