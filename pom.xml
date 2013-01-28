@@ -14,9 +14,47 @@
     <groupId>com.omertron</groupId>
     <artifactId>fanarttvapi</artifactId>
     <version>1.5-SNAPSHOT</version>
-    <name>API-FanartTV</name>
     <packaging>jar</packaging>
+
+    <name>API-FanartTV</name>
     <description>API for the Fanart.TV website</description>
+    <url>https://github.com/Omertron/api-fanarttv</url>
+    <inceptionYear>2012</inceptionYear>
+
+    <developers>
+        <developer>
+            <name>Stuart Boston</name>
+            <email>omertron@gmail.com</email>
+            <id>omertron</id>
+            <url>http://omertron.com</url>
+            <timezone>0</timezone>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License v3+</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>scm:git:git@github.com:Omertron/api-fanarttv.git</url>
+        <connection>scm:git:git@github.com:Omertron/api-fanarttv.git</connection>
+        <developerConnection>scm:git:git@github.com:Omertron/api-fanarttv.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <site>
+            <id>github-project-site</id>
+            <name>GitHub Project Pages</name>
+            <url>gitsite:git@github.com/Omertron/api-fanarttv.git</url>
+        </site>
+    </distributionManagement>
 
     <issueManagement>
         <system>GitHub</system>
@@ -28,46 +66,12 @@
         <url>http://jenkins.omertron.com/job/API-FanartTV/</url>
     </ciManagement>
 
-    <scm>
-        <url>scm:git:git@github.com:Omertron/api-fanarttv.git</url>
-        <connection>scm:git:git@github.com:Omertron/api-fanarttv.git</connection>
-        <developerConnection>scm:git:git@github.com:Omertron/api-fanarttv.git</developerConnection>
-    </scm>
-
     <properties>
         <skipTests>false</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <distribution.format>zip</distribution.format>
     </properties>
-
-    <profiles>
-        <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <dependencies>
         <dependency>
@@ -115,7 +119,10 @@
 
     </dependencies>
 
+
     <build>
+        <finalName>${project.artifactId}-${project.version}-r${buildNumber}</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -135,7 +142,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -148,7 +154,6 @@
                     <!-- excludes><exclude>**/*</exclude></excludes -->
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -164,17 +169,15 @@
                     </archive>
                 </configuration>
             </plugin>
-
-            <!-- To skip tests by default -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12</version>
                 <configuration>
+                    <!-- To skip tests by default -->
                     <skipTests>${skipTests}</skipTests>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -222,9 +225,85 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>2.2</version>
+                            <reports>
+                                <report>index</report>
+                                <report>scm</report>
+                                <report>issue-tracking</report>
+                                <report>help</report>
+                                <report>dependency-convergence</report>
+                                <report>summary</report>
+                                <report>dependency-management</report>
+                                <report>dependencies</report>
+                                <report>license</report>
+                                <report>modules</report>
+                            </reports>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.9</version>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
         </plugins>
 
-        <finalName>${project.artifactId}-${project.version}-r${buildNumber}</finalName>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.scm</groupId>
+                <artifactId>maven-scm-provider-gitexe</artifactId>
+                <version>1.4</version>
+            </extension>
+            <extension>
+                <groupId>org.apache.maven.scm</groupId>
+                <artifactId>maven-scm-manager-plexus</artifactId>
+                <version>1.4</version>
+            </extension>
+            <extension>
+                <groupId>org.kathrynhuxtable.maven.wagon</groupId>
+                <artifactId>wagon-gitsite</artifactId>
+                <version>0.3.1</version>
+            </extension>
+        </extensions>
 
     </build>
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
