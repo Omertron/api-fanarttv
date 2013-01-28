@@ -1,5 +1,5 @@
-Rotten Tomatoes API
-===================
+Fanart.TV API
+=============
 
 Author: Stuart Boston (Omertron AT Gmail DOT com)
 
