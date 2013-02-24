@@ -43,7 +43,9 @@ public class FanartTvApiTest {
 
     @Before
     public void setUp() throws Exception {
+        // Set the logger level to ALL
         LOG.setLevel(Level.ALL);
+        
         ft = new FanartTvApi(APIKEY);
 
         ID_TVDB.add(79349); // Dexter);
