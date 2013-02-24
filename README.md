@@ -11,7 +11,7 @@ But anyone can feel free to use it for other projects as well.
 Project Logging
 ---------------
 This project uses SLF4J (http://www.slf4j.org) to abstract the logging in the project.
-To use the logging in your own project you should add one of the bindings listed here: http://www.slf4j.org/manual.html#swapping
+To use the logging in your own project you should add one of the bindings listed [HERE](http://www.slf4j.org/manual.html#swapping)
 
 Project Documentation
 ---------------------
