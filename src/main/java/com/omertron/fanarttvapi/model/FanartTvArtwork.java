@@ -23,7 +23,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Artwork from Fanart.TV
@@ -32,7 +33,7 @@ import org.apache.log4j.Logger;
  */
 public class FanartTvArtwork implements Serializable {
 
-    private static final Logger logger = Logger.getLogger(FanartTvArtwork.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FanartTvArtwork.class);
     private static final long serialVersionUID = 1L;
 
     /*
@@ -280,6 +281,6 @@ public class FanartTvArtwork implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("Unknown property: '").append(key);
         sb.append("' value: '").append(value).append("'");
-        logger.warn(sb.toString());
+        LOG.warn(sb.toString());
     }
 }

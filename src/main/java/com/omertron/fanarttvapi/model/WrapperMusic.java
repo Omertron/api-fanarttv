@@ -24,7 +24,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JSON Wrapper class for Movie artwork from Fanart.TV Not intended for use
@@ -34,7 +35,7 @@ import org.apache.log4j.Logger;
  */
 public class WrapperMusic {
 
-    private static final Logger logger = Logger.getLogger(WrapperMusic.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WrapperMusic.class);
     @JsonProperty("mbid_id")
     private String mbidId;
     @JsonProperty("albumcover")
@@ -127,6 +128,6 @@ public class WrapperMusic {
         StringBuilder sb = new StringBuilder();
         sb.append("Unknown property: '").append(key);
         sb.append("' value: '").append(value).append("'");
-        logger.warn(sb.toString());
+        LOG.warn(sb.toString());
     }
 }

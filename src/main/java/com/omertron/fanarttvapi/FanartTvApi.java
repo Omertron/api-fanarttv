@@ -31,11 +31,11 @@ import com.omertron.fanarttvapi.model.FanartTvArtwork;
 import com.omertron.fanarttvapi.model.WrapperMovie;
 import com.omertron.fanarttvapi.model.WrapperMusic;
 import com.omertron.fanarttvapi.model.WrapperSeries;
-import com.omertron.fanarttvapi.tools.FilteringLayout;
 import com.omertron.fanarttvapi.tools.WebBrowser;
 import java.io.IOException;
 import java.util.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is the main class for the API to connect to Fanart.TV http://fanart.tv/api-info/
@@ -47,7 +47,7 @@ import org.apache.log4j.Logger;
  */
 public class FanartTvApi {
 
-    private static final Logger logger = Logger.getLogger(FanartTvApi.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FanartTvApi.class);
     private String apiKey;
     private static final String API_FORMAT = "json";
     private static final String ERROR_JSON_TEXT = "Failed processing JSON Node";
@@ -76,7 +76,6 @@ public class FanartTvApi {
      */
     public FanartTvApi(String apiKey) {
         this.apiKey = apiKey;
-        FilteringLayout.addApiKey(apiKey);
     }
 
     /**
@@ -428,7 +427,7 @@ public class FanartTvApi {
             searchUrl.append(Math.max(artworkLimit, 2)).append("/");
         }
 
-        logger.trace("Search URL: " + searchUrl);
+        LOG.trace("Search URL: {}", searchUrl);
         return searchUrl.toString();
     }
 
