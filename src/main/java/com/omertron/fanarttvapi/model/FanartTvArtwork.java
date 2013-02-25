@@ -281,6 +281,6 @@ public class FanartTvArtwork implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("Unknown property: '").append(key);
         sb.append("' value: '").append(value).append("'");
-        LOG.warn(sb.toString());
+        LOG.debug(sb.toString());
     }
 }

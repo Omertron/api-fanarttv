@@ -17,36 +17,32 @@
  *      along with the FanartTV API.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.omertron.fanarttv;
+package com.omertron.fanarttvapi;
 
-import com.omertron.fanarttvapi.FanartTvApi;
 import com.omertron.fanarttvapi.model.FanartTvArtwork;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FanartTvApiTest {
 
     // Logger
-    private static final Logger LOG = Logger.getLogger(FanartTvApiTest.class.getSimpleName());
-    private FanartTvApi ft;
+    private static final Logger LOG = LoggerFactory.getLogger(FanartTvApiTest.class);
     private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
+    private FanartTvApi ft = new FanartTvApi(APIKEY);
     private static final ArrayList<Integer> ID_TVDB = new ArrayList<Integer>();
     private static final ArrayList<Integer> ID_TMDB = new ArrayList<Integer>();
     private static final ArrayList<String> ID_IMDB = new ArrayList<String>();
     private static final ArrayList<String> ID_MUSIC = new ArrayList<String>();
     private static final int ID_TVDB_NO_ARTWORK = 257256;// Love life (Unlikely to have artwork)
 
-    @Before
-    public void setUp() throws Exception {
-        // Set the logger level to ALL
-        LOG.setLevel(Level.ALL);
-        
-        ft = new FanartTvApi(APIKEY);
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        TestLogger.Configure();
 
         ID_TVDB.add(79349); // Dexter);
         ID_TVDB.add(ID_TVDB_NO_ARTWORK);
@@ -99,5 +95,4 @@ public class FanartTvApiTest {
             assertTrue("No Movie Artwork found!", !resultList.isEmpty());
         }
     }
-
 }
