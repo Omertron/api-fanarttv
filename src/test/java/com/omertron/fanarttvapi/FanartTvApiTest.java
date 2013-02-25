@@ -41,7 +41,7 @@ public class FanartTvApiTest {
     private static final int ID_TVDB_NO_ARTWORK = 257256;// Love life (Unlikely to have artwork)
 
     @BeforeClass
-    public static void setUpClass() throws Exception {
+    public static void setUpClass() {
         TestLogger.Configure();
 
         ID_TVDB.add(79349); // Dexter);
