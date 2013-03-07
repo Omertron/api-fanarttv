@@ -54,6 +54,8 @@ public class WrapperMovie {
     private List<FanartTvArtwork> hdMovieLogo;
     @JsonProperty("moviebanner")
     private List<FanartTvArtwork> movieBanner;
+    @JsonProperty("hdmovieclearart")
+    private List<FanartTvArtwork> movieClearArt;
 
     /**
      * Get the ID for IMDB
@@ -150,6 +152,14 @@ public class WrapperMovie {
 
     public void setMovieBanner(List<FanartTvArtwork> movieBanner) {
         this.movieBanner = movieBanner;
+    }
+
+    public List<FanartTvArtwork> getMovieClearArt() {
+        return movieClearArt;
+    }
+
+    public void setMovieClearArt(List<FanartTvArtwork> movieClearArt) {
+        this.movieClearArt = movieClearArt;
     }
 
     /**
