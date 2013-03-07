@@ -177,6 +177,7 @@ public class WrapperMovie {
         artwork.put(FTArtworkType.MOVIETHUMB, movieThumb);
         artwork.put(FTArtworkType.HDMOVIELOGO, hdMovieLogo);
         artwork.put(FTArtworkType.MOVIEBANNER, movieBanner);
+        artwork.put(FTArtworkType.HDMOVIECLEARART, movieClearArt);
 
         return artwork;
     }

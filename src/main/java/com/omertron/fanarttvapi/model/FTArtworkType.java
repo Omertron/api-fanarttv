@@ -46,6 +46,7 @@ public enum FTArtworkType {
     MOVIETHUMB(FTSourceType.MOVIE),
     MOVIEBANNER(FTSourceType.MOVIE),
     HDMOVIELOGO(FTSourceType.MOVIE),
+    HDMOVIECLEARART(FTSourceType.MOVIE),
     // Music Artwork Types
     CDART(FTSourceType.MUSIC),
     ARTISTBACKGROUND(FTSourceType.MUSIC),
