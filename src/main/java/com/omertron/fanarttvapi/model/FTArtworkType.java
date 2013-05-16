@@ -51,7 +51,12 @@ public enum FTArtworkType {
     CDART(FTSourceType.MUSIC),
     ARTISTBACKGROUND(FTSourceType.MUSIC),
     ALBUMCOVER(FTSourceType.MUSIC),
-    MUSICLOGO(FTSourceType.MUSIC);
+    MUSICLOGO(FTSourceType.MUSIC),
+    ARTISTTHUMB(FTSourceType.MUSIC),
+    ALBUMS(FTSourceType.MUSIC),
+    HDMUSICLOGO(FTSourceType.MUSIC),
+    MUSICBANNER(FTSourceType.MUSIC);
+    // Properties
     private FTSourceType sourceType;
 
     private FTArtworkType(FTSourceType sourceType) {

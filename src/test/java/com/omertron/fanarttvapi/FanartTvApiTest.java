@@ -23,7 +23,9 @@ import com.omertron.fanarttvapi.model.FanartTvArtwork;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +60,7 @@ public class FanartTvApiTest {
     /**
      * Test of getTvArtwork method, of class FanartTvApi.
      */
-    @Test
+    @Ignore
     public void testGetTvArtwork() throws Exception {
         LOG.info("getTvArtwork");
         List<FanartTvArtwork> resultList;
@@ -67,7 +69,7 @@ public class FanartTvApiTest {
             if (tvdbId == ID_TVDB_NO_ARTWORK) {
                 assertTrue("Artwork found when should be empty!", resultList.isEmpty());
             } else {
-                assertTrue("No TV Artwork found!", !resultList.isEmpty());
+                assertFalse("No TV Artwork found!", resultList.isEmpty());
             }
         }
     }
@@ -75,24 +77,33 @@ public class FanartTvApiTest {
     /**
      * Test of getMovieArtwork method, of class FanartTvApi.
      */
-    @Test
+    @Ignore
     public void testGetMovieArtwork_TMDB() throws Exception {
         LOG.info("getMovieArtwork (TMDB)");
         for (int tmdbId : ID_TMDB) {
             List<FanartTvArtwork> resultList = ft.getMovieArtwork(tmdbId);
-            assertTrue("No Movie Artwork found!", !resultList.isEmpty());
+            assertFalse("No Movie Artwork found!", resultList.isEmpty());
         }
     }
 
     /**
      * Test of getMovieArtwork method, of class FanartTvApi.
      */
-    @Test
+    @Ignore
     public void testGetMovieArtwork_IMDB() throws Exception {
         LOG.info("getMovieArtwork (IMDB)");
         for (String imdbId : ID_IMDB) {
             List<FanartTvArtwork> resultList = ft.getMovieArtwork(imdbId);
-            assertTrue("No Movie Artwork found!", !resultList.isEmpty());
+            assertFalse("No Movie Artwork found!", resultList.isEmpty());
+        }
+    }
+
+    @Test
+    public void testGetMusicArtwork() throws Exception {
+        LOG.info("getMusicArtwork");
+        for (String id : ID_MUSIC) {
+            List<FanartTvArtwork> resultList = ft.getMusicArtwork(id);
+            assertFalse("No Music artwork found!", resultList.isEmpty());
         }
     }
 }

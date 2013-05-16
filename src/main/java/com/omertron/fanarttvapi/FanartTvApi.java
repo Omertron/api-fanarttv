@@ -28,10 +28,10 @@ import com.omertron.fanarttvapi.FanartTvException.FanartTvExceptionType;
 import com.omertron.fanarttvapi.model.FTArtworkSort;
 import com.omertron.fanarttvapi.model.FTArtworkType;
 import com.omertron.fanarttvapi.model.FanartTvArtwork;
-import com.omertron.fanarttvapi.model.WrapperMovie;
-import com.omertron.fanarttvapi.model.WrapperMusic;
-import com.omertron.fanarttvapi.model.WrapperSeries;
 import com.omertron.fanarttvapi.tools.WebBrowser;
+import com.omertron.fanarttvapi.wrapper.WrapperMusic;
+import com.omertron.fanarttvapi.wrapper.WrapperSeries;
+import com.omertron.fanarttvapi.wrapper.WrapperMovie;
 import java.io.IOException;
 import java.util.*;
 import org.slf4j.Logger;
@@ -103,11 +103,10 @@ public class FanartTvApi {
 
             // Get the artwork and apply the correct FTArtworkType to it
             for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
-                if (entry.getValue() != null && !entry.getValue().isEmpty()) {
-                    for (FanartTvArtwork ftSingle : entry.getValue()) {
-                        ftSingle.setType(entry.getKey());
-                        artworkList.add(ftSingle);
-                    }
+                LOG.trace("Processing {} with {} entries", entry.getKey().toString(), entry.getValue().size());
+                for (FanartTvArtwork ftSingle : entry.getValue()) {
+                    ftSingle.setType(entry.getKey());
+                    artworkList.add(ftSingle);
                 }
             }
 
@@ -141,11 +140,10 @@ public class FanartTvApi {
 
             // Get the artwork and apply the correct FTArtworkType to it
             for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
-                if (entry.getValue() != null && !entry.getValue().isEmpty()) {
-                    for (FanartTvArtwork ftSingle : entry.getValue()) {
-                        ftSingle.setType(entry.getKey());
-                        artworkList.add(ftSingle);
-                    }
+                LOG.trace("Processing {} with {} entries", entry.getKey().toString(), entry.getValue().size());
+                for (FanartTvArtwork ftSingle : entry.getValue()) {
+                    ftSingle.setType(entry.getKey());
+                    artworkList.add(ftSingle);
                 }
             }
 
@@ -160,7 +158,7 @@ public class FanartTvApi {
      * @param searchUrl
      * @throws FanartTvException
      */
-    public List<FanartTvArtwork> readMusicArtwork(String searchUrl) throws FanartTvException {
+    private List<FanartTvArtwork> readMusicArtwork(String searchUrl) throws FanartTvException {
         JsonNode jn = getJsonNode(searchUrl);
         Iterator<String> ftNode = jn.fieldNames();
 
@@ -180,14 +178,12 @@ public class FanartTvApi {
 
             // Get the artwork and apply the correct FTArtworkType to it
             for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
-                if (!entry.getValue().isEmpty()) {
-                    for (FanartTvArtwork ftSingle : entry.getValue()) {
-                        ftSingle.setType(entry.getKey());
-                        artworkList.add(ftSingle);
-                    }
+                LOG.trace("Processing {} with {} entries", entry.getKey().toString(), entry.getValue().size());
+                for (FanartTvArtwork ftSingle : entry.getValue()) {
+                    ftSingle.setType(entry.getKey());
+                    artworkList.add(ftSingle);
                 }
             }
-
             return artworkList;
         }
         return Collections.EMPTY_LIST;

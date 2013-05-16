@@ -50,18 +50,20 @@ public class FanartTvArtwork implements Serializable {
      */
     private FTArtworkType type;
     @JsonProperty("id")
-    private int id;
+    private int id = 0;
     @JsonProperty("url")
-    private String url;
+    private String url = "";
     @JsonProperty("lang")
-    private String language;
+    private String language = "";
     @JsonProperty("likes")
-    private int likes;
-    private int season;
+    private int likes = 0;
+    private int season = 0;
     @JsonProperty("disc")
-    private int disc;
+    private int disc = 0;
     @JsonProperty("disc_type")
-    private String discType;
+    private String discType = "";
+    private int size = 0;
+    private String albumId = "";
 
     /**
      * Constructor for artwork using type and URL
@@ -175,6 +177,22 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get the music brainz album id
+     * @return
+     */
+    public String getAlbumId() {
+        return albumId;
+    }
+
+    /**
+     * Set the music brainz album id
+     * @param albumId
+     */
+    public void setAlbumId(String albumId) {
+        this.albumId = albumId;
+    }
+
+    /**
      *
      * @param season Season for the artwork
      */
@@ -184,6 +202,27 @@ public class FanartTvArtwork implements Serializable {
             this.season = Integer.parseInt(season);
         } else {
             this.season = -1;
+        }
+    }
+
+    /**
+     *
+     * @return size of the artwork
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     *
+     * @param size Size of the artwork
+     */
+    @JsonProperty("size")
+    public void setSize(String size) {
+        if (StringUtils.isNumeric(size)) {
+            this.size = Integer.parseInt(size);
+        } else {
+            this.size = 0;
         }
     }
 
@@ -266,6 +305,7 @@ public class FanartTvArtwork implements Serializable {
         builder.append("],[season=").append(season);
         builder.append("],[disc=").append(disc);
         builder.append("],[discType=").append(discType);
+        builder.append("],[size=").append(size);
         builder.append("]]");
         return builder.toString();
     }
