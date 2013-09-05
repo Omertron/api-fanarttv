@@ -58,6 +58,8 @@ public class WrapperMovie {
     private List<FanartTvArtwork> movieBanner = Collections.EMPTY_LIST;
     @JsonProperty("hdmovieclearart")
     private List<FanartTvArtwork> movieClearArt = Collections.EMPTY_LIST;
+    @JsonProperty("movieposter")
+    private List<FanartTvArtwork> moviePoster = Collections.EMPTY_LIST;
 
     /**
      * Get the ID for IMDB
@@ -140,28 +142,40 @@ public class WrapperMovie {
         this.movieThumb = movieThumb;
     }
 
-    public List<FanartTvArtwork> getHdMovieLogo() {
-        return hdMovieLogo;
-    }
-
+    /**
+     * Set the HD Movie Logo artwork list
+     *
+     * @param hdMovieLogo
+     */
     public void setHdMovieLogo(List<FanartTvArtwork> hdMovieLogo) {
         this.hdMovieLogo = hdMovieLogo;
     }
 
-    public List<FanartTvArtwork> getMovieBanner() {
-        return movieBanner;
-    }
-
+    /**
+     * Set the MovieBanner artwork list
+     *
+     * @param movieBanner
+     */
     public void setMovieBanner(List<FanartTvArtwork> movieBanner) {
         this.movieBanner = movieBanner;
     }
 
-    public List<FanartTvArtwork> getMovieClearArt() {
-        return movieClearArt;
-    }
-
+    /**
+     * Set the MovieClearArt artwork list
+     *
+     * @param movieClearArt
+     */
     public void setMovieClearArt(List<FanartTvArtwork> movieClearArt) {
         this.movieClearArt = movieClearArt;
+    }
+
+    /**
+     * Set the MoviePoster artwork list
+     *
+     * @param moviePoster
+     */
+    public void setMoviePoster(List<FanartTvArtwork> moviePoster) {
+        this.moviePoster = moviePoster;
     }
 
     /**
@@ -180,6 +194,7 @@ public class WrapperMovie {
         artwork.put(FTArtworkType.HDMOVIELOGO, hdMovieLogo);
         artwork.put(FTArtworkType.MOVIEBANNER, movieBanner);
         artwork.put(FTArtworkType.HDMOVIECLEARART, movieClearArt);
+        artwork.put(FTArtworkType.MOVIEPOSTER, moviePoster);
 
         return artwork;
     }

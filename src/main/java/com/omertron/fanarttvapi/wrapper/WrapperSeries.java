@@ -56,6 +56,10 @@ public class WrapperSeries {
     private List<FanartTvArtwork> hdClearart = Collections.EMPTY_LIST;
     @JsonProperty("hdtvlogo")
     private List<FanartTvArtwork> hdTvLogo = Collections.EMPTY_LIST;
+    @JsonProperty("tvbanner")
+    private List<FanartTvArtwork> tvBanner = Collections.EMPTY_LIST;
+    @JsonProperty("tvposter")
+    private List<FanartTvArtwork> tvPoster = Collections.EMPTY_LIST;
 
     /**
      * Get the TheTVDB ID
@@ -129,20 +133,40 @@ public class WrapperSeries {
         this.showBackground = showBackground;
     }
 
-    public List<FanartTvArtwork> getHdClearart() {
-        return hdClearart;
-    }
-
+    /**
+     * Set the HDClearArt artwork list
+     *
+     * @param hdClearart
+     */
     public void setHdClearart(List<FanartTvArtwork> hdClearart) {
         this.hdClearart = hdClearart;
     }
 
-    public List<FanartTvArtwork> getHdTvLogo() {
-        return hdTvLogo;
-    }
-
+    /**
+     * Set the HD TV Logo artwork list
+     *
+     * @param hdTvLogo
+     */
     public void setHdTvLogo(List<FanartTvArtwork> hdTvLogo) {
         this.hdTvLogo = hdTvLogo;
+    }
+
+    /**
+     * Set the TV Banner artwork list
+     *
+     * @param tvBanner
+     */
+    public void setTvBanner(List<FanartTvArtwork> tvBanner) {
+        this.tvBanner = tvBanner;
+    }
+
+    /**
+     * Set the TV Poster artwork list
+     *
+     * @param tvPoster
+     */
+    public void setTvPoster(List<FanartTvArtwork> tvPoster) {
+        this.tvPoster = tvPoster;
     }
 
     /**
@@ -161,6 +185,8 @@ public class WrapperSeries {
         artwork.put(FTArtworkType.SHOWBACKGROUND, showBackground);
         artwork.put(FTArtworkType.HDCLEARART, hdClearart);
         artwork.put(FTArtworkType.HDTVLOGO, hdTvLogo);
+        artwork.put(FTArtworkType.TVBANNER, tvBanner);
+        artwork.put(FTArtworkType.TVPOSTER, tvPoster);
 
         return artwork;
     }

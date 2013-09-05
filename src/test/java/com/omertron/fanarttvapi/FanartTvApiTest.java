@@ -60,7 +60,7 @@ public class FanartTvApiTest {
     /**
      * Test of getTvArtwork method, of class FanartTvApi.
      */
-    @Ignore
+    @Test
     public void testGetTvArtwork() throws Exception {
         LOG.info("getTvArtwork");
         List<FanartTvArtwork> resultList;
@@ -77,7 +77,7 @@ public class FanartTvApiTest {
     /**
      * Test of getMovieArtwork method, of class FanartTvApi.
      */
-    @Ignore
+    @Test
     public void testGetMovieArtwork_TMDB() throws Exception {
         LOG.info("getMovieArtwork (TMDB)");
         for (int tmdbId : ID_TMDB) {
@@ -89,7 +89,7 @@ public class FanartTvApiTest {
     /**
      * Test of getMovieArtwork method, of class FanartTvApi.
      */
-    @Ignore
+    @Test
     public void testGetMovieArtwork_IMDB() throws Exception {
         LOG.info("getMovieArtwork (IMDB)");
         for (String imdbId : ID_IMDB) {

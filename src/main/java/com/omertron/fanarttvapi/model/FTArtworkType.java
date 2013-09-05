@@ -38,6 +38,8 @@ public enum FTArtworkType {
     SHOWBACKGROUND(FTSourceType.TV),
     HDTVLOGO(FTSourceType.TV),
     HDCLEARART(FTSourceType.TV),
+    TVPOSTER(FTSourceType.TV),
+    TVBANNER(FTSourceType.TV),
     // Movie Artwork Types
     MOVIELOGO(FTSourceType.MOVIE),
     MOVIEDISC(FTSourceType.MOVIE),
@@ -47,6 +49,7 @@ public enum FTArtworkType {
     MOVIEBANNER(FTSourceType.MOVIE),
     HDMOVIELOGO(FTSourceType.MOVIE),
     HDMOVIECLEARART(FTSourceType.MOVIE),
+    MOVIEPOSTER(FTSourceType.MOVIE),
     // Music Artwork Types
     CDART(FTSourceType.MUSIC),
     ARTISTBACKGROUND(FTSourceType.MUSIC),
