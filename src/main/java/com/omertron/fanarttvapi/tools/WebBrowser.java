@@ -19,10 +19,15 @@
  */
 package com.omertron.fanarttvapi.tools;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.omertron.fanarttvapi.FanartTvException;
+import com.omertron.fanarttvapi.FanartTvException.*;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -32,13 +37,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Web browser with simple cookies support
  */
 public final class WebBrowser {
 
+    private static final Logger LOG = LoggerFactory.getLogger(WebBrowser.class);
     private static Map<String, String> browserProperties = new HashMap<String, String>();
     private static Map<String, Map<String, String>> cookies = new HashMap<String, Map<String, String>>();
     private static String proxyHost = null;
@@ -49,88 +54,125 @@ public final class WebBrowser {
     private static int webTimeoutConnect = 25000;   // 25 second timeout
     private static int webTimeoutRead = 90000;      // 90 second timeout
 
-    /**
-     * Constructor for WebBrowser. Does instantiates the browser properties.
-     */
-    private WebBrowser() {}
+    // Hide the constructor
+    protected WebBrowser() {
+        // prevents calls from subclass
+        throw new UnsupportedOperationException();
+    }
 
     /**
-     * Populate the browser properties if needed
+     * Populate the browser properties
      */
     private static void populateBrowserProperties() {
         if (browserProperties.isEmpty()) {
             browserProperties.put("User-Agent", "Mozilla/5.25 Netscape/5.0 (Windows; I; Win95)");
+            browserProperties.put("Accept", "application/json");
+            browserProperties.put("Content-type", "application/json");
         }
     }
 
-    /**
-     * Request the web page at the specified URL
-     *
-     * @param url
-     * @return
-     * @throws IOException
-     */
-    public static String request(String url) throws IOException {
-        return request(new URL(url));
-    }
-
-    /**
-     * Open a connection using proxy parameters if they exist.
-     *
-     * @param url
-     * @return
-     * @throws IOException
-     */
-    public static URLConnection openProxiedConnection(URL url) throws IOException {
-        if (proxyHost != null) {
-            System.getProperties().put("proxySet", "true");
-            System.getProperties().put("proxyHost", proxyHost);
-            System.getProperties().put("proxyPort", proxyPort);
-        }
-
-        URLConnection cnx = url.openConnection();
-
-        if (proxyUsername != null) {
-            cnx.setRequestProperty("Proxy-Authorization", proxyEncodedPassword);
-        }
-
-        return cnx;
-    }
-
-    /**
-     * Request the web page at the specified URL
-     *
-     * @param url
-     * @return
-     * @throws IOException
-     */
-    public static String request(URL url) throws IOException {
-        StringBuilder content = new StringBuilder();
-
-        BufferedReader in = null;
-        URLConnection cnx = null;
+    public static String request(String url) throws FanartTvException {
         try {
-            cnx = openProxiedConnection(url);
-
-            sendHeader(cnx);
-            readHeader(cnx);
-
-            in = new BufferedReader(new InputStreamReader(cnx.getInputStream(), getCharset(cnx)));
-            String line;
-            while ((line = in.readLine()) != null) {
-                content.append(line);
-            }
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-
-            if ((cnx != null) && (cnx instanceof HttpURLConnection)) {
-                ((HttpURLConnection) cnx).disconnect();
-            }
-
+            return request(new URL(url));
+        } catch (MalformedURLException ex) {
+            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, null, ex);
         }
-        return content.toString();
+    }
+
+    public static URLConnection openProxiedConnection(URL url) throws FanartTvException {
+        try {
+            if (proxyHost != null) {
+                System.getProperties().put("proxySet", "true");
+                System.getProperties().put("proxyHost", proxyHost);
+                System.getProperties().put("proxyPort", proxyPort);
+            }
+
+            URLConnection cnx = url.openConnection();
+
+            if (proxyUsername != null) {
+                cnx.setRequestProperty("Proxy-Authorization", proxyEncodedPassword);
+            }
+
+            return cnx;
+        } catch (IOException ex) {
+            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, null, ex);
+        }
+    }
+
+    public static String request(URL url) throws FanartTvException {
+        return request(url, null);
+    }
+
+    public static String request(URL url, String jsonBody) throws FanartTvException {
+        return request(url, jsonBody, false);
+    }
+
+    public static String request(URL url, String jsonBody, boolean isDeleteRequest) throws FanartTvException {
+
+        StringWriter content = null;
+
+        try {
+            content = new StringWriter();
+
+            BufferedReader in = null;
+            HttpURLConnection cnx = null;
+            OutputStreamWriter wr = null;
+            try {
+                cnx = (HttpURLConnection) openProxiedConnection(url);
+
+                if (isDeleteRequest) {
+                    cnx.setDoOutput(true);
+                    cnx.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    cnx.setRequestMethod("DELETE");
+                }
+
+                sendHeader(cnx);
+
+                if (jsonBody != null) {
+                    cnx.setDoOutput(true);
+                    wr = new OutputStreamWriter(cnx.getOutputStream());
+                    wr.write(jsonBody);
+                }
+
+                readHeader(cnx);
+
+                // http://stackoverflow.com/questions/4633048/httpurlconnection-reading-response-content-on-403-error
+                if (cnx.getResponseCode() >= 400) {
+                    in = new BufferedReader(new InputStreamReader(cnx.getErrorStream(), getCharset(cnx)));
+                } else {
+                    in = new BufferedReader(new InputStreamReader(cnx.getInputStream(), getCharset(cnx)));
+                }
+
+                String line;
+                while ((line = in.readLine()) != null) {
+                    content.write(line);
+                }
+            } finally {
+                if (wr != null) {
+                    wr.flush();
+                    wr.close();
+                }
+
+                if (in != null) {
+                    in.close();
+                }
+
+                if (cnx instanceof HttpURLConnection) {
+                    ((HttpURLConnection) cnx).disconnect();
+                }
+            }
+            return content.toString();
+        } catch (IOException ex) {
+            throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, null, ex);
+        } finally {
+            if (content != null) {
+                try {
+                    content.close();
+                } catch (IOException ex) {
+                    LOG.debug("Failed to close connection: " + ex.getMessage());
+                }
+            }
+        }
     }
 
     /**
@@ -258,12 +300,12 @@ public final class WebBrowser {
     }
 
     /**
-     * Set the proxy host name
+     * Set the proxy host
      *
-     * @param tvdbProxyHost
+     * @param myProxyHost
      */
-    public static void setProxyHost(String tvdbProxyHost) {
-        WebBrowser.proxyHost = tvdbProxyHost;
+    public static void setProxyHost(String myProxyHost) {
+        WebBrowser.proxyHost = myProxyHost;
     }
 
     /**
@@ -278,10 +320,10 @@ public final class WebBrowser {
     /**
      * Set the proxy port
      *
-     * @param proxyPort
+     * @param myProxyPort
      */
-    public static void setProxyPort(String proxyPort) {
-        WebBrowser.proxyPort = proxyPort;
+    public static void setProxyPort(String myProxyPort) {
+        WebBrowser.proxyPort = myProxyPort;
     }
 
     /**
@@ -296,10 +338,10 @@ public final class WebBrowser {
     /**
      * Set the proxy username
      *
-     * @param proxyUsername
+     * @param myProxyUsername
      */
-    public static void setProxyUsername(String proxyUsername) {
-        WebBrowser.proxyUsername = proxyUsername;
+    public static void setProxyUsername(String myProxyUsername) {
+        WebBrowser.proxyUsername = myProxyUsername;
     }
 
     /**
@@ -312,12 +354,12 @@ public final class WebBrowser {
     }
 
     /**
-     * Set the proxy password. Note this will automatically encode the password
+     * Set the proxy password and encoded it
      *
-     * @param proxyPassword
+     * @param myProxyPassword
      */
-    public static void setProxyPassword(String proxyPassword) {
-        WebBrowser.proxyPassword = proxyPassword;
+    public static void setProxyPassword(String myProxyPassword) {
+        WebBrowser.proxyPassword = myProxyPassword;
 
         if (proxyUsername != null) {
             proxyEncodedPassword = proxyUsername + ":" + proxyPassword;

@@ -33,9 +33,15 @@ import com.omertron.fanarttvapi.wrapper.WrapperMusic;
 import com.omertron.fanarttvapi.wrapper.WrapperSeries;
 import com.omertron.fanarttvapi.wrapper.WrapperMovie;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yamj.api.common.http.CommonHttpClient;
 
 /**
  * This is the main class for the API to connect to Fanart.TV http://fanart.tv/api-info/
@@ -49,6 +55,7 @@ public class FanartTvApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(FanartTvApi.class);
     private String apiKey;
+    private CommonHttpClient httpClient;
     private static final String API_FORMAT = "json";
     private static final String ERROR_JSON_TEXT = "Failed processing JSON Node";
     /*
@@ -74,8 +81,21 @@ public class FanartTvApi {
      *
      * @param apiKey
      */
-    public FanartTvApi(String apiKey) {
+    public FanartTvApi(String apiKey) throws FanartTvException {
+        this(apiKey, null);
+    }
+
+    /**
+     * Create a new API instance with the given API Key and specific CommonHttpClient
+     *
+     * @param apiKey
+     */
+    public FanartTvApi(String apiKey, CommonHttpClient httpClient) throws FanartTvException {
+        if (StringUtils.isBlank(apiKey)) {
+            throw new FanartTvException(FanartTvExceptionType.UNKNOWN_CAUSE, "Invalid API Key");
+        }
         this.apiKey = apiKey;
+        this.httpClient = httpClient;
     }
 
     /**
@@ -83,7 +103,7 @@ public class FanartTvApi {
      *
      * @param searchUrl
      */
-    private List<FanartTvArtwork> readTvArtwork(String searchUrl) throws FanartTvException {
+    private List<FanartTvArtwork> readTvArtwork(URL searchUrl) throws FanartTvException {
         JsonNode jn = getJsonNode(searchUrl);
         Iterator<String> ftNode = jn.fieldNames();
 
@@ -120,7 +140,7 @@ public class FanartTvApi {
      *
      * @param searchUrl
      */
-    private List<FanartTvArtwork> readMovieArtwork(String searchUrl) throws FanartTvException {
+    private List<FanartTvArtwork> readMovieArtwork(URL searchUrl) throws FanartTvException {
         JsonNode jn = getJsonNode(searchUrl);
         Iterator<String> ftNode = jn.fieldNames();
 
@@ -158,7 +178,7 @@ public class FanartTvApi {
      * @param searchUrl
      * @throws FanartTvException
      */
-    private List<FanartTvArtwork> readMusicArtwork(String searchUrl) throws FanartTvException {
+    private List<FanartTvArtwork> readMusicArtwork(URL searchUrl) throws FanartTvException {
         JsonNode jn = getJsonNode(searchUrl);
         Iterator<String> ftNode = jn.fieldNames();
 
@@ -378,6 +398,11 @@ public class FanartTvApi {
      * @param password proxy password
      */
     public void setProxy(String host, String port, String username, String password) {
+        // should be set in HTTP client already
+        if (httpClient != null) {
+            return;
+        }
+
         WebBrowser.setProxyHost(host);
         WebBrowser.setProxyPort(port);
         WebBrowser.setProxyUsername(username);
@@ -391,6 +416,11 @@ public class FanartTvApi {
      * @param webTimeoutRead
      */
     public void setTimeout(int webTimeoutConnect, int webTimeoutRead) {
+        // should be set in HTTP client already
+        if (httpClient != null) {
+            return;
+        }
+
         WebBrowser.setWebTimeoutConnect(webTimeoutConnect);
         WebBrowser.setWebTimeoutRead(webTimeoutRead);
     }
@@ -405,7 +435,7 @@ public class FanartTvApi {
      * @return The search URL
      *
      */
-    private String buildUrl(String baseUrl, String artworkId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
+    private URL buildUrl(String baseUrl, String artworkId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
         //http://fanart.tv/webservice/series/apikey/thetvdb_id/format/type/sort/limit/
         StringBuilder searchUrl = new StringBuilder(API_SITE);
 
@@ -424,24 +454,30 @@ public class FanartTvApi {
         }
 
         LOG.trace("Search URL: {}", searchUrl);
-        return searchUrl.toString();
+
+        try {
+            return new URL(searchUrl.toString());
+        } catch (MalformedURLException ex) {
+            LOG.warn("Failed to create URL {} - {}", searchUrl.toString(), ex.toString());
+            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, "Failed to create URL " + searchUrl.toString() + " - " + ex.toString(), ex);
+        }
     }
 
-    private String buildSeriesUrl(int tvdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
+    private URL buildSeriesUrl(int tvdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
         String idString = String.valueOf(tvdbId < 0 ? 0 : tvdbId);
         return buildUrl(API_SERIES, idString, artworkType, artworkSortBy, artworkLimit);
     }
 
-    private String buildMovieUrl(int tmdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
+    private URL buildMovieUrl(int tmdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
         String idString = String.valueOf(tmdbId < 0 ? 0 : tmdbId);
         return buildMovieUrl(idString, artworkType, artworkSortBy, artworkLimit);
     }
 
-    private String buildMovieUrl(String imdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) {
+    private URL buildMovieUrl(String imdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
         return buildUrl(API_MOVIE, imdbId, artworkType, artworkSortBy, artworkLimit);
     }
 
-    private String buildMusicUrl(String musicId, FTArtworkType artworkType, FTArtworkSort artworkSort, int artworkLimit) {
+    private URL buildMusicUrl(String musicId, FTArtworkType artworkType, FTArtworkSort artworkSort, int artworkLimit) throws FanartTvException {
         return buildUrl(API_MUSIC, musicId, artworkType, artworkSort, artworkLimit);
     }
 
@@ -451,13 +487,8 @@ public class FanartTvApi {
      * @param searchUrl
      * @throws FanartTvException
      */
-    private JsonNode getJsonNode(String searchUrl) throws FanartTvException {
-        String webPage;
-        try {
-            webPage = WebBrowser.request(searchUrl);
-        } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.INVALID_URL, searchUrl, ex);
-        }
+    private JsonNode getJsonNode(URL searchUrl) throws FanartTvException {
+        String webPage = requestWebPage(searchUrl);
 
         // Strip the wrapper from the json returned
         try {
@@ -467,5 +498,23 @@ public class FanartTvApi {
         } catch (IOException ex) {
             throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, ERROR_JSON_TEXT, ex);
         }
+    }
+
+    private String requestWebPage(URL url) throws FanartTvException {
+        // use HTTP client implementation
+        if (httpClient != null) {
+            try {
+                HttpGet httpGet = new HttpGet(url.toURI());
+                httpGet.addHeader("accept", "application/json");
+                return httpClient.requestContent(httpGet);
+            } catch (URISyntaxException ex) {
+                throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, null, ex);
+            } catch (IOException ex) {
+                throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, null, ex);
+            }
+        }
+
+        // use web browser
+        return WebBrowser.request(url);
     }
 }

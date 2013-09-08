@@ -34,7 +34,7 @@ public class FanartTvApiTest {
     // Logger
     private static final Logger LOG = LoggerFactory.getLogger(FanartTvApiTest.class);
     private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
-    private FanartTvApi ft = new FanartTvApi(APIKEY);
+    private static FanartTvApi ft;
     private static final ArrayList<Integer> ID_TVDB = new ArrayList<Integer>();
     private static final ArrayList<Integer> ID_TMDB = new ArrayList<Integer>();
     private static final ArrayList<String> ID_IMDB = new ArrayList<String>();
@@ -42,7 +42,8 @@ public class FanartTvApiTest {
     private static final int ID_TVDB_NO_ARTWORK = 257256;// Love life (Unlikely to have artwork)
 
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws FanartTvException {
+        ft = new FanartTvApi(APIKEY);
         TestLogger.Configure();
 
         ID_TVDB.add(79349); // Dexter);

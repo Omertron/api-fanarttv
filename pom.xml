@@ -116,6 +116,12 @@
             <version>1.7.5</version>
             <scope>test</scope>
         </dependency>
+        <!--COMMON HTTP TOOLS-->
+        <dependency>
+            <groupId>org.yamj</groupId>
+            <artifactId>api-common</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
