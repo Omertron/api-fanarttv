@@ -19,21 +19,17 @@
  */
 package com.omertron.fanarttvapi.model;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Artwork from Fanart.TV
  *
  * @author stuart.boston
  */
-public class FanartTvArtwork implements Serializable {
+public class FanartTvArtwork extends AbstractJsonMapping implements Serializable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FanartTvArtwork.class);
     private static final long serialVersionUID = 1L;
 
     /*
@@ -85,6 +81,8 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get the artwork type
+     *
      * @return the type
      */
     public String getType() {
@@ -92,6 +90,8 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set the artwork type
+     *
      * @param type the type to set
      */
     @JsonProperty("type")
@@ -102,6 +102,8 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set the artwork type
+     *
      * @param type the type to set
      */
     public void setType(FTArtworkType type) {
@@ -109,6 +111,8 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get the artwork URL
+     *
      * @return the URL
      */
     public String getUrl() {
@@ -116,6 +120,8 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set the artwork URL
+     *
      * @param url the URL to set
      */
     public void setUrl(String url) {
@@ -123,6 +129,8 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get the artwork ID
+     *
      * @return the ID of the artwork
      */
     public int getId() {
@@ -130,6 +138,8 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set the artwork ID
+     *
      * @param id the ID of the artwork
      */
     public void setId(int id) {
@@ -137,6 +147,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get the language of the artwork
      *
      * @return Language of the artwork
      */
@@ -145,6 +156,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set the language of the artwork
      *
      * @param language Language of the artwork
      */
@@ -153,6 +165,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get how many likes the artwork has
      *
      * @return How many likes the artwork has
      */
@@ -161,6 +174,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set how many likes the artwork has
      *
      * @param likes Set how many likes the artwork has
      */
@@ -169,6 +183,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get the season for the artwork
      *
      * @return Season for the artwork
      */
@@ -178,6 +193,7 @@ public class FanartTvArtwork implements Serializable {
 
     /**
      * Get the music brainz album id
+     *
      * @return
      */
     public String getAlbumId() {
@@ -186,6 +202,7 @@ public class FanartTvArtwork implements Serializable {
 
     /**
      * Set the music brainz album id
+     *
      * @param albumId
      */
     public void setAlbumId(String albumId) {
@@ -193,6 +210,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set the season for the artwork
      *
      * @param season Season for the artwork
      */
@@ -206,6 +224,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get the size of the artwork
      *
      * @return size of the artwork
      */
@@ -214,6 +233,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set the size of the artwork
      *
      * @param size Size of the artwork
      */
@@ -227,6 +247,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get the disc number for the artwork
      *
      * @return Disc number for the artwork
      */
@@ -235,6 +256,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set the disc number for the artwork
      *
      * @param disc Disc number for the artwork
      */
@@ -243,6 +265,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Get the disc type for the artwork
      *
      * @return Disc type for the artwork
      */
@@ -251,6 +274,7 @@ public class FanartTvArtwork implements Serializable {
     }
 
     /**
+     * Set the disc type for the artwork
      *
      * @param discType Disc type for the artwork
      */
@@ -288,39 +312,5 @@ public class FanartTvArtwork implements Serializable {
         } catch (IllegalArgumentException ex) {
             return false;
         }
-    }
-
-    /**
-     * @return String representation of the object
-     */
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[FanartTvArtwork=[");
-        builder.append("[type=").append(type);
-        builder.append("],[id=").append(id);
-        builder.append("],[url=").append(url);
-        builder.append("],[lang=").append(language);
-        builder.append("],[likes=").append(likes);
-        builder.append("],[season=").append(season);
-        builder.append("],[disc=").append(disc);
-        builder.append("],[discType=").append(discType);
-        builder.append("],[size=").append(size);
-        builder.append("]]");
-        return builder.toString();
-    }
-
-    /**
-     * Handle unknown properties and print a message
-     *
-     * @param key
-     * @param value
-     */
-    @JsonAnySetter
-    public void handleUnknown(String key, Object value) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Unknown property: '").append(key);
-        sb.append("' value: '").append(value).append("'");
-        LOG.debug(sb.toString());
     }
 }

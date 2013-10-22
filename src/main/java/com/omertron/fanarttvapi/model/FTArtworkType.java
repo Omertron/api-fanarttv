@@ -60,7 +60,7 @@ public enum FTArtworkType {
     HDMUSICLOGO(FTSourceType.MUSIC),
     MUSICBANNER(FTSourceType.MUSIC);
     // Properties
-    private FTSourceType sourceType;
+    private final FTSourceType sourceType;
 
     private FTArtworkType(FTSourceType sourceType) {
         this.sourceType = sourceType;

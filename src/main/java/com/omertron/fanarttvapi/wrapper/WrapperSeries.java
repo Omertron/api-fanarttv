@@ -19,25 +19,22 @@
  */
 package com.omertron.fanarttvapi.wrapper;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.omertron.fanarttvapi.model.AbstractJsonMapping;
 import com.omertron.fanarttvapi.model.FTArtworkType;
 import com.omertron.fanarttvapi.model.FanartTvArtwork;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * JSON Wrapper class for Movie artwork from Fanart.TV Not intended for use outside of the API
  *
  * @author stuart.boston
  */
-public class WrapperSeries {
+public class WrapperSeries extends AbstractJsonMapping {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WrapperSeries.class);
     @JsonProperty("thetvdb_id")
     private String tvdbid;
     @JsonProperty("clearlogo")
@@ -189,19 +186,5 @@ public class WrapperSeries {
         artwork.put(FTArtworkType.TVPOSTER, tvPoster);
 
         return artwork;
-    }
-
-    /**
-     * Handle unknown properties and print a message
-     *
-     * @param key
-     * @param value
-     */
-    @JsonAnySetter
-    public void handleUnknown(String key, Object value) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Unknown property: '").append(key);
-        sb.append("' value: '").append(value).append("'");
-        LOG.debug(sb.toString());
     }
 }

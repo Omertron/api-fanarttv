@@ -59,9 +59,11 @@ public class FanartTvApiTest {
 
     /**
      * Test of getTvArtwork method, of class FanartTvApi.
+     *
+     * @throws FanartTvException
      */
     @Test
-    public void testGetTvArtwork() throws Exception {
+    public void testGetTvArtwork() throws FanartTvException {
         LOG.info("getTvArtwork");
         List<FanartTvArtwork> resultList;
         for (int tvdbId : ID_TVDB) {
@@ -76,9 +78,10 @@ public class FanartTvApiTest {
 
     /**
      * Test of getMovieArtwork method, of class FanartTvApi.
-     */
+     * @throws FanartTvException
+*/
     @Test
-    public void testGetMovieArtwork_TMDB() throws Exception {
+    public void testGetMovieArtwork_TMDB() throws FanartTvException {
         LOG.info("getMovieArtwork (TMDB)");
         for (int tmdbId : ID_TMDB) {
             List<FanartTvArtwork> resultList = ft.getMovieArtwork(tmdbId);
@@ -88,9 +91,10 @@ public class FanartTvApiTest {
 
     /**
      * Test of getMovieArtwork method, of class FanartTvApi.
-     */
+     * @throws FanartTvException
+*/
     @Test
-    public void testGetMovieArtwork_IMDB() throws Exception {
+    public void testGetMovieArtwork_IMDB() throws FanartTvException {
         LOG.info("getMovieArtwork (IMDB)");
         for (String imdbId : ID_IMDB) {
             List<FanartTvArtwork> resultList = ft.getMovieArtwork(imdbId);
@@ -99,7 +103,7 @@ public class FanartTvApiTest {
     }
 
     @Test
-    public void testGetMusicArtwork() throws Exception {
+    public void testGetMusicArtwork() throws FanartTvException {
         LOG.info("getMusicArtwork");
         for (String id : ID_MUSIC) {
             List<FanartTvArtwork> resultList = ft.getMusicArtwork(id);

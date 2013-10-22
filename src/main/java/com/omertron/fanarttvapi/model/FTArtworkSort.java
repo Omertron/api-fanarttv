@@ -29,7 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 public enum FTArtworkSort {
 
     DEFAULT(1), POPULAR(1), NEWEST(2), OLDEST(3);
-    private int sortType;
+    private final int sortType;
 
     private FTArtworkSort(int sortType) {
         this.sortType = sortType;
