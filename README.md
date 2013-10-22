@@ -16,3 +16,7 @@ To use the logging in your own project you should add one of the bindings listed
 Project Documentation
 ---------------------
 The automatically generated documentation can be found [HERE](http://omertron.github.com/api-fanarttv/)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Omertron/api-fanarttv/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
