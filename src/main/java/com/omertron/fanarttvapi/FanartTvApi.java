@@ -359,7 +359,11 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public List<FanartTvArtwork> getMovieArtwork(String imdbId, FTArtworkType artworkType, FTArtworkSort artworkSortBy, int artworkLimit) throws FanartTvException {
-        return readMovieArtwork(buildMovieUrl(imdbId, artworkType, artworkSortBy, artworkLimit));
+        if (imdbId.toLowerCase().startsWith("tt")) {
+            return readMovieArtwork(buildMovieUrl(imdbId, artworkType, artworkSortBy, artworkLimit));
+        } else {
+            throw new FanartTvException(FanartTvExceptionType.ID_NOT_FOUND, "Invalid ID: " + imdbId);
+        }
     }
 
     /**
