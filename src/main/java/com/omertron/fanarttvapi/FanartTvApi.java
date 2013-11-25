@@ -41,6 +41,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yamj.api.common.http.CommonHttpClient;
+import org.yamj.api.common.http.DefaultPoolingHttpClient;
 
 /**
  * This is the main class for the API to connect to Fanart.TV http://fanart.tv/api-info/
@@ -82,7 +83,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public FanartTvApi(String apiKey) throws FanartTvException {
-        this(apiKey, null);
+        this(apiKey, new DefaultPoolingHttpClient());
     }
 
     /**
@@ -518,9 +519,9 @@ public class FanartTvApi {
             httpGet.addHeader("accept", "application/json");
             return httpClient.requestContent(httpGet);
         } catch (URISyntaxException ex) {
-            throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, null, ex);
+            throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, "Invalid URL: " + url, ex);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, null, ex);
+            throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, "Error retrieving URL: " + url, ex);
         }
     }
 }

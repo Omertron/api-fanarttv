@@ -39,21 +39,21 @@ public class WrapperMusic extends AbstractJsonMapping {
     @JsonProperty("mbid_id")
     private String mbidId;
     @JsonProperty("albumcover")
-    private List<FanartTvArtwork> albumCover = Collections.EMPTY_LIST;
+    private List<FanartTvArtwork> albumCover = Collections.emptyList();
     @JsonProperty("artistbackground")
-    private List<FanartTvArtwork> artistBackground = Collections.EMPTY_LIST;
+    private List<FanartTvArtwork> artistBackground = Collections.emptyList();
     @JsonProperty("cdart")
-    private List<FanartTvArtwork> cdArt = Collections.EMPTY_LIST;
+    private List<FanartTvArtwork> cdArt = Collections.emptyList();
     @JsonProperty("musiclogo")
-    private List<FanartTvArtwork> musicLogo = Collections.EMPTY_LIST;
+    private List<FanartTvArtwork> musicLogo = Collections.emptyList();
     @JsonProperty("artistthumb")
-    private List<FanartTvArtwork> artistThumb = Collections.EMPTY_LIST;
+    private List<FanartTvArtwork> artistThumb = Collections.emptyList();
     @JsonProperty("albums")
-    private Map<String, WrapperAlbum> albums = Collections.EMPTY_MAP;
+    private Map<String, WrapperAlbum> albums = Collections.emptyMap();
     @JsonProperty("hdmusiclogo")
-    private List<FanartTvArtwork> hdMusicLogo = Collections.EMPTY_LIST;
+    private List<FanartTvArtwork> hdMusicLogo = Collections.emptyList();
     @JsonProperty("musicbanner")
-    private List<FanartTvArtwork> musicBanner = Collections.EMPTY_LIST;
+    private List<FanartTvArtwork> musicBanner = Collections.emptyList();
 
     /**
      * Get the Music Brainz ID
@@ -156,7 +156,6 @@ public class WrapperMusic extends AbstractJsonMapping {
         artwork.put(FTArtworkType.ARTISTBACKGROUND, artistBackground);
         artwork.put(FTArtworkType.MUSICLOGO, musicLogo);
         artwork.put(FTArtworkType.ARTISTTHUMB, artistThumb);
-//        artwork.put(FTArtworkType.ALBUMS, albums);
         artwork.put(FTArtworkType.HDMUSICLOGO, hdMusicLogo);
         artwork.put(FTArtworkType.MUSICBANNER, musicBanner);
 
