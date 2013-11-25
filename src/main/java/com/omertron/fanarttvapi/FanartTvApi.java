@@ -28,7 +28,6 @@ import com.omertron.fanarttvapi.FanartTvException.FanartTvExceptionType;
 import com.omertron.fanarttvapi.model.FTArtworkSort;
 import com.omertron.fanarttvapi.model.FTArtworkType;
 import com.omertron.fanarttvapi.model.FanartTvArtwork;
-import com.omertron.fanarttvapi.tools.WebBrowser;
 import com.omertron.fanarttvapi.wrapper.WrapperMusic;
 import com.omertron.fanarttvapi.wrapper.WrapperSeries;
 import com.omertron.fanarttvapi.wrapper.WrapperMovie;
@@ -425,15 +424,7 @@ public class FanartTvApi {
      * @param password proxy password
      */
     public void setProxy(String host, String port, String username, String password) {
-        // should be set in HTTP client already
-        if (httpClient != null) {
-            return;
-        }
-
-        WebBrowser.setProxyHost(host);
-        WebBrowser.setProxyPort(port);
-        WebBrowser.setProxyUsername(username);
-        WebBrowser.setProxyPassword(password);
+        httpClient.setProxy(host, Integer.parseInt(port), username, password);
     }
 
     /**
@@ -443,13 +434,7 @@ public class FanartTvApi {
      * @param webTimeoutRead
      */
     public void setTimeout(int webTimeoutConnect, int webTimeoutRead) {
-        // should be set in HTTP client already
-        if (httpClient != null) {
-            return;
-        }
-
-        WebBrowser.setWebTimeoutConnect(webTimeoutConnect);
-        WebBrowser.setWebTimeoutRead(webTimeoutRead);
+        httpClient.setTimeouts(webTimeoutConnect, webTimeoutRead);
     }
 
     /**
@@ -528,20 +513,14 @@ public class FanartTvApi {
     }
 
     private String requestWebPage(URL url) throws FanartTvException {
-        // use HTTP client implementation
-        if (httpClient != null) {
-            try {
-                HttpGet httpGet = new HttpGet(url.toURI());
-                httpGet.addHeader("accept", "application/json");
-                return httpClient.requestContent(httpGet);
-            } catch (URISyntaxException ex) {
-                throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, null, ex);
-            } catch (IOException ex) {
-                throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, null, ex);
-            }
+        try {
+            HttpGet httpGet = new HttpGet(url.toURI());
+            httpGet.addHeader("accept", "application/json");
+            return httpClient.requestContent(httpGet);
+        } catch (URISyntaxException ex) {
+            throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, null, ex);
+        } catch (IOException ex) {
+            throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, null, ex);
         }
-
-        // use web browser
-        return WebBrowser.request(url);
     }
 }
