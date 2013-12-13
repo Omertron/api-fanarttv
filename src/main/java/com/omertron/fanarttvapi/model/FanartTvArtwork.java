@@ -22,6 +22,8 @@ package com.omertron.fanarttvapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Artwork from Fanart.TV
@@ -31,7 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 public class FanartTvArtwork extends AbstractJsonMapping implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    private static final Logger LOG = LoggerFactory.getLogger(FanartTvArtwork.class);
     /*
      * Static Types
      */
@@ -294,6 +296,7 @@ public class FanartTvArtwork extends AbstractJsonMapping implements Serializable
             FTArtworkType.fromString(artworkType);
             return true;
         } catch (IllegalArgumentException ex) {
+            LOG.debug("Failed to convert '{}' to a valid artwork type", artworkType, ex);
             return false;
         }
     }
@@ -310,6 +313,7 @@ public class FanartTvArtwork extends AbstractJsonMapping implements Serializable
             FTArtworkSort.fromString(artworkSort);
             return true;
         } catch (IllegalArgumentException ex) {
+            LOG.debug("Failed to convert '{}' to a valid artwork sort type", artworkSort, ex);
             return false;
         }
     }
