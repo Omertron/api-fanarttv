@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * @author stuart.boston
  */
-public class WrapperMovie extends AbstractJsonMapping {
+public class WrapperMovie extends AbstractJsonMapping implements IArtworkList {
 
     @JsonProperty("tmdb_id")
     private int tmdbId;

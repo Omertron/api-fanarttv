@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * @author stuart.boston
  */
-public class WrapperAlbum extends AbstractJsonMapping {
+public class WrapperAlbum extends AbstractJsonMapping implements IArtworkList {
 
     @JsonProperty("albumcover")
     private List<FanartTvArtwork> albumCover = Collections.EMPTY_LIST;

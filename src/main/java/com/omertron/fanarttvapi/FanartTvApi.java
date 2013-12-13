@@ -28,6 +28,7 @@ import com.omertron.fanarttvapi.FanartTvException.FanartTvExceptionType;
 import com.omertron.fanarttvapi.model.FTArtworkSort;
 import com.omertron.fanarttvapi.model.FTArtworkType;
 import com.omertron.fanarttvapi.model.FanartTvArtwork;
+import com.omertron.fanarttvapi.wrapper.IArtworkList;
 import com.omertron.fanarttvapi.wrapper.WrapperMovie;
 import com.omertron.fanarttvapi.wrapper.WrapperMusic;
 import com.omertron.fanarttvapi.wrapper.WrapperSeries;
@@ -126,20 +127,9 @@ public class FanartTvApi {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             }
 
-            List<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
-
-            // Get the artwork and apply the correct FTArtworkType to it
-            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
-                LOG.trace("Processing TV artwork {} with {} entries", entry.getKey().toString(), entry.getValue().size());
-                for (FanartTvArtwork ftSingle : entry.getValue()) {
-                    ftSingle.setType(entry.getKey());
-                    artworkList.add(ftSingle);
-                }
-            }
-
-            return artworkList;
+            return processArtworkList(wrapper, "TV");
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     /**
@@ -163,20 +153,9 @@ public class FanartTvApi {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             }
 
-            List<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
-
-            // Get the artwork and apply the correct FTArtworkType to it
-            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
-                LOG.trace("Processing Movie artwork {} with {} entries", entry.getKey().toString(), entry.getValue().size());
-                for (FanartTvArtwork ftSingle : entry.getValue()) {
-                    ftSingle.setType(entry.getKey());
-                    artworkList.add(ftSingle);
-                }
-            }
-
-            return artworkList;
+            return processArtworkList(wrapper, "Movie");
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     /**
@@ -201,19 +180,30 @@ public class FanartTvApi {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             }
 
-            List<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
-
-            // Get the artwork and apply the correct FTArtworkType to it
-            for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
-                LOG.trace("Processing Music artwork {} with {} entries", entry.getKey().toString(), entry.getValue().size());
-                for (FanartTvArtwork ftSingle : entry.getValue()) {
-                    ftSingle.setType(entry.getKey());
-                    artworkList.add(ftSingle);
-                }
-            }
-            return artworkList;
+            return processArtworkList(wrapper, "Music");
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
+    }
+
+    /**
+     * Process the artwork from the wrapper into a list
+     *
+     * @param wrapper
+     * @param logMessageType
+     * @return
+     */
+    private List<FanartTvArtwork> processArtworkList(IArtworkList wrapper, String logMessageType) {
+        List<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
+
+        // Get the artwork and apply the correct FTArtworkType to it
+        for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
+            LOG.trace("Processing {} artwork {} with {} entries", logMessageType, entry.getKey().toString(), entry.getValue().size());
+            for (FanartTvArtwork ftSingle : entry.getValue()) {
+                ftSingle.setType(entry.getKey());
+                artworkList.add(ftSingle);
+            }
+        }
+        return artworkList;
     }
 
     /**

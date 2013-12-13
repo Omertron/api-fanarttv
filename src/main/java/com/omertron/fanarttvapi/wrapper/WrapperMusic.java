@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author stuart.boston
  */
-public class WrapperMusic extends AbstractJsonMapping {
+public class WrapperMusic extends AbstractJsonMapping implements IArtworkList {
 
     @JsonProperty("mbid_id")
     private String mbidId;
