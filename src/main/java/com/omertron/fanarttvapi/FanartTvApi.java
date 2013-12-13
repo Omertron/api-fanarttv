@@ -28,14 +28,18 @@ import com.omertron.fanarttvapi.FanartTvException.FanartTvExceptionType;
 import com.omertron.fanarttvapi.model.FTArtworkSort;
 import com.omertron.fanarttvapi.model.FTArtworkType;
 import com.omertron.fanarttvapi.model.FanartTvArtwork;
+import com.omertron.fanarttvapi.wrapper.WrapperMovie;
 import com.omertron.fanarttvapi.wrapper.WrapperMusic;
 import com.omertron.fanarttvapi.wrapper.WrapperSeries;
-import com.omertron.fanarttvapi.wrapper.WrapperMovie;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
@@ -122,11 +126,11 @@ public class FanartTvApi {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             }
 
-            ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
+            List<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
 
             // Get the artwork and apply the correct FTArtworkType to it
             for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
-                LOG.trace("Processing {} with {} entries", entry.getKey().toString(), entry.getValue().size());
+                LOG.trace("Processing TV artwork {} with {} entries", entry.getKey().toString(), entry.getValue().size());
                 for (FanartTvArtwork ftSingle : entry.getValue()) {
                     ftSingle.setType(entry.getKey());
                     artworkList.add(ftSingle);
@@ -159,11 +163,11 @@ public class FanartTvApi {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             }
 
-            ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
+            List<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
 
             // Get the artwork and apply the correct FTArtworkType to it
             for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
-                LOG.trace("Processing {} with {} entries", entry.getKey().toString(), entry.getValue().size());
+                LOG.trace("Processing Movie artwork {} with {} entries", entry.getKey().toString(), entry.getValue().size());
                 for (FanartTvArtwork ftSingle : entry.getValue()) {
                     ftSingle.setType(entry.getKey());
                     artworkList.add(ftSingle);
@@ -197,11 +201,11 @@ public class FanartTvApi {
                 throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
             }
 
-            ArrayList<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
+            List<FanartTvArtwork> artworkList = new ArrayList<FanartTvArtwork>();
 
             // Get the artwork and apply the correct FTArtworkType to it
             for (Map.Entry<FTArtworkType, List<FanartTvArtwork>> entry : wrapper.getArtwork().entrySet()) {
-                LOG.trace("Processing {} with {} entries", entry.getKey().toString(), entry.getValue().size());
+                LOG.trace("Processing Music artwork {} with {} entries", entry.getKey().toString(), entry.getValue().size());
                 for (FanartTvArtwork ftSingle : entry.getValue()) {
                     ftSingle.setType(entry.getKey());
                     artworkList.add(ftSingle);
