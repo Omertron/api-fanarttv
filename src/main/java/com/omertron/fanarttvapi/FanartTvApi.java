@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -59,6 +60,7 @@ import org.yamj.api.common.http.DefaultPoolingHttpClient;
 public class FanartTvApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(FanartTvApi.class);
+    private static final String DEFAULT_CHARSET = "UTF-8";
     private String apiKey;
     private CommonHttpClient httpClient;
     private static final String API_FORMAT = "json";
@@ -511,7 +513,7 @@ public class FanartTvApi {
         try {
             HttpGet httpGet = new HttpGet(url.toURI());
             httpGet.addHeader("accept", "application/json");
-            return httpClient.requestContent(httpGet);
+            return httpClient.requestContent(httpGet, Charset.forName(DEFAULT_CHARSET));
         } catch (URISyntaxException ex) {
             throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, "Invalid URL: " + url, ex);
         } catch (IOException ex) {
