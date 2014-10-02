@@ -56,6 +56,8 @@ public final class ApiBuilder {
      * Parameter configuration
      */
     private static final String DELIMITER = "?";
+    private static final String DELIMITER_APIKEY="?api_key=";
+    private static final String DELIMITER_CLIENT_KEY="?client_key=";
     /*
      * Constants
      */
@@ -91,11 +93,11 @@ public final class ApiBuilder {
         url.append(id);
 
         // Add the API Key
-        url.append(DELIMITER).append(apiKey);
+        url.append(DELIMITER_APIKEY).append(apiKey);
 
         // Add the client API Key
         if (StringUtils.isNotBlank(clientKey)) {
-            url.append(DELIMITER).append(clientKey);
+            url.append(DELIMITER_CLIENT_KEY).append(clientKey);
         }
 
         return convertUrl(url);
@@ -118,11 +120,11 @@ public final class ApiBuilder {
         url.append(API_LATEST);
 
         // Add the API Key
-        url.append(DELIMITER).append(apiKey);
+        url.append(DELIMITER_APIKEY).append(apiKey);
 
         // Add the client API Key
         if (StringUtils.isNotBlank(clientKey)) {
-            url.append(DELIMITER).append(clientKey);
+            url.append(DELIMITER_CLIENT_KEY).append(clientKey);
         }
 
         // Add the Date
