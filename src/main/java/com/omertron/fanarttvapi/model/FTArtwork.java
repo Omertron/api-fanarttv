@@ -52,6 +52,8 @@ public class FTArtwork extends AbstractJsonMapping implements Serializable {
     private String diskType = "";
     @JsonProperty("season")
     private String season = "";
+    @JsonProperty("size")
+    private int size = 0;
 
     /**
      * Get the artwork URL
@@ -195,6 +197,24 @@ public class FTArtwork extends AbstractJsonMapping implements Serializable {
      */
     public void setSeason(String season) {
         this.season = season;
+    }
+
+    /**
+     * Get the size of the artwork
+     *
+     * @return
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * Set the size of the artwork
+     *
+     * @param size
+     */
+    public void setSize(int size) {
+        this.size = size;
     }
 
 }

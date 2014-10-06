@@ -57,7 +57,6 @@ public enum FTArtworkType {
     ALBUMCOVER,
     MUSICLOGO,
     ARTISTTHUMB,
-    ALBUMS,
     HDMUSICLOGO,
     MUSICBANNER;
 

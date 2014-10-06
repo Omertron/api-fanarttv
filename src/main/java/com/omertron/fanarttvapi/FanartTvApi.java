@@ -30,7 +30,6 @@ import com.omertron.fanarttvapi.model.FTMusicArtist;
 import com.omertron.fanarttvapi.model.FTMusicLabel;
 import com.omertron.fanarttvapi.model.FTSeries;
 import com.omertron.fanarttvapi.tools.ApiBuilder;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -226,12 +225,12 @@ public class FanartTvApi {
      */
     public FTMusicArtist getMusicArtist(String id) throws FanartTvException {
         URL url = API.getImageUrl(BaseType.ARTIST, id);
-//        String page = requestWebPage(url);
+        String page = requestWebPage(url);
 
         FTMusicArtist artist = null;
 
         try {
-            artist = mapper.readValue(new File("sample/music_artist.json"), FTMusicArtist.class);
+            artist = mapper.readValue(page, FTMusicArtist.class);
         } catch (IOException ex) {
             throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
         }
@@ -248,12 +247,12 @@ public class FanartTvApi {
      */
     public FTMusicAlbum getMusicAlbum(String id) throws FanartTvException {
         URL url = API.getImageUrl(BaseType.ALBUM, id);
-//        String page = requestWebPage(url);
+        String page = requestWebPage(url);
 
         FTMusicAlbum album = null;
 
         try {
-            album = mapper.readValue(new File("sample/music_album.json"), FTMusicAlbum.class);
+            album = mapper.readValue(page, FTMusicAlbum.class);
         } catch (IOException ex) {
             throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
         }
@@ -270,12 +269,12 @@ public class FanartTvApi {
      */
     public FTMusicLabel getMusicLabel(String id) throws FanartTvException {
         URL url = API.getImageUrl(BaseType.LABEL, id);
-//        String page = requestWebPage(url);
+        String page = requestWebPage(url);
 
         FTMusicLabel label = null;
 
         try {
-            label = mapper.readValue(new File("sample/music_label.json"), FTMusicLabel.class);
+            label = mapper.readValue(page, FTMusicLabel.class);
         } catch (IOException ex) {
             throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
         }

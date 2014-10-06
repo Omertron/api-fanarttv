@@ -20,9 +20,7 @@
 package com.omertron.fanarttvapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.omertron.fanarttvapi.enumeration.FTArtworkType;
 import java.io.Serializable;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +29,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author stuart.boston
  */
-public class FTMovie extends AbstractFanartTv implements Serializable {
+public class FTMovie extends ArtworkList implements Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(FTMovie.class);
 
@@ -60,65 +58,39 @@ public class FTMovie extends AbstractFanartTv implements Serializable {
         this.name = name;
     }
 
+    /**
+     * Get TheMovieDB ID
+     *
+     * @return
+     */
     public String getTmdbId() {
         return tmdbId;
     }
 
+    /**
+     * Set TheMovieDB ID
+     *
+     * @param tmdbId
+     */
     public void setTmdbId(String tmdbId) {
         this.tmdbId = tmdbId;
     }
 
+    /**
+     * Get the IMDB ID
+     *
+     * @return
+     */
     public String getImdbId() {
         return imdbId;
     }
 
+    /**
+     * Set the IMDB ID
+     *
+     * @param imdbId
+     */
     public void setImdbId(String imdbId) {
         this.imdbId = imdbId;
     }
-
-    @JsonProperty("hdmovielogo")
-    public void setHdmovielogo(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.HDMOVIELOGO, ftArtwork);
-    }
-
-    @JsonProperty("hdmovieclearart")
-    public void setHdmovieclearart(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.HDMOVIECLEARART, ftArtwork);
-    }
-
-    @JsonProperty("movielogo")
-    public void setMovielogo(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.MOVIELOGO, ftArtwork);
-    }
-
-    @JsonProperty("moviedisc")
-    public void setMoviedisc(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.MOVIEDISC, ftArtwork);
-    }
-
-    @JsonProperty("moviebanner")
-    public void setMoviebanner(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.MOVIEBANNER, ftArtwork);
-    }
-
-    @JsonProperty("moviethumb")
-    public void setMoviethumb(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.MOVIETHUMB, ftArtwork);
-    }
-
-    @JsonProperty("moviebackground")
-    public void setMoviebackground(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.MOVIEBACKGROUND, ftArtwork);
-    }
-
-    @JsonProperty("movieposter")
-    public void setMovieposter(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.MOVIEPOSTER, ftArtwork);
-    }
-
-    @JsonProperty("movieart")
-    public void setMovieart(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.MOVIEART, ftArtwork);
-    }
-
 }

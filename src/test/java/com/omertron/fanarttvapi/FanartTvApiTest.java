@@ -44,22 +44,21 @@ public class FanartTvApiTest {
     private static final Logger LOG = LoggerFactory.getLogger(FanartTvApiTest.class);
     private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
     private static final String CLIENT_KEY = "340b5ed125e407078ff183e9bf54f9b5";
-    private static FanartTvApi ft;
+    private static FanartTvApi api;
     private static final ArrayList<Integer> ID_TVDB = new ArrayList<Integer>();
     private static final ArrayList<String> ID_TMDB = new ArrayList<String>();
     private static final ArrayList<String> ID_IMDB = new ArrayList<String>();
     private static final ArrayList<String> ID_MUSIC_ARTIST = new ArrayList<String>();
     private static final ArrayList<String> ID_MUSIC_ALBUM = new ArrayList<String>();
     private static final ArrayList<String> ID_MUSIC_LABEL = new ArrayList<String>();
-    private static final int ID_TVDB_NO_ARTWORK = 257256;// Love life (Unlikely to have artwork)
 
     @BeforeClass
     public static void setUpClass() throws FanartTvException {
-        ft = new FanartTvApi(APIKEY);
+        api = new FanartTvApi(APIKEY);
         TestLogger.Configure();
 
         ID_TVDB.add(79349); // Dexter);
-        ID_TVDB.add(ID_TVDB_NO_ARTWORK);
+        ID_TVDB.add(80379); // Big Bang Theory
 
         ID_TMDB.add("78");    // Blade Runner
         ID_TMDB.add("19995"); // Avatar
@@ -92,10 +91,9 @@ public class FanartTvApiTest {
      *
      * @throws FanartTvException
      */
-    @Ignore("Done")
+    @Ignore
     public void testGetTvArtwork() throws FanartTvException {
         LOG.info("getTvArtwork");
-        FanartTvApi api = new FanartTvApi(APIKEY);
 
         for (int id : ID_TVDB) {
             FTSeries result = api.getTvArtwork(Integer.toString(id));
@@ -108,11 +106,10 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore("Done")
+    @Ignore
     public void testGetTvLatest() throws FanartTvException {
         LOG.info("getTvLatest");
         String date = "";
-        FanartTvApi api = new FanartTvApi(APIKEY);
 
         List<FTLatest> result = api.getTvLatest(date);
         assertFalse("Empty latest results found", result.isEmpty());
@@ -124,10 +121,9 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore("Done")
+    @Ignore
     public void testGetMovieArtwork() throws FanartTvException {
         LOG.info("getMovieArtwork");
-        FanartTvApi api = new FanartTvApi(APIKEY);
 
         for (String id : ID_TMDB) {
             FTMovie result = api.getMovieArtwork(id);
@@ -140,11 +136,10 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore("Done")
+    @Ignore
     public void testGetMovieLatest() throws FanartTvException {
         LOG.info("getMovieLatest");
         String date = "";
-        FanartTvApi api = new FanartTvApi(APIKEY);
         List<FTLatest> result = api.getMovieLatest(date);
         assertFalse("Empty latest results found", result.isEmpty());
         assertTrue("No latest results found", result.size() > 0);
@@ -155,10 +150,9 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore
+    @Test
     public void testGetMusicArtist() throws FanartTvException {
         LOG.info("getMusicArtist");
-        FanartTvApi api = new FanartTvApi(APIKEY);
 
         for (String id : ID_MUSIC_ARTIST) {
             FTMusicArtist result = api.getMusicArtist(id);
@@ -171,10 +165,9 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Test
+    @Ignore
     public void testGetMusicAlbum() throws FanartTvException {
         LOG.info("getMusicAlbum");
-        FanartTvApi api = new FanartTvApi(APIKEY);
 
         for (String id : ID_MUSIC_ALBUM) {
             FTMusicAlbum result = api.getMusicAlbum(id);
@@ -187,10 +180,9 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore("Done")
+    @Ignore
     public void testGetMusicLabel() throws FanartTvException {
         LOG.info("getMusicLabel");
-        FanartTvApi api = new FanartTvApi(APIKEY);
 
         for (String id : ID_MUSIC_LABEL) {
             FTMusicLabel result = api.getMusicLabel(id);
@@ -203,11 +195,11 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore("Done")
+    @Ignore
     public void testGetMusicArtistLatest() throws FanartTvException {
         LOG.info("getMusicArtistLatest");
         String date = "";
-        FanartTvApi api = new FanartTvApi(APIKEY);
+
         List<FTLatest> result = api.getMusicArtistLatest(date);
         assertFalse("Empty latest results found", result.isEmpty());
         assertTrue("No latest results found", result.size() > 0);

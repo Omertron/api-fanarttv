@@ -20,7 +20,8 @@
 package com.omertron.fanarttvapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
+import java.util.Collections;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author stuart.boston
  */
-public class FTMusicAlbum extends AbstractFanartTv implements Serializable {
+public class FTMusicAlbum extends ArtworkList {
 
     private static final Logger LOG = LoggerFactory.getLogger(FTSeries.class);
 
@@ -37,6 +38,8 @@ public class FTMusicAlbum extends AbstractFanartTv implements Serializable {
     private String name;
     @JsonProperty("mbid_id")
     private String mbidId;
+    @JsonProperty("albums")
+    private Map<String, ArtworkList> albums = Collections.emptyMap();
 
     /**
      * Get the Artist Name
@@ -72,6 +75,24 @@ public class FTMusicAlbum extends AbstractFanartTv implements Serializable {
      */
     public void setMbidId(String mbidId) {
         this.mbidId = mbidId;
+    }
+
+    /**
+     * Get a list of the albums associated with the Artist
+     *
+     * @return
+     */
+    public Map<String, ArtworkList> getAlbums() {
+        return albums;
+    }
+
+    /**
+     * Set the list of albums for the artist
+     *
+     * @param albums
+     */
+    public void setAlbums(Map<String, ArtworkList> albums) {
+        this.albums = albums;
     }
 
 }

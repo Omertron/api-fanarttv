@@ -20,10 +20,9 @@
 package com.omertron.fanarttvapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.omertron.fanarttvapi.enumeration.FTArtworkType;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +31,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author stuart.boston
  */
-public class FTMusicArtist extends AbstractFanartTv implements Serializable {
+public class FTMusicArtist extends ArtworkList implements Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(FTSeries.class);
 
@@ -41,7 +40,7 @@ public class FTMusicArtist extends AbstractFanartTv implements Serializable {
     @JsonProperty("mbid_id")
     private String mbidId;
     @JsonProperty("albums")
-    private List<String> albums;
+    private Map<String, ArtworkList> albums = Collections.emptyMap();
 
     /**
      * Get the Artist Name
@@ -79,61 +78,22 @@ public class FTMusicArtist extends AbstractFanartTv implements Serializable {
         this.mbidId = mbidId;
     }
 
-    public List<String> getAlbums() {
+    /**
+     * Get a list of the albums associated with the Artist
+     *
+     * @return
+     */
+    public Map<String, ArtworkList> getAlbums() {
         return albums;
     }
 
-    public void setAlbums(List<String> albums) {
+    /**
+     * Set the list of albums for the artist
+     *
+     * @param albums
+     */
+    public void setAlbums(Map<String, ArtworkList> albums) {
         this.albums = albums;
     }
 
-    /**
-     * Set the Artist Background artwork list
-     *
-     * @param ftArtwork
-     */
-    @JsonSetter("artistbackground")
-    public void setArtistbackground(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.ARTISTBACKGROUND, ftArtwork);
-    }
-
-    /**
-     * Set the Artist Thumb artwork list
-     *
-     * @param ftArtwork
-     */
-    @JsonSetter("artistthumb")
-    public void setArtistthumb(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.ARTISTTHUMB, ftArtwork);
-    }
-
-    /**
-     * Set the Music Logo artwork list
-     *
-     * @param ftArtwork
-     */
-    @JsonSetter("musiclogo")
-    public void setMusiclogo(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.MUSICLOGO, ftArtwork);
-    }
-
-    /**
-     * Set the HD Music Logo artwork list
-     *
-     * @param ftArtwork
-     */
-    @JsonSetter("hdmusiclogo")
-    public void setHdmusiclogo(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.HDMUSICLOGO, ftArtwork);
-    }
-
-    /**
-     * Set the Music Banner artwork list
-     *
-     * @param ftArtwork
-     */
-    @JsonSetter("musicbanner")
-    public void setMusicbanner(List<FTArtwork> ftArtwork) {
-        addArtwork(FTArtworkType.MUSICBANNER, ftArtwork);
-    }
 }
