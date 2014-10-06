@@ -19,8 +19,8 @@
  */
 package com.omertron.fanarttvapi.tools;
 
-import com.omertron.fanarttvapi.enumeration.BaseType;
 import com.omertron.fanarttvapi.FanartTvException;
+import com.omertron.fanarttvapi.enumeration.BaseType;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +58,7 @@ public final class ApiBuilder {
      */
     private static final String DELIMITER = "?";
     private static final String DELIMITER_APIKEY="?api_key=";
-    private static final String DELIMITER_CLIENT_KEY="?client_key=";
+    private static final String DELIMITER_CLIENT_KEY="&client_key=";
     /*
      * Constants
      */
