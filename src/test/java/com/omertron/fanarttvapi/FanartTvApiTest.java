@@ -48,7 +48,7 @@ public class FanartTvApiTest {
     private static final String PROP_FIlENAME = "testing.properties";
     private static String API_KEY;
     private static String CLIENT_KEY;
-    private static FanartTvApi api;
+    private static FanartTvApi ft;
     private static final ArrayList<Integer> ID_TVDB = new ArrayList<Integer>();
     private static final ArrayList<String> ID_TMDB = new ArrayList<String>();
     private static final ArrayList<String> ID_IMDB = new ArrayList<String>();
@@ -78,7 +78,7 @@ public class FanartTvApiTest {
             fail("Failed to get key information from properties file '" + PROP_FIlENAME + "'");
         }
 
-        api = new FanartTvApi(API_KEY, CLIENT_KEY);
+        ft = new FanartTvApi(API_KEY, CLIENT_KEY);
 
         ID_TVDB.add(79349); // Dexter);
         ID_TVDB.add(80379); // Big Bang Theory
@@ -119,7 +119,7 @@ public class FanartTvApiTest {
         LOG.info("getTvArtwork");
 
         for (int id : ID_TVDB) {
-            FTSeries result = api.getTvArtwork(Integer.toString(id));
+            FTSeries result = ft.getTvArtwork(Integer.toString(id));
             assertTrue("No artwork found for ID: " + id, result.hasArtwork());
         }
     }
@@ -134,7 +134,7 @@ public class FanartTvApiTest {
         LOG.info("getTvLatest");
         String date = "";
 
-        List<FTLatest> result = api.getTvLatest(date);
+        List<FTLatest> result = ft.getTvLatest(date);
         assertFalse("Empty latest results found", result.isEmpty());
         assertTrue("No latest results found", result.size() > 0);
     }
@@ -149,12 +149,12 @@ public class FanartTvApiTest {
         LOG.info("getMovieArtwork");
 
         for (String id : ID_TMDB) {
-            FTMovie result = api.getMovieArtwork(id);
+            FTMovie result = ft.getMovieArtwork(id);
             assertTrue("No artwork found for TMDB ID: " + id, result.hasArtwork());
         }
-        
+
         for (String id : ID_IMDB) {
-            FTMovie result = api.getMovieArtwork(id);
+            FTMovie result = ft.getMovieArtwork(id);
             assertTrue("No artwork found for IMDB ID: " + id, result.hasArtwork());
         }
     }
@@ -168,7 +168,7 @@ public class FanartTvApiTest {
     public void testGetMovieLatest() throws FanartTvException {
         LOG.info("getMovieLatest");
         String date = "";
-        List<FTLatest> result = api.getMovieLatest(date);
+        List<FTLatest> result = ft.getMovieLatest(date);
         assertFalse("Empty latest results found", result.isEmpty());
         assertTrue("No latest results found", result.size() > 0);
     }
@@ -183,7 +183,7 @@ public class FanartTvApiTest {
         LOG.info("getMusicArtist");
 
         for (String id : ID_MUSIC_ARTIST) {
-            FTMusicArtist result = api.getMusicArtist(id);
+            FTMusicArtist result = ft.getMusicArtist(id);
             assertTrue("No artwork found for ID: " + id, result.hasArtwork());
         }
     }
@@ -198,8 +198,8 @@ public class FanartTvApiTest {
         LOG.info("getMusicAlbum");
 
         for (String id : ID_MUSIC_ALBUM) {
-            FTMusicAlbum result = api.getMusicAlbum(id);
-            assertTrue("No artwork found for ID: " + id, result.hasArtwork());
+            FTMusicAlbum result = ft.getMusicAlbum(id);
+            assertTrue("No album found for ID: " + id, result.getAlbums().size() > 0);
         }
     }
 
@@ -213,7 +213,7 @@ public class FanartTvApiTest {
         LOG.info("getMusicLabel");
 
         for (String id : ID_MUSIC_LABEL) {
-            FTMusicLabel result = api.getMusicLabel(id);
+            FTMusicLabel result = ft.getMusicLabel(id);
             assertTrue("No artwork found for ID: " + id, result.hasArtwork());
         }
     }
@@ -228,7 +228,7 @@ public class FanartTvApiTest {
         LOG.info("getMusicArtistLatest");
         String date = "";
 
-        List<FTLatest> result = api.getMusicArtistLatest(date);
+        List<FTLatest> result = ft.getMusicArtistLatest(date);
         assertFalse("Empty latest results found", result.isEmpty());
         assertTrue("No latest results found", result.size() > 0);
     }
