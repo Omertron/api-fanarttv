@@ -25,15 +25,17 @@ import com.omertron.fanarttvapi.model.FTMusicAlbum;
 import com.omertron.fanarttvapi.model.FTMusicArtist;
 import com.omertron.fanarttvapi.model.FTMusicLabel;
 import com.omertron.fanarttvapi.model.FTSeries;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +44,10 @@ public class FanartTvApiTest {
 
     // Logger
     private static final Logger LOG = LoggerFactory.getLogger(FanartTvApiTest.class);
-    private static final String APIKEY = "52fdc988539881c2ac1f3852ddfbfc5f";
-    private static final String CLIENT_KEY = "340b5ed125e407078ff183e9bf54f9b5";
+    // API Keys
+    private static final String PROP_FIlENAME = "testing.properties";
+    private static String API_KEY;
+    private static String CLIENT_KEY;
     private static FanartTvApi api;
     private static final ArrayList<Integer> ID_TVDB = new ArrayList<Integer>();
     private static final ArrayList<String> ID_TMDB = new ArrayList<String>();
@@ -54,8 +58,27 @@ public class FanartTvApiTest {
 
     @BeforeClass
     public static void setUpClass() throws FanartTvException {
-        api = new FanartTvApi(APIKEY);
         TestLogger.Configure();
+
+        Properties props = new Properties();
+        File propertyFile = new File(PROP_FIlENAME);
+        if (propertyFile.exists()) {
+            LOG.info("Loading properties from '{}'", PROP_FIlENAME);
+            TestLogger.loadProperties(props, propertyFile);
+
+            API_KEY = props.getProperty("API_KEY");
+            CLIENT_KEY = props.getProperty("CLIENT_KEY");
+        } else {
+            LOG.info("Property file '{}' not found, creating dummy file.", PROP_FIlENAME);
+
+            props.setProperty("API_KEY", "INSERT_YOUR_API_KEY_HERE");
+            props.setProperty("CLIENT_KEY", "INSERT_YOUR_CLIENT_KEY_HERE");
+
+            TestLogger.saveProperties(props, propertyFile, "Properties file for tests");
+            fail("Failed to get key information from properties file '" + PROP_FIlENAME + "'");
+        }
+
+        api = new FanartTvApi(API_KEY, CLIENT_KEY);
 
         ID_TVDB.add(79349); // Dexter);
         ID_TVDB.add(80379); // Big Bang Theory
@@ -91,7 +114,7 @@ public class FanartTvApiTest {
      *
      * @throws FanartTvException
      */
-    @Ignore
+    @Test
     public void testGetTvArtwork() throws FanartTvException {
         LOG.info("getTvArtwork");
 
@@ -106,7 +129,7 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore
+    @Test
     public void testGetTvLatest() throws FanartTvException {
         LOG.info("getTvLatest");
         String date = "";
@@ -121,13 +144,18 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore
+    @Test
     public void testGetMovieArtwork() throws FanartTvException {
         LOG.info("getMovieArtwork");
 
         for (String id : ID_TMDB) {
             FTMovie result = api.getMovieArtwork(id);
-            assertTrue("No artwork found for ID: " + id, result.hasArtwork());
+            assertTrue("No artwork found for TMDB ID: " + id, result.hasArtwork());
+        }
+        
+        for (String id : ID_IMDB) {
+            FTMovie result = api.getMovieArtwork(id);
+            assertTrue("No artwork found for IMDB ID: " + id, result.hasArtwork());
         }
     }
 
@@ -136,7 +164,7 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore
+    @Test
     public void testGetMovieLatest() throws FanartTvException {
         LOG.info("getMovieLatest");
         String date = "";
@@ -156,7 +184,7 @@ public class FanartTvApiTest {
 
         for (String id : ID_MUSIC_ARTIST) {
             FTMusicArtist result = api.getMusicArtist(id);
-            LOG.info(result.toString());
+            assertTrue("No artwork found for ID: " + id, result.hasArtwork());
         }
     }
 
@@ -165,13 +193,13 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore
+    @Test
     public void testGetMusicAlbum() throws FanartTvException {
         LOG.info("getMusicAlbum");
 
         for (String id : ID_MUSIC_ALBUM) {
             FTMusicAlbum result = api.getMusicAlbum(id);
-            LOG.info(result.toString());
+            assertTrue("No artwork found for ID: " + id, result.hasArtwork());
         }
     }
 
@@ -180,13 +208,13 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore
+    @Test
     public void testGetMusicLabel() throws FanartTvException {
         LOG.info("getMusicLabel");
 
         for (String id : ID_MUSIC_LABEL) {
             FTMusicLabel result = api.getMusicLabel(id);
-            LOG.info(result.toString());
+            assertTrue("No artwork found for ID: " + id, result.hasArtwork());
         }
     }
 
@@ -195,7 +223,7 @@ public class FanartTvApiTest {
      *
      * @throws com.omertron.fanarttvapi.FanartTvException
      */
-    @Ignore
+    @Test
     public void testGetMusicArtistLatest() throws FanartTvException {
         LOG.info("getMusicArtistLatest");
         String date = "";
