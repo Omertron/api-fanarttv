@@ -17,49 +17,43 @@
  *      along with the FanartTV API.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.omertron.fanarttvapi.model;
+package com.omertron.fanarttvapi.enumeration;
 
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * List if the artwork sorts for Fanart.TV Artwork
  *
- * @author Stuart
+ * @author Stuart.Boston
  */
-public enum FTArtworkSort {
-
-    DEFAULT(1), POPULAR(1), NEWEST(2), OLDEST(3);
-    private final int sortType;
-
-    private FTArtworkSort(int sortType) {
-        this.sortType = sortType;
-    }
-
-    /**
-     * Get the numerical sort value for the sort
-     *
-     * @return
-     */
-    public int getValue() {
-        return sortType;
-    }
+public enum ArtworkCategory {
+    HDTVLOGO,
+    HDCLEARART,
+    CHARACTERART,
+    CLEARLOGO,
+    CLEARART,
+    SHOWBACKGROUND,
+    TVTHUMB,
+    SEASONPOSTER,
+    SEASONTHUMB,
+    TVBANNER,
+    TVPOSTER,
+    SEASONBANNER;
 
     /**
-     * Convert a string into an Enum type
+     * Convert a string into an Enum type.
      *
-     * @param artworkSort
+     * @param category
      * @return
      * @throws IllegalArgumentException If type is not recognised
-     *
      */
-    public static FTArtworkSort fromString(String artworkSort) {
-        if (StringUtils.isNotBlank(artworkSort)) {
+    public static ArtworkCategory fromString(String category) {
+        if (StringUtils.isNotBlank(category)) {
             try {
-                return FTArtworkSort.valueOf(artworkSort.trim().toUpperCase());
+                return ArtworkCategory.valueOf(category.trim().toUpperCase());
             } catch (IllegalArgumentException ex) {
-                throw new IllegalArgumentException("FTArtworkSort " + artworkSort + " does not exist.", ex);
+                throw new IllegalArgumentException("ArtworkCategory '" + category + "' does not exist.", ex);
             }
         }
-        throw new IllegalArgumentException("FTArtworkSort must not be null");
+        throw new IllegalArgumentException("ArtworkCategory must not be null");
     }
 }

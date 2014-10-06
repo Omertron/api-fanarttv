@@ -19,35 +19,44 @@
  */
 package com.omertron.fanarttvapi.model;
 
-import org.apache.commons.lang3.StringUtils;
+import com.omertron.fanarttvapi.enumeration.FTArtworkType;
+import java.util.List;
+import java.util.Map;
 
 /**
- * The list of video types the artwork is intended for
+ * Interface to present a list of the artwork
  *
  * @author stuart.boston
  */
-public enum FTSourceType {
-
-    ALL,
-    TV,
-    MOVIE,
-    MUSIC;
+public interface IArtworkList {
 
     /**
-     * Convert a string into an Enum type.
+     * Return a map of all artwork
+     *
+     * @return
+     */
+    Map<FTArtworkType, List<FTArtwork>> getArtwork();
+
+    /**
+     * Return a list of a specific artwork type
      *
      * @param artworkType
      * @return
-     * @throws IllegalArgumentException If type is not recognised
      */
-    public static FTSourceType fromString(String artworkType) {
-        if (StringUtils.isNotBlank(artworkType)) {
-            try {
-                return FTSourceType.valueOf(artworkType.trim().toUpperCase());
-            } catch (IllegalArgumentException ex) {
-                throw new IllegalArgumentException("FTSource " + artworkType + " does not exist.", ex);
-            }
-        }
-        throw new IllegalArgumentException("FTSource must not be null");
-    }
+    List<FTArtwork> getArtwork(FTArtworkType artworkType);
+
+    /**
+     * Check to see if the object has any artwork
+     *
+     * @return
+     */
+    boolean hasArtwork();
+
+    /**
+     * Check to see if the object has artwork of a specific type
+     *
+     * @param artworkType
+     * @return
+     */
+    boolean hasArtwork(FTArtworkType artworkType);
 }

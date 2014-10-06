@@ -17,7 +17,7 @@
  *      along with the FanartTV API.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.omertron.fanarttvapi.tools;
+package com.omertron.fanarttvapi.enumeration;
 
 /**
  * The list of video types the artwork is intended for

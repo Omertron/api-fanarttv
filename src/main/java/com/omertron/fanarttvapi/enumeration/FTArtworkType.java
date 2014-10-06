@@ -17,7 +17,7 @@
  *      along with the FanartTV API.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.omertron.fanarttvapi.model;
+package com.omertron.fanarttvapi.enumeration;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,61 +28,38 @@ import org.apache.commons.lang3.StringUtils;
  */
 public enum FTArtworkType {
 
-    ALL(FTSourceType.ALL),
     // TV Artwork
-    CLEARART(FTSourceType.TV),
-    CLEARLOGO(FTSourceType.TV),
-    SEASONTHUMB(FTSourceType.TV),
-    TVTHUMB(FTSourceType.TV),
-    CHARACTERART(FTSourceType.TV),
-    SHOWBACKGROUND(FTSourceType.TV),
-    HDTVLOGO(FTSourceType.TV),
-    HDCLEARART(FTSourceType.TV),
-    TVPOSTER(FTSourceType.TV),
-    TVBANNER(FTSourceType.TV),
+    CLEARART,
+    CLEARLOGO,
+    SEASONTHUMB,
+    TVTHUMB,
+    CHARACTERART,
+    SHOWBACKGROUND,
+    HDTVLOGO,
+    HDCLEARART,
+    TVPOSTER,
+    TVBANNER,
+    SEASONPOSTER,
+    SEASONBANNER,
     // Movie Artwork Types
-    MOVIELOGO(FTSourceType.MOVIE),
-    MOVIEDISC(FTSourceType.MOVIE),
-    MOVIEART(FTSourceType.MOVIE),
-    MOVIEBACKGROUND(FTSourceType.MOVIE),
-    MOVIETHUMB(FTSourceType.MOVIE),
-    MOVIEBANNER(FTSourceType.MOVIE),
-    HDMOVIELOGO(FTSourceType.MOVIE),
-    HDMOVIECLEARART(FTSourceType.MOVIE),
-    MOVIEPOSTER(FTSourceType.MOVIE),
+    MOVIELOGO,
+    MOVIEDISC,
+    MOVIEART,
+    MOVIEBACKGROUND,
+    MOVIETHUMB,
+    MOVIEBANNER,
+    HDMOVIELOGO,
+    HDMOVIECLEARART,
+    MOVIEPOSTER,
     // Music Artwork Types
-    CDART(FTSourceType.MUSIC),
-    ARTISTBACKGROUND(FTSourceType.MUSIC),
-    ALBUMCOVER(FTSourceType.MUSIC),
-    MUSICLOGO(FTSourceType.MUSIC),
-    ARTISTTHUMB(FTSourceType.MUSIC),
-    ALBUMS(FTSourceType.MUSIC),
-    HDMUSICLOGO(FTSourceType.MUSIC),
-    MUSICBANNER(FTSourceType.MUSIC);
-    // Properties
-    private final FTSourceType sourceType;
-
-    private FTArtworkType(FTSourceType sourceType) {
-        this.sourceType = sourceType;
-    }
-
-    /**
-     * Get the source type for the artwork type
-     *
-     * @return
-     */
-    public FTSourceType getSourceType() {
-        return sourceType;
-    }
-
-    /**
-     * Get the source type for the artwork type
-     *
-     * @return
-     */
-    public FTSourceType source() {
-        return getSourceType();
-    }
+    CDART,
+    ARTISTBACKGROUND,
+    ALBUMCOVER,
+    MUSICLOGO,
+    ARTISTTHUMB,
+    ALBUMS,
+    HDMUSICLOGO,
+    MUSICBANNER;
 
     /**
      * Convert a string into an Enum type.

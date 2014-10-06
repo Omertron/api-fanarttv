@@ -20,12 +20,11 @@
 package com.omertron.fanarttvapi.model;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.Serializable;
 
 /**
  * Abstract class to handle any unknown properties by outputting a log message
@@ -34,19 +33,15 @@ import java.io.Serializable;
  */
 public abstract class AbstractJsonMapping implements Serializable {
 
-    private Logger log = null;
-
-    /**
-     * Return the current logger.
-     *
-     * @return
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    /*
+     * Error fields
      */
-    private Logger getLogger() {
-        if (log == null) {
-            log = LoggerFactory.getLogger(this.getClass());
-        }
-        return log;
-    }
+    @JsonProperty("status")
+    private String status;
+    @JsonProperty("error message")
+    private String errorMessage;
+    private boolean error = Boolean.FALSE;
 
     /**
      * Handle unknown properties and print a message
@@ -60,11 +55,38 @@ public abstract class AbstractJsonMapping implements Serializable {
         unknown.append(": Unknown property='").append(key);
         unknown.append("' value='").append(value).append("'");
 
-        getLogger().trace(unknown.toString());
+        log.trace(unknown.toString());
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        final ReflectionToStringBuilder reflectionToStringBuilder
+                = new ReflectionToStringBuilder(this);
+        reflectionToStringBuilder.setExcludeFieldNames(
+                new String[]{"status", "errorMessage", "error", "log"});
+        return reflectionToStringBuilder.toString();
+//        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+        this.error = Boolean.TRUE;  // Set the error to true
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+        this.error = Boolean.TRUE;  // Set the error to true
+    }
+
+    public boolean isError() {
+        return error;
     }
 }
