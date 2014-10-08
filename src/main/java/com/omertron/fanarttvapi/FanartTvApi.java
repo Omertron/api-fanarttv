@@ -37,8 +37,6 @@ import java.nio.charset.Charset;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpGet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yamj.api.common.http.CommonHttpClient;
 import org.yamj.api.common.http.DefaultPoolingHttpClient;
 
@@ -51,14 +49,11 @@ import org.yamj.api.common.http.DefaultPoolingHttpClient;
  */
 public class FanartTvApi {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FanartTvApi.class);
     private ApiBuilder ftapi;
     private static final String DEFAULT_CHARSET = "UTF-8";
     private CommonHttpClient httpClient;
 
-    /*
-     * Jackson JSON configuration
-     */
+    //Jackson JSON configuration
     private static ObjectMapper mapper = new ObjectMapper();
 
     /**
@@ -100,7 +95,6 @@ public class FanartTvApi {
 
         this.ftapi = new ApiBuilder(apiKey, clientKey);
         this.httpClient = httpClient;
-
     }
 
     /**
@@ -132,7 +126,6 @@ public class FanartTvApi {
         }
 
         if (series.isError()) {
-            LOG.info("Error: {}", series.getErrorMessage());
             throw new FanartTvException(FanartTvExceptionType.ID_NOT_FOUND, series.getErrorMessage());
         }
 
@@ -182,7 +175,6 @@ public class FanartTvApi {
         }
 
         if (movie.isError()) {
-            LOG.info("Error: {}", movie.getErrorMessage());
             throw new FanartTvException(FanartTvExceptionType.ID_NOT_FOUND, movie.getErrorMessage());
         }
 
