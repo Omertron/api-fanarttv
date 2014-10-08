@@ -1,0 +1,264 @@
+{
+    "name": "test",
+    "id": "12345",
+    "musiclogo": [
+        {
+            "id": "6641",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/musiclogo/rod-stewart-4e09010b1976a.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "6642",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/musiclogo/rod-stewart-4e09011198bd3.png",
+            "colour": "white",
+            "likes": "0"
+        }
+    ],
+    "artistbackground": [
+        {
+            "id": "31483",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistbackground/stewart-rod-4fb648483e7c6.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "31484",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistbackground/stewart-rod-4fb648571ee82.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "31485",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistbackground/stewart-rod-4fb6489502263.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "31486",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistbackground/stewart-rod-4fb648a063ffe.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "109650",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistbackground/stewart-rod-52d5587e4b8fe.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "124315",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistbackground/stewart-rod-537efcce06583.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "131891",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistbackground/stewart-rod-53e5965c4843f.jpg",
+            "colour": "white",
+            "likes": "0"
+        }
+    ],
+    "cdart": [
+        {
+            "id": "35458",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/it-had-to-be-you-the-great-american-songbook-4fd1d228c1f60.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "35502",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/as-time-goes-by-the-great-american-songbook-volume-ii-4fd24a59b2910.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "35509",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/stardust-the-great-american-songbook-volume-iii-4fd25ba4b3b20.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "35511",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/thanks-for-the-memory-the-great-american-songbook-volume-iv-4fd25db93b6ba.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "51336",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/the-very-best-of-rod-stewart-504d70d108a15.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "65585",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/merry-christmas-baby-50df391e064f5.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "91128",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/the-definitive-rod-stewart-51f34293b9ec5.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "95005",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/a-spanner-in-the-works-5216400f99d3f.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "109657",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/out-of-order-52d55f20e2dca.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "109661",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/vagabond-heart-52d56d50872f0.png",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "109662",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/cdart/vagabond-heart-52d56dbec36a1.png",
+            "colour": "white",
+            "likes": "0"
+        }
+    ],
+    "artistthumb": [
+        {
+            "id": "36017",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-4fd669fc824aa.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "83505",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-51a363436722e.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "131815",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-53e33c37c3b70.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "131817",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-53e33c918a914.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "131892",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-53e596b460097.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "131893",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-53e596ef36d53.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "131894",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-53e5972d3737c.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "131926",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-53e63fe2a43d3.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "131927",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-53e64015c1e58.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "131928",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/artistthumb/stewart-rod-53e6403f87146.jpg",
+            "colour": "white",
+            "likes": "0"
+        }
+    ],
+    "albumcover": [
+        {
+            "id": "65576",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/albumcover/merry-christmas-baby-50df2051e824c.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "95006",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/albumcover/a-spanner-in-the-works-52164222c7690.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "100308",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/albumcover/the-story-so-far-the-very-best-of-rod-stewart-5250a175ae0df.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "109651",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/albumcover/if-we-fall-in-love-tonight-52d55b6edf3f5.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "109653",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/albumcover/out-of-order-52d55d0c4d593.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "109654",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/albumcover/vagabond-heart-52d55d53f2fc9.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "124314",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/albumcover/fly-me-to-the-moon-the-great-american-songbook-volume-v-537efcc3c0950.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "134466",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/albumcover/foolish-behaviour-5403931e2164c.jpg",
+            "colour": "white",
+            "likes": "0"
+        },
+        {
+            "id": "136917",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/albumcover/some-guys-have-all-the-luck-5421c6a50bc2f.jpg",
+            "colour": "white",
+            "likes": "0"
+        }
+    ],
+    "musicbanner": [
+        {
+            "id": "102258",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/musicbanner/stewart-rod-52696e5ee6c30.jpg",
+            "colour": "white",
+            "likes": "0"
+        }
+    ],
+    "hdmusiclogo": [
+        {
+            "id": "135252",
+            "url": "http://assets.fanart.tv/labels/a35237a0-4f47-40a6-b6f3-1e786db23402/hdmusiclogo/stewart-rod-540e4523a4783.png",
+            "colour": "white",
+            "likes": "0"
+        }
+    ]
+}

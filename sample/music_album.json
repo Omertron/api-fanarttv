@@ -1,0 +1,24 @@
+{
+    "name": "Katy Perry",
+    "mbid_id": "122d63fc-8671-43e4-9752-34e846d62a9c",
+    "albums": {
+        "88f14b0b-f8d1-31b4-87ab-199145fc12d3": {
+            "albumcover": [
+                {
+                    "id": "113",
+                    "url": "http://assets.fanart.tv/fanart/music/122d63fc-8671-43e4-9752-34e846d62a9c/albumcover/one-of-the-boys-4dcc147f1d37f.jpg",
+                    "likes": "1"
+                }
+            ],
+            "cdart": [
+                {
+                    "id": "41555",
+                    "url": "http://assets.fanart.tv/fanart/music/122d63fc-8671-43e4-9752-34e846d62a9c/cdart/one-of-the-boys-4ffa6c03f1e88.png",
+                    "likes": "0",
+                    "disc": "1",
+                    "size": "450"
+                }
+            ]
+        }
+    }
+}

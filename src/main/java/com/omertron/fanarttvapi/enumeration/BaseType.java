@@ -17,19 +17,18 @@
  *      along with the FanartTV API.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.omertron.fanarttvapi.wrapper;
-
-import com.omertron.fanarttvapi.model.FTArtworkType;
-import com.omertron.fanarttvapi.model.FanartTvArtwork;
-import java.util.List;
-import java.util.Map;
+package com.omertron.fanarttvapi.enumeration;
 
 /**
- * Interface to present a list of the artwork
+ * The list of video types the artwork is intended for
  *
  * @author stuart.boston
  */
-public interface IArtworkList {
+public enum BaseType {
 
-    Map<FTArtworkType, List<FanartTvArtwork>> getArtwork();
+    TV,
+    MOVIE,
+    ARTIST,
+    ALBUM,
+    LABEL;
 }

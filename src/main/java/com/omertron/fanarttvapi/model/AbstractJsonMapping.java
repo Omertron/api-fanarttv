@@ -20,12 +20,12 @@
 package com.omertron.fanarttvapi.model;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.Serializable;
 
 /**
  * Abstract class to handle any unknown properties by outputting a log message
@@ -34,19 +34,15 @@ import java.io.Serializable;
  */
 public abstract class AbstractJsonMapping implements Serializable {
 
-    private Logger log = null;
-
-    /**
-     * Return the current logger.
-     *
-     * @return
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractJsonMapping.class);
+    /*
+     * Error fields
      */
-    private Logger getLogger() {
-        if (log == null) {
-            log = LoggerFactory.getLogger(this.getClass());
-        }
-        return log;
-    }
+    @JsonProperty("status")
+    private String status;
+    @JsonProperty("error message")
+    private String errorMessage;
+    private boolean error = Boolean.FALSE;
 
     /**
      * Handle unknown properties and print a message
@@ -60,11 +56,58 @@ public abstract class AbstractJsonMapping implements Serializable {
         unknown.append(": Unknown property='").append(key);
         unknown.append("' value='").append(value).append("'");
 
-        getLogger().trace(unknown.toString());
+        LOG.trace(unknown.toString());
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    /**
+     * Get the status of the request
+     *
+     * @return
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Set the status of the request
+     *
+     * @param status
+     */
+    public void setStatus(String status) {
+        this.status = status;
+        this.error = Boolean.TRUE;  // Set the error to true
+    }
+
+    /**
+     * Get the error message associated with the request (if any)
+     *
+     * @return
+     */
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    /**
+     * Set the error message
+     *
+     * @param errorMessage
+     */
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+        this.error = Boolean.TRUE;  // Set the error to true
+    }
+
+    /**
+     * Does the request have an error?
+     *
+     * @return
+     */
+    public boolean isError() {
+        return error;
     }
 }
