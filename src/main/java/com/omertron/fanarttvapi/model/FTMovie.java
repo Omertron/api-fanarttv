@@ -20,18 +20,13 @@
 package com.omertron.fanarttvapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * JSON Wrapper class for Movie artwork from Fanart.TV
  *
  * @author stuart.boston
  */
-public class FTMovie extends ArtworkList implements Serializable {
-
-    private static final Logger LOG = LoggerFactory.getLogger(FTMovie.class);
+public class FTMovie extends ArtworkList {
 
     @JsonProperty("tmdb_id")
     private String tmdbId = "";

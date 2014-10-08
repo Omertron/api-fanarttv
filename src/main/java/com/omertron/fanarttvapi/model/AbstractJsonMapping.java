@@ -80,7 +80,8 @@ public abstract class AbstractJsonMapping implements Serializable {
      */
     public void setStatus(String status) {
         this.status = status;
-        this.error = Boolean.TRUE;  // Set the error to true
+        // Set the error to true
+        this.error = Boolean.TRUE;
     }
 
     /**
@@ -99,7 +100,8 @@ public abstract class AbstractJsonMapping implements Serializable {
      */
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
-        this.error = Boolean.TRUE;  // Set the error to true
+        // Set the error to true
+        this.error = Boolean.TRUE;
     }
 
     /**

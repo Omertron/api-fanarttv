@@ -79,7 +79,7 @@ public class ArtworkList extends AbstractJsonMapping implements IArtworkList, Se
     public boolean hasArtwork() {
         for (FTArtworkType at : FTArtworkType.values()) {
             // We're not countin the artwork, we're seeing if any exists, so quit when we find something
-            if (hasArtwork(at) && artwork.get(at).size() > 0) {
+            if (hasArtwork(at) && artwork.isEmpty()) {
                 return true;
             }
         }
@@ -95,7 +95,7 @@ public class ArtworkList extends AbstractJsonMapping implements IArtworkList, Se
     @Override
     public boolean hasArtwork(FTArtworkType artworkType) {
         if (artwork.containsKey(artworkType) && artwork.get(artworkType) != null) {
-            return artwork.get(artworkType).size() > 0;
+            return artwork.get(artworkType).isEmpty();
         }
         return false;
     }

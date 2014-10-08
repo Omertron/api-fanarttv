@@ -22,8 +22,6 @@ package com.omertron.fanarttvapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Collections;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * JSON Wrapper class for TV Music Album artwork from Fanart.TV
@@ -31,8 +29,6 @@ import org.slf4j.LoggerFactory;
  * @author stuart.boston
  */
 public class FTMusicAlbum extends ArtworkList {
-
-    private static final Logger LOG = LoggerFactory.getLogger(FTSeries.class);
 
     @JsonProperty("name")
     private String name;

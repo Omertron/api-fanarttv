@@ -20,20 +20,15 @@
 package com.omertron.fanarttvapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * JSON Wrapper class for TV Music Artist artwork from Fanart.TV
  *
  * @author stuart.boston
  */
-public class FTMusicArtist extends ArtworkList implements Serializable {
-
-    private static final Logger LOG = LoggerFactory.getLogger(FTSeries.class);
+public class FTMusicArtist extends ArtworkList {
 
     @JsonProperty("name")
     private String name;

@@ -47,18 +47,14 @@ import org.yamj.api.common.http.DefaultPoolingHttpClient;
  * http://fanart.tv/api-info/
  *
  * @author Stuart.Boston
- * @version 1.1
- *
- * TODO Allow a selection of the artwork types to be selected rather than 1 or
- * ALL
+ * @version 3.0
  */
 public class FanartTvApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(FanartTvApi.class);
-    private ApiBuilder API;
+    private ApiBuilder ftapi;
     private static final String DEFAULT_CHARSET = "UTF-8";
     private CommonHttpClient httpClient;
-    private static final String ERROR_JSON_TEXT = "Failed processing JSON Node";
 
     /*
      * Jackson JSON configuration
@@ -102,7 +98,7 @@ public class FanartTvApi {
             throw new FanartTvException(FanartTvExceptionType.UNKNOWN_CAUSE, "Invalid API Key");
         }
 
-        this.API = new ApiBuilder(apiKey, clientKey);
+        this.ftapi = new ApiBuilder(apiKey, clientKey);
         this.httpClient = httpClient;
 
     }
@@ -124,7 +120,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public FTSeries getTvArtwork(String id) throws FanartTvException {
-        URL url = API.getImageUrl(BaseType.TV, id);
+        URL url = ftapi.getImageUrl(BaseType.TV, id);
         String page = requestWebPage(url);
 
         FTSeries series = null;
@@ -151,7 +147,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public List<FTLatest> getTvLatest(String date) throws FanartTvException {
-        URL url = API.getLatestUrl(BaseType.TV, date);
+        URL url = ftapi.getLatestUrl(BaseType.TV, date);
         String page = requestWebPage(url);
 
         List<FTLatest> latest = null;
@@ -174,7 +170,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public FTMovie getMovieArtwork(String id) throws FanartTvException {
-        URL url = API.getImageUrl(BaseType.MOVIE, id);
+        URL url = ftapi.getImageUrl(BaseType.MOVIE, id);
         String page = requestWebPage(url);
 
         FTMovie movie = null;
@@ -201,7 +197,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public List<FTLatest> getMovieLatest(String date) throws FanartTvException {
-        URL url = API.getLatestUrl(BaseType.MOVIE, date);
+        URL url = ftapi.getLatestUrl(BaseType.MOVIE, date);
         String page = requestWebPage(url);
 
         List<FTLatest> latest = null;
@@ -224,7 +220,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public FTMusicArtist getMusicArtist(String id) throws FanartTvException {
-        URL url = API.getImageUrl(BaseType.ARTIST, id);
+        URL url = ftapi.getImageUrl(BaseType.ARTIST, id);
         String page = requestWebPage(url);
 
         FTMusicArtist artist = null;
@@ -246,7 +242,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public FTMusicAlbum getMusicAlbum(String id) throws FanartTvException {
-        URL url = API.getImageUrl(BaseType.ALBUM, id);
+        URL url = ftapi.getImageUrl(BaseType.ALBUM, id);
         String page = requestWebPage(url);
 
         FTMusicAlbum album = null;
@@ -268,7 +264,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public FTMusicLabel getMusicLabel(String id) throws FanartTvException {
-        URL url = API.getImageUrl(BaseType.LABEL, id);
+        URL url = ftapi.getImageUrl(BaseType.LABEL, id);
         String page = requestWebPage(url);
 
         FTMusicLabel label = null;
@@ -290,7 +286,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public List<FTLatest> getMusicArtistLatest(String date) throws FanartTvException {
-        URL url = API.getLatestUrl(BaseType.ARTIST, date);
+        URL url = ftapi.getLatestUrl(BaseType.ARTIST, date);
         String page = requestWebPage(url);
 
         List<FTLatest> latest = null;

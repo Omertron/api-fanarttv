@@ -21,17 +21,14 @@ package com.omertron.fanarttvapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FTLatest extends AbstractJsonMapping implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = LoggerFactory.getLogger(FTArtwork.class);
+
     /*
      * Data model
      */
-
     @JsonProperty("id")
     private String tvdbId = "";
     @JsonProperty("tmdb_id")
