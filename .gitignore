@@ -5,5 +5,7 @@
 *.war
 *.ear
 
+/target/
+
 # Don't import the testing.properties file so that your API keys are kept locally
 testing.properties
