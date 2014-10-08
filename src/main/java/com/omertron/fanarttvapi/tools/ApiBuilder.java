@@ -57,8 +57,8 @@ public final class ApiBuilder {
      * Parameter configuration
      */
     private static final String DELIMITER = "?";
-    private static final String DELIMITER_APIKEY="?api_key=";
-    private static final String DELIMITER_CLIENT_KEY="&client_key=";
+    private static final String DELIMITER_APIKEY = "?api_key=";
+    private static final String DELIMITER_CLIENT_KEY = "&client_key=";
     /*
      * Constants
      */
@@ -75,7 +75,7 @@ public final class ApiBuilder {
         this.clientKey = clientKey;
     }
 
-    public URL getImageUrl(BaseType baseType, String id) throws FanartTvException {
+    private StringBuilder getBaseUrl(BaseType baseType) {
         StringBuilder url = new StringBuilder(API_BASE);
 
         if (baseType == BaseType.TV) {
@@ -89,6 +89,19 @@ public final class ApiBuilder {
         } else if (baseType == BaseType.LABEL) {
             url.append(API_MUSIC_LABELS);
         }
+        return url;
+    }
+
+    /**
+     * Generate the URL for the artwork requests
+     *
+     * @param baseType
+     * @param id
+     * @return
+     * @throws FanartTvException
+     */
+    public URL getImageUrl(BaseType baseType, String id) throws FanartTvException {
+        StringBuilder url = getBaseUrl(baseType);
 
         // Add the ID
         url.append(id);
@@ -104,20 +117,17 @@ public final class ApiBuilder {
         return convertUrl(url);
     }
 
+    /**
+     * Generate the URL for the "latest" requests
+     *
+     * @param baseType
+     * @param date
+     * @return
+     * @throws FanartTvException
+     */
     public URL getLatestUrl(BaseType baseType, String date) throws FanartTvException {
-        StringBuilder url = new StringBuilder(API_BASE);
+        StringBuilder url = getBaseUrl(baseType);
 
-        if (baseType == BaseType.TV) {
-            url.append(API_TV);
-        } else if (baseType == BaseType.MOVIE) {
-            url.append(API_MOVIES);
-        } else if (baseType == BaseType.ALBUM) {
-            url.append(API_MUSIC_ALBUMS);
-        } else if (baseType == BaseType.ARTIST) {
-            url.append(API_MUSIC_ARTIST);
-        } else if (baseType == BaseType.LABEL) {
-            url.append(API_MUSIC_LABELS);
-        }
         url.append(API_LATEST);
 
         // Add the API Key

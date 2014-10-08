@@ -21,7 +21,6 @@ package com.omertron.fanarttvapi;
 
 import com.omertron.fanarttvapi.model.FTLatest;
 import com.omertron.fanarttvapi.model.FTMovie;
-import com.omertron.fanarttvapi.model.FTMusicAlbum;
 import com.omertron.fanarttvapi.model.FTMusicArtist;
 import com.omertron.fanarttvapi.model.FTMusicLabel;
 import com.omertron.fanarttvapi.model.FTSeries;
@@ -198,7 +197,7 @@ public class FanartTvApiTest {
         LOG.info("getMusicAlbum");
 
         for (String id : ID_MUSIC_ALBUM) {
-            FTMusicAlbum result = ft.getMusicAlbum(id);
+            FTMusicArtist result = ft.getMusicAlbum(id);
             assertTrue("No album found for ID: " + id, result.getAlbums().size() > 0);
         }
     }

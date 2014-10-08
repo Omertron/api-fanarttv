@@ -25,7 +25,6 @@ import com.omertron.fanarttvapi.FanartTvException.FanartTvExceptionType;
 import com.omertron.fanarttvapi.enumeration.BaseType;
 import com.omertron.fanarttvapi.model.FTLatest;
 import com.omertron.fanarttvapi.model.FTMovie;
-import com.omertron.fanarttvapi.model.FTMusicAlbum;
 import com.omertron.fanarttvapi.model.FTMusicArtist;
 import com.omertron.fanarttvapi.model.FTMusicLabel;
 import com.omertron.fanarttvapi.model.FTSeries;
@@ -233,14 +232,14 @@ public class FanartTvApi {
      * @return
      * @throws FanartTvException
      */
-    public FTMusicAlbum getMusicAlbum(String id) throws FanartTvException {
+    public FTMusicArtist getMusicAlbum(String id) throws FanartTvException {
         URL url = ftapi.getImageUrl(BaseType.ALBUM, id);
         String page = requestWebPage(url);
 
-        FTMusicAlbum album = null;
+        FTMusicArtist album = null;
 
         try {
-            album = mapper.readValue(page, FTMusicAlbum.class);
+            album = mapper.readValue(page, FTMusicArtist.class);
         } catch (IOException ex) {
             throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
         }
