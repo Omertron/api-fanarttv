@@ -13,7 +13,7 @@
 
     <groupId>com.omertron</groupId>
     <artifactId>fanarttvapi</artifactId>
-    <version>3.1-SNAPSHOT</version>
+    <version>3.1</version>
     <packaging>jar</packaging>
 
     <name>API-FanartTV</name>
