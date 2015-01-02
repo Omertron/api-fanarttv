@@ -20,6 +20,7 @@
 package com.omertron.fanarttvapi.enumeration;
 
 import org.apache.commons.lang3.StringUtils;
+import static com.omertron.fanarttvapi.enumeration.FTSourceType.*;
 
 /**
  * List if the artwork types for Fanart.TV Artwork
@@ -29,36 +30,60 @@ import org.apache.commons.lang3.StringUtils;
 public enum FTArtworkType {
 
     // TV Artwork
-    CLEARART,
-    CLEARLOGO,
-    SEASONTHUMB,
-    TVTHUMB,
-    CHARACTERART,
-    SHOWBACKGROUND,
-    HDTVLOGO,
-    HDCLEARART,
-    TVPOSTER,
-    TVBANNER,
-    SEASONPOSTER,
-    SEASONBANNER,
+    CLEARART(TV),
+    CLEARLOGO(TV),
+    SEASONTHUMB(TV),
+    TVTHUMB(TV),
+    CHARACTERART(TV),
+    SHOWBACKGROUND(TV),
+    HDTVLOGO(TV),
+    HDCLEARART(TV),
+    TVPOSTER(TV),
+    TVBANNER(TV),
+    SEASONPOSTER(TV),
+    SEASONBANNER(TV),
     // Movie Artwork Types
-    MOVIELOGO,
-    MOVIEDISC,
-    MOVIEART,
-    MOVIEBACKGROUND,
-    MOVIETHUMB,
-    MOVIEBANNER,
-    HDMOVIELOGO,
-    HDMOVIECLEARART,
-    MOVIEPOSTER,
+    MOVIELOGO(MOVIE),
+    MOVIEDISC(MOVIE),
+    MOVIEART(MOVIE),
+    MOVIEBACKGROUND(MOVIE),
+    MOVIETHUMB(MOVIE),
+    MOVIEBANNER(MOVIE),
+    HDMOVIELOGO(MOVIE),
+    HDMOVIECLEARART(MOVIE),
+    MOVIEPOSTER(MOVIE),
     // Music Artwork Types
-    CDART,
-    ARTISTBACKGROUND,
-    ALBUMCOVER,
-    MUSICLOGO,
-    ARTISTTHUMB,
-    HDMUSICLOGO,
-    MUSICBANNER;
+    CDART(MUSIC),
+    ARTISTBACKGROUND(MUSIC),
+    ALBUMCOVER(MUSIC),
+    MUSICLOGO(MUSIC),
+    ARTISTTHUMB(MUSIC),
+    HDMUSICLOGO(MUSIC),
+    MUSICBANNER(MUSIC);
+
+    private final FTSourceType sourceType;
+
+    private FTArtworkType(FTSourceType sourceType) {
+        this.sourceType = sourceType;
+    }
+
+    /**
+     * Get the source type for the artwork type
+     *
+     * @return
+     */
+    public FTSourceType getSourceType() {
+        return sourceType;
+    }
+
+    /**
+     * Get the source type for the artwork type
+     *
+     * @return
+     */
+    public FTSourceType source() {
+        return getSourceType();
+    }
 
     /**
      * Convert a string into an Enum type.
