@@ -38,6 +38,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpGet;
 import org.yamj.api.common.http.CommonHttpClient;
 import org.yamj.api.common.http.DefaultPoolingHttpClient;
+import org.yamj.api.common.http.DigestedResponse;
 
 /**
  * This is the main class for the API to connect to Fanart.TV
@@ -325,7 +326,15 @@ public class FanartTvApi {
         try {
             HttpGet httpGet = new HttpGet(url.toURI());
             httpGet.addHeader("accept", "application/json");
-            return httpClient.requestContent(httpGet, Charset.forName(DEFAULT_CHARSET));
+            final DigestedResponse response = httpClient.requestContent(httpGet, Charset.forName(DEFAULT_CHARSET));
+
+            if (response.getStatusCode() >= 500) {
+                throw new FanartTvException(FanartTvExceptionType.HTTP_503_ERROR, response.getContent());
+            } else if (response.getStatusCode() >= 300) {
+                throw new FanartTvException(FanartTvExceptionType.HTTP_404_ERROR, response.getContent());
+            }
+
+            return response.getContent();
         } catch (URISyntaxException ex) {
             throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, "Invalid URL: " + url, ex);
         } catch (IOException ex) {

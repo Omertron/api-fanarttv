@@ -30,7 +30,34 @@ public class FanartTvException extends Exception {
 
     public enum FanartTvExceptionType {
 
-        UNKNOWN_CAUSE, INVALID_URL, HTTP_404_ERROR, ID_NOT_FOUND, MAPPING_FAILED, CONNECTION_ERROR;
+        /*
+         * Unknown error occured
+         */
+        UNKNOWN_CAUSE,
+        /*
+         * URL is invalid
+         */
+        INVALID_URL,
+        /*
+         * The ID was not found
+         */
+        ID_NOT_FOUND,
+        /*
+         * Mapping failed from target to internal onbjects
+         */
+        MAPPING_FAILED,
+        /*
+         * Error connecting to the service
+         */
+        CONNECTION_ERROR,
+        /*
+         * Page not found
+         */
+        HTTP_404_ERROR,
+        /*
+         * Service Unavailable, usually temporary
+         */
+        HTTP_503_ERROR;
     }
     private final FanartTvExceptionType exceptionType;
     private final String response;
