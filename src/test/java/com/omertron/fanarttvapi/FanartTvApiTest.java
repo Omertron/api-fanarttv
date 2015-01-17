@@ -19,7 +19,6 @@
  */
 package com.omertron.fanarttvapi;
 
-import com.omertron.omdbapi.FanartTvException;
 import com.omertron.fanarttvapi.model.FTLatest;
 import com.omertron.fanarttvapi.model.FTMovie;
 import com.omertron.fanarttvapi.model.FTMusicArtist;
