@@ -21,7 +21,6 @@ package com.omertron.fanarttvapi;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.omertron.fanarttvapi.FanartTvException.FanartTvExceptionType;
 import com.omertron.fanarttvapi.enumeration.BaseType;
 import com.omertron.fanarttvapi.model.FTLatest;
 import com.omertron.fanarttvapi.model.FTMovie;
@@ -41,8 +40,7 @@ import org.yamj.api.common.http.DefaultPoolingHttpClient;
 import org.yamj.api.common.http.DigestedResponse;
 
 /**
- * This is the main class for the API to connect to Fanart.TV
- * http://fanart.tv/api-info/
+ * This is the main class for the API to connect to Fanart.TV http://fanart.tv/api-info/
  *
  * @author Stuart.Boston
  * @version 3.0
@@ -80,8 +78,7 @@ public class FanartTvApi {
     }
 
     /**
-     * Create a new API instance with the given API Key and specific
-     * CommonHttpClient
+     * Create a new API instance with the given API Key and specific CommonHttpClient
      *
      * @param apiKey
      * @param clientKey
@@ -90,7 +87,7 @@ public class FanartTvApi {
      */
     public FanartTvApi(String apiKey, String clientKey, CommonHttpClient httpClient) throws FanartTvException {
         if (StringUtils.isBlank(apiKey)) {
-            throw new FanartTvException(FanartTvExceptionType.UNKNOWN_CAUSE, "Invalid API Key");
+            throw new FanartTvException(ApiExceptionType.AUTHORISATION_FAILURE, "Invalid API Key");
         }
 
         this.ftapi = new ApiBuilder(apiKey, clientKey);
@@ -122,11 +119,11 @@ public class FanartTvApi {
         try {
             series = mapper.readValue(page, FTSeries.class);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            throw new FanartTvException(ApiExceptionType.MAPPING_FAILED, "Failed to get data for ID " + id, url, ex);
         }
 
         if (series.isError()) {
-            throw new FanartTvException(FanartTvExceptionType.ID_NOT_FOUND, series.getErrorMessage());
+            throw new FanartTvException(ApiExceptionType.ID_NOT_FOUND, series.getErrorMessage());
         }
 
         return series;
@@ -149,7 +146,7 @@ public class FanartTvApi {
             latest = mapper.readValue(page, new TypeReference<List<FTLatest>>() {
             });
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            throw new FanartTvException(ApiExceptionType.MAPPING_FAILED, "Failed to get TV Latest with date " + date, url, ex);
         }
 
         return latest;
@@ -171,11 +168,11 @@ public class FanartTvApi {
         try {
             movie = mapper.readValue(page, FTMovie.class);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            throw new FanartTvException(ApiExceptionType.MAPPING_FAILED, "Failed to get Movie artwork with ID " + id, url, ex);
         }
 
         if (movie.isError()) {
-            throw new FanartTvException(FanartTvExceptionType.ID_NOT_FOUND, movie.getErrorMessage());
+            throw new FanartTvException(ApiExceptionType.ID_NOT_FOUND, movie.getErrorMessage());
         }
 
         return movie;
@@ -198,7 +195,7 @@ public class FanartTvApi {
             latest = mapper.readValue(page, new TypeReference<List<FTLatest>>() {
             });
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            throw new FanartTvException(ApiExceptionType.MAPPING_FAILED, "Failed to get Movie Latest with date " + date, url, ex);
         }
 
         return latest;
@@ -220,7 +217,7 @@ public class FanartTvApi {
         try {
             artist = mapper.readValue(page, FTMusicArtist.class);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            throw new FanartTvException(ApiExceptionType.MAPPING_FAILED, "Fauled to get Music Artist with ID " + id, url, ex);
         }
 
         return artist;
@@ -242,7 +239,7 @@ public class FanartTvApi {
         try {
             album = mapper.readValue(page, FTMusicArtist.class);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            throw new FanartTvException(ApiExceptionType.MAPPING_FAILED, "Failed to get Music Album with ID " + id, url, ex);
         }
 
         return album;
@@ -264,7 +261,7 @@ public class FanartTvApi {
         try {
             label = mapper.readValue(page, FTMusicLabel.class);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            throw new FanartTvException(ApiExceptionType.MAPPING_FAILED, "fauled to get Music Label with ID " + id, url, ex);
         }
 
         return label;
@@ -287,7 +284,7 @@ public class FanartTvApi {
             latest = mapper.readValue(page, new TypeReference<List<FTLatest>>() {
             });
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.MAPPING_FAILED, null, ex);
+            throw new FanartTvException(ApiExceptionType.MAPPING_FAILED, "Failed to get Music Artist Latest with date " + date, url, ex);
         }
 
         return latest;
@@ -329,16 +326,16 @@ public class FanartTvApi {
             final DigestedResponse response = httpClient.requestContent(httpGet, Charset.forName(DEFAULT_CHARSET));
 
             if (response.getStatusCode() >= 500) {
-                throw new FanartTvException(FanartTvExceptionType.HTTP_503_ERROR, response.getContent());
+                throw new FanartTvException(ApiExceptionType.HTTP_503_ERROR, response.getContent(), response.getStatusCode(), url);
             } else if (response.getStatusCode() >= 300) {
-                throw new FanartTvException(FanartTvExceptionType.HTTP_404_ERROR, response.getContent());
+                throw new FanartTvException(ApiExceptionType.HTTP_404_ERROR, response.getContent(), response.getStatusCode(), url);
             }
 
             return response.getContent();
         } catch (URISyntaxException ex) {
-            throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, "Invalid URL: " + url, ex);
+            throw new FanartTvException(ApiExceptionType.CONNECTION_ERROR, "Invalid URL", url, ex);
         } catch (IOException ex) {
-            throw new FanartTvException(FanartTvExceptionType.CONNECTION_ERROR, "Error retrieving URL: " + url, ex);
+            throw new FanartTvException(ApiExceptionType.CONNECTION_ERROR, "Error retrieving URL", url, ex);
         }
     }
 }

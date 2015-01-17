@@ -19,6 +19,7 @@
  */
 package com.omertron.fanarttvapi.tools;
 
+import com.omertron.fanarttvapi.ApiExceptionType;
 import com.omertron.fanarttvapi.FanartTvException;
 import com.omertron.fanarttvapi.enumeration.BaseType;
 import java.net.MalformedURLException;
@@ -63,7 +64,6 @@ public final class ApiBuilder {
      * Constants
      */
     private static final String FAILED_TO_CREATE_URL = "Failed to create URL: {} - {}";
-    private static final String URL = "URL: {}";
 
     public ApiBuilder(String apiKey) {
         this.apiKey = apiKey;
@@ -153,11 +153,11 @@ public final class ApiBuilder {
      */
     private URL convertUrl(StringBuilder searchUrl) throws FanartTvException {
         try {
-            LOG.trace(URL, searchUrl.toString());
+            LOG.trace("URL: {}", searchUrl.toString());
             return new URL(searchUrl.toString());
         } catch (MalformedURLException ex) {
             LOG.warn(FAILED_TO_CREATE_URL, searchUrl.toString(), ex.toString());
-            throw new FanartTvException(FanartTvException.FanartTvExceptionType.INVALID_URL, searchUrl.toString(), ex);
+            throw new FanartTvException(ApiExceptionType.INVALID_URL, "Unable to conver String to URL", 0, searchUrl.toString(), ex);
         }
     }
 
