@@ -19,8 +19,8 @@
  */
 package com.omertron.fanarttvapi.tools;
 
-import com.omertron.omdbapi.ApiExceptionType;
-import com.omertron.omdbapi.FanartTvException;
+import com.omertron.fanarttvapi.ApiExceptionType;
+import com.omertron.fanarttvapi.FanartTvException;
 import com.omertron.fanarttvapi.enumeration.BaseType;
 import java.net.MalformedURLException;
 import java.net.URL;

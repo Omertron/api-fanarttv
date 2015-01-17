@@ -19,8 +19,6 @@
  */
 package com.omertron.fanarttvapi;
 
-import com.omertron.omdbapi.FanartTvException;
-import com.omertron.omdbapi.ApiExceptionType;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.omertron.fanarttvapi.enumeration.BaseType;
