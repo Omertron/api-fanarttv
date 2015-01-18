@@ -20,75 +20,45 @@
 package com.omertron.fanarttvapi;
 
 import java.net.URL;
+import org.yamj.api.common.exception.ApiException;
+import org.yamj.api.common.exception.ApiExceptionType;
 
-public class FanartTvException extends Exception {
+public class FanartTvException extends ApiException {
 
-    private static final long serialVersionUID = 1L;
-
-    private final ApiExceptionType exceptionType;
-    private final String response;
-    private final int responseCode;
-    private final String url;
-
-    public FanartTvException(final ApiExceptionType exceptionType, final String response) {
-        this(exceptionType, response, 0, "");
+    public FanartTvException(ApiExceptionType exceptionType, String response) {
+        super(exceptionType, response);
     }
 
-    public FanartTvException(final ApiExceptionType exceptionType, final String response, final URL url) {
-        this(exceptionType, response, 0, url.toExternalForm());
+    public FanartTvException(ApiExceptionType exceptionType, String response, URL url) {
+        super(exceptionType, response, url);
     }
 
-    public FanartTvException(final ApiExceptionType exceptionType, final String response, final int responseCode, final URL url) {
-        this(exceptionType, response, responseCode, url.toExternalForm());
+    public FanartTvException(ApiExceptionType exceptionType, String response, int responseCode, URL url) {
+        super(exceptionType, response, responseCode, url);
     }
 
-    public FanartTvException(final ApiExceptionType exceptionType, final String response, final String url) {
-        this(exceptionType, response, 0, url);
+    public FanartTvException(ApiExceptionType exceptionType, String response, String url) {
+        super(exceptionType, response, url);
     }
 
-    public FanartTvException(final ApiExceptionType exceptionType, final String response, final int responseCode, final String url) {
-        super();
-        this.exceptionType = exceptionType;
-        this.response = response;
-        this.responseCode = responseCode;
-        this.url = url;
+    public FanartTvException(ApiExceptionType exceptionType, String response, int responseCode, String url) {
+        super(exceptionType, response, responseCode, url);
     }
 
-    public FanartTvException(final ApiExceptionType exceptionType, final String response, final URL url, final Throwable cause) {
-        this(exceptionType, response, 0, url.toExternalForm(), cause);
+    public FanartTvException(ApiExceptionType exceptionType, String response, URL url, Throwable cause) {
+        super(exceptionType, response, url, cause);
     }
 
-    public FanartTvException(final ApiExceptionType exceptionType, final String response, final int responseCode, final URL url, final Throwable cause) {
-        this(exceptionType, response, responseCode, url.toExternalForm(), cause);
+    public FanartTvException(ApiExceptionType exceptionType, String response, int responseCode, URL url, Throwable cause) {
+        super(exceptionType, response, responseCode, url, cause);
     }
 
-    public FanartTvException(final ApiExceptionType exceptionType, final String response, final String url, final Throwable cause) {
-        this(exceptionType, response, 0, url, cause);
+    public FanartTvException(ApiExceptionType exceptionType, String response, String url, Throwable cause) {
+        super(exceptionType, response, url, cause);
     }
 
-    public FanartTvException(final ApiExceptionType exceptionType, final String response, final int responseCode, final String url, final Throwable cause) {
-        super(cause);
-        this.exceptionType = exceptionType;
-        this.response = response;
-        this.responseCode = responseCode;
-        this.url = url;
+    public FanartTvException(ApiExceptionType exceptionType, String response, int responseCode, String url, Throwable cause) {
+        super(exceptionType, response, responseCode, url, cause);
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Property getters">
-    public ApiExceptionType getExceptionType() {
-        return exceptionType;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public int getResponseCode() {
-        return responseCode;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-    //</editor-fold>
 }

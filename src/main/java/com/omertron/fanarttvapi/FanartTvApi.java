@@ -35,6 +35,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpGet;
+import org.yamj.api.common.exception.ApiExceptionType;
 import org.yamj.api.common.http.CommonHttpClient;
 import org.yamj.api.common.http.DefaultPoolingHttpClient;
 import org.yamj.api.common.http.DigestedResponse;
@@ -87,7 +88,7 @@ public class FanartTvApi {
      */
     public FanartTvApi(String apiKey, String clientKey, CommonHttpClient httpClient) throws FanartTvException {
         if (StringUtils.isBlank(apiKey)) {
-            throw new FanartTvException(ApiExceptionType.AUTHORISATION_FAILURE, "Invalid API Key");
+            throw new FanartTvException(ApiExceptionType.AUTH_FAILURE, "Invalid API Key");
         }
 
         this.ftapi = new ApiBuilder(apiKey, clientKey);

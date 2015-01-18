@@ -19,7 +19,6 @@
  */
 package com.omertron.fanarttvapi.tools;
 
-import com.omertron.fanarttvapi.ApiExceptionType;
 import com.omertron.fanarttvapi.FanartTvException;
 import com.omertron.fanarttvapi.enumeration.BaseType;
 import java.net.MalformedURLException;
@@ -27,6 +26,7 @@ import java.net.URL;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yamj.api.common.exception.ApiExceptionType;
 
 /**
  * Build the API URL that is used to fetch the data
