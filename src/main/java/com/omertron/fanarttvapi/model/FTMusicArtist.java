@@ -30,6 +30,8 @@ import java.util.Map;
  */
 public class FTMusicArtist extends ArtworkList {
 
+    private static final long serialVersionUID = 1L;
+
     @JsonProperty("name")
     private String name;
     @JsonProperty("mbid_id")

@@ -34,6 +34,8 @@ import java.util.Map;
  */
 public class ArtworkList extends AbstractJsonMapping implements IArtworkList, Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private final Map<FTArtworkType, List<FTArtwork>> artwork = new EnumMap<FTArtworkType, List<FTArtwork>>(FTArtworkType.class);
 
     /**
@@ -94,10 +96,7 @@ public class ArtworkList extends AbstractJsonMapping implements IArtworkList, Se
      */
     @Override
     public boolean hasArtwork(FTArtworkType artworkType) {
-        if (artwork.containsKey(artworkType) && !artwork.get(artworkType).isEmpty()) {
-            return true;
-        }
-        return false;
+        return artwork.containsKey(artworkType) && !artwork.get(artworkType).isEmpty();
     }
 
     /**
