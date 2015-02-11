@@ -35,13 +35,15 @@ import java.nio.charset.Charset;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.yamj.api.common.exception.ApiExceptionType;
-import org.yamj.api.common.http.CommonHttpClient;
-import org.yamj.api.common.http.DefaultPoolingHttpClient;
 import org.yamj.api.common.http.DigestedResponse;
+import org.yamj.api.common.http.DigestedResponseReader;
+import org.yamj.api.common.http.SimpleHttpClientBuilder;
 
 /**
- * This is the main class for the API to connect to Fanart.TV http://fanart.tv/api-info/
+ * This is the main class for the API to connect to Fanart.TV
+ * http://fanart.tv/api-info/
  *
  * @author Stuart.Boston
  * @version 3.0
@@ -49,8 +51,9 @@ import org.yamj.api.common.http.DigestedResponse;
 public class FanartTvApi {
 
     private ApiBuilder ftapi;
+    private CloseableHttpClient httpClient;
     private static final String DEFAULT_CHARSET = "UTF-8";
-    private CommonHttpClient httpClient;
+    private final Charset charset = Charset.forName(DEFAULT_CHARSET);
 
     //Jackson JSON configuration
     private static ObjectMapper mapper = new ObjectMapper();
@@ -64,7 +67,7 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public FanartTvApi(String apiKey) throws FanartTvException {
-        this(apiKey, null, new DefaultPoolingHttpClient());
+        this(apiKey, null, new SimpleHttpClientBuilder().build());
     }
 
     /**
@@ -75,18 +78,19 @@ public class FanartTvApi {
      * @throws FanartTvException
      */
     public FanartTvApi(String apiKey, String clientKey) throws FanartTvException {
-        this(apiKey, clientKey, new DefaultPoolingHttpClient());
+        this(apiKey, clientKey, new SimpleHttpClientBuilder().build());
     }
 
     /**
-     * Create a new API instance with the given API Key and specific CommonHttpClient
+     * Create a new API instance with the given API Key and specific
+     * CommonHttpClient
      *
      * @param apiKey
      * @param clientKey
      * @param httpClient
      * @throws FanartTvException
      */
-    public FanartTvApi(String apiKey, String clientKey, CommonHttpClient httpClient) throws FanartTvException {
+    public FanartTvApi(String apiKey, String clientKey, CloseableHttpClient httpClient) throws FanartTvException {
         if (StringUtils.isBlank(apiKey)) {
             throw new FanartTvException(ApiExceptionType.AUTH_FAILURE, "Invalid API Key");
         }
@@ -292,28 +296,6 @@ public class FanartTvApi {
     }
 
     /**
-     * Set proxy parameters.
-     *
-     * @param host proxy host URL
-     * @param port proxy port
-     * @param username proxy username
-     * @param password proxy password
-     */
-    public void setProxy(String host, int port, String username, String password) {
-        httpClient.setProxy(host, port, username, password);
-    }
-
-    /**
-     * Set web browser timeout.
-     *
-     * @param webTimeoutConnect
-     * @param webTimeoutRead
-     */
-    public void setTimeout(int webTimeoutConnect, int webTimeoutRead) {
-        httpClient.setTimeouts(webTimeoutConnect, webTimeoutRead);
-    }
-
-    /**
      * Download the URL into a String
      *
      * @param url
@@ -324,7 +306,7 @@ public class FanartTvApi {
         try {
             HttpGet httpGet = new HttpGet(url.toURI());
             httpGet.addHeader("accept", "application/json");
-            final DigestedResponse response = httpClient.requestContent(httpGet, Charset.forName(DEFAULT_CHARSET));
+            final DigestedResponse response = DigestedResponseReader.requestContent(httpClient, httpGet, charset);
 
             if (response.getStatusCode() >= 500) {
                 throw new FanartTvException(ApiExceptionType.HTTP_503_ERROR, response.getContent(), response.getStatusCode(), url);
