@@ -34,8 +34,8 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.yamj.api.common.exception.ApiExceptionType;
 import org.yamj.api.common.http.DigestedResponse;
 import org.yamj.api.common.http.DigestedResponseReader;
@@ -51,7 +51,7 @@ import org.yamj.api.common.http.SimpleHttpClientBuilder;
 public class FanartTvApi {
 
     private ApiBuilder ftapi;
-    private CloseableHttpClient httpClient;
+    private HttpClient httpClient;
     private static final String DEFAULT_CHARSET = "UTF-8";
     private final Charset charset = Charset.forName(DEFAULT_CHARSET);
 
@@ -90,7 +90,7 @@ public class FanartTvApi {
      * @param httpClient
      * @throws FanartTvException
      */
-    public FanartTvApi(String apiKey, String clientKey, CloseableHttpClient httpClient) throws FanartTvException {
+    public FanartTvApi(String apiKey, String clientKey, HttpClient httpClient) throws FanartTvException {
         if (StringUtils.isBlank(apiKey)) {
             throw new FanartTvException(ApiExceptionType.AUTH_FAILURE, "Invalid API Key");
         }
