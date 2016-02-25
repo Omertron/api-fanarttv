@@ -28,12 +28,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -44,42 +41,45 @@ public class FanartTvApiTest {
     // Logger
     private static final Logger LOG = LoggerFactory.getLogger(FanartTvApiTest.class);
     // API Keys
-    private static final String PROP_FIlENAME = "testing.properties";
+    private static final String PROP_FILENAME = "testing.properties";
     private static String API_KEY;
     private static String CLIENT_KEY;
     private static FanartTvApi ft;
-    private static final ArrayList<Integer> ID_TVDB = new ArrayList<Integer>();
-    private static final ArrayList<String> ID_TMDB = new ArrayList<String>();
-    private static final ArrayList<String> ID_IMDB = new ArrayList<String>();
-    private static final ArrayList<String> ID_MUSIC_ARTIST = new ArrayList<String>();
-    private static final ArrayList<String> ID_MUSIC_ALBUM = new ArrayList<String>();
-    private static final ArrayList<String> ID_MUSIC_LABEL = new ArrayList<String>();
+    private static final ArrayList<Integer> ID_TVDB = new ArrayList<>();
+    private static final ArrayList<String> ID_TMDB = new ArrayList<>();
+    private static final ArrayList<String> ID_IMDB = new ArrayList<>();
+    private static final ArrayList<String> ID_MUSIC_ARTIST = new ArrayList<>();
+    private static final ArrayList<String> ID_MUSIC_ALBUM = new ArrayList<>();
+    private static final ArrayList<String> ID_MUSIC_LABEL = new ArrayList<>();
+    private static final String NO_ARTWORK_FOUND = "No artwork found for ID: ";
+    private static final String NO_LATEST_RESULTS_FOUND = "No latest results found";
+    private static final String EMPTY_LATEST_RESULTS_FOUND = "Empty latest results found";
 
     @BeforeClass
     public static void setUpClass() throws FanartTvException {
-        TestLogger.Configure();
+        TestLogger.configure();
 
         Properties props = new Properties();
-        File propertyFile = new File(PROP_FIlENAME);
+        File propertyFile = new File(PROP_FILENAME);
         if (propertyFile.exists()) {
-            LOG.info("Loading properties from '{}'", PROP_FIlENAME);
+            LOG.info("Loading properties from '{}'", PROP_FILENAME);
             TestLogger.loadProperties(props, propertyFile);
 
             API_KEY = props.getProperty("API_KEY");
             CLIENT_KEY = props.getProperty("CLIENT_KEY");
         } else {
-            LOG.info("Property file '{}' not found, creating dummy file.", PROP_FIlENAME);
+            LOG.info("Property file '{}' not found, creating dummy file.", PROP_FILENAME);
 
             props.setProperty("API_KEY", "INSERT_YOUR_API_KEY_HERE");
             props.setProperty("CLIENT_KEY", "INSERT_YOUR_CLIENT_KEY_HERE");
 
             TestLogger.saveProperties(props, propertyFile, "Properties file for tests");
-            fail("Failed to get key information from properties file '" + PROP_FIlENAME + "'");
+            fail("Failed to get key information from properties file '" + PROP_FILENAME + "'");
         }
 
         ft = new FanartTvApi(API_KEY, CLIENT_KEY);
 
-        ID_TVDB.add(79349); // Dexter);
+        ID_TVDB.add(79349); // Dexter
         ID_TVDB.add(80379); // Big Bang Theory
 
         ID_TMDB.add("78");    // Blade Runner
@@ -96,18 +96,6 @@ public class FanartTvApiTest {
         ID_MUSIC_LABEL.add("a35237a0-4f47-40a6-b6f3-1e786db23402"); // Rod Stewart
     }
 
-    @AfterClass
-    public static void tearDownClass() throws FanartTvException {
-    }
-
-    @Before
-    public void setUp() throws FanartTvException {
-    }
-
-    @After
-    public void tearDown() throws FanartTvException {
-    }
-
     /**
      * Test of getTvArtwork method, of class FanartTvApi.
      *
@@ -119,7 +107,7 @@ public class FanartTvApiTest {
 
         for (int id : ID_TVDB) {
             FTSeries result = ft.getTvArtwork(Integer.toString(id));
-            assertTrue("No artwork found for ID: " + id, result.hasArtwork());
+            assertTrue(NO_ARTWORK_FOUND + id, result.hasArtwork());
         }
     }
 
@@ -134,8 +122,8 @@ public class FanartTvApiTest {
         String date = "";
 
         List<FTLatest> result = ft.getTvLatest(date);
-        assertFalse("Empty latest results found", result.isEmpty());
-        assertTrue("No latest results found", result.size() > 0);
+        assertFalse(EMPTY_LATEST_RESULTS_FOUND, result.isEmpty());
+        assertFalse(NO_LATEST_RESULTS_FOUND, result.isEmpty());
     }
 
     /**
@@ -168,8 +156,8 @@ public class FanartTvApiTest {
         LOG.info("getMovieLatest");
         String date = "";
         List<FTLatest> result = ft.getMovieLatest(date);
-        assertFalse("Empty latest results found", result.isEmpty());
-        assertTrue("No latest results found", result.size() > 0);
+        assertFalse(EMPTY_LATEST_RESULTS_FOUND, result.isEmpty());
+        assertFalse(NO_LATEST_RESULTS_FOUND, result.isEmpty());
     }
 
     /**
@@ -183,7 +171,7 @@ public class FanartTvApiTest {
 
         for (String id : ID_MUSIC_ARTIST) {
             FTMusicArtist result = ft.getMusicArtist(id);
-            assertTrue("No artwork found for ID: " + id, result.hasArtwork());
+            assertTrue(NO_ARTWORK_FOUND + id, result.hasArtwork());
         }
     }
 
@@ -198,7 +186,7 @@ public class FanartTvApiTest {
 
         for (String id : ID_MUSIC_ALBUM) {
             FTMusicArtist result = ft.getMusicAlbum(id);
-            assertTrue("No album found for ID: " + id, result.getAlbums().size() > 0);
+            assertFalse("No album found for ID: " + id, result.getAlbums().isEmpty());
         }
     }
 
@@ -213,7 +201,7 @@ public class FanartTvApiTest {
 
         for (String id : ID_MUSIC_LABEL) {
             FTMusicLabel result = ft.getMusicLabel(id);
-            assertTrue("No artwork found for ID: " + id, result.hasArtwork());
+            assertTrue(NO_ARTWORK_FOUND + id, result.hasArtwork());
         }
     }
 
@@ -228,8 +216,8 @@ public class FanartTvApiTest {
         String date = "";
 
         List<FTLatest> result = ft.getMusicArtistLatest(date);
-        assertFalse("Empty latest results found", result.isEmpty());
-        assertTrue("No latest results found", result.size() > 0);
+        assertFalse(EMPTY_LATEST_RESULTS_FOUND, result.isEmpty());
+        assertFalse(NO_LATEST_RESULTS_FOUND, result.isEmpty());
     }
 
 }
